@@ -8,11 +8,12 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] int activeBlocks;
 
+    private int points = 0;
+
     // Start is called before the first frame update
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-
         activeBlocks = FindObjectsOfType<Block>().Length;
     }
 
@@ -22,8 +23,11 @@ public class PlayerSupervisor : MonoBehaviour
         
     }
 
-    public void BlockDestroyed()
+    public void BlockDestroyed(int pointValue)
     {
+        points += pointValue;
+        gameManager.UpdatePoints(points);
+
         --activeBlocks;
         if (activeBlocks <= 0)
         {
