@@ -7,6 +7,9 @@ public class PlayerSupervisor : MonoBehaviour
 
     [SerializeField] GameManager gameManager;
     [SerializeField] int activeBlocks;
+    
+    // Frannie's Level Items
+    private RandomBlockCreator randomBlockCreator;
 
     private int points = 0;
 
@@ -14,13 +17,19 @@ public class PlayerSupervisor : MonoBehaviour
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+
+        // the code will check whether or not to execute
+        // based on the block.name assigned in the Inspector Window
+        // in the RandomBlockCreator empty child object
+        randomBlockCreator = FindObjectOfType<RandomBlockCreator>();
+        randomBlockCreator.setupBlocks();
+    
         activeBlocks = FindObjectsOfType<Block>().Length;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     public void BlockDestroyed(int pointValue)
