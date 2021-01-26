@@ -21,9 +21,9 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(DelayedLoadScene("Win Screen"));
     }
 
-    private IEnumerator DelayedLoadScene(string scene_name)
+    private IEnumerator DelayedLoadScene(string sceneName)
     {
         yield return new WaitForSeconds(transitionTime);
-        SceneManager.LoadScene(scene_name);
+        SceneManager.LoadScene(sceneName);
     }
 }
