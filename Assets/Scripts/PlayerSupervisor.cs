@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PlayerSupervisor : MonoBehaviour
 {
-
+    [SerializeField] Ball ball;
     [SerializeField] GameManager gameManager;
     [SerializeField] int activeBlocks;
     
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
-
+    
     private int points = 0;
 
     // Start is called before the first frame update
@@ -25,11 +25,29 @@ public class PlayerSupervisor : MonoBehaviour
         randomBlockCreator.setupBlocks();
     
         activeBlocks = FindObjectsOfType<Block>().Length;
+        ball = FindObjectOfType<Ball>();
     }
 
-    void Update()
+    public void StartGame()
     {
+        LaunchBall();
+    }
 
+    public void PauseGame()
+    {
+        ball.gameObject.SetActive(false);
+    }
+
+    void LaunchBall()
+    {
+        ball.LaunchBall();
+    }
+
+    public void LoseColliderHit()
+    {
+        Destroy(ball.gameObject);
+        
+        gameManager.LoseGame();
     }
 
     public void BlockDestroyed(int pointValue)

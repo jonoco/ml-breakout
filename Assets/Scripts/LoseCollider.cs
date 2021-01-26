@@ -4,8 +4,15 @@ using UnityEngine;
 
 public class LoseCollider : MonoBehaviour
 {
+    [SerializeField] PlayerSupervisor playerSupervisor;
+
+    private void Start()
+    {
+        playerSupervisor = FindObjectOfType<PlayerSupervisor>();    
+    }
+
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        FindObjectOfType<SceneLoader>().LoadLoseScreen(); 
+        playerSupervisor.LoseColliderHit(); 
     }
 }
