@@ -22,9 +22,14 @@ public class PlayerSupervisor : MonoBehaviour
         // based on the block.name assigned in the Inspector Window
         // in the RandomBlockCreator empty child object
         randomBlockCreator = FindObjectOfType<RandomBlockCreator>();
-        randomBlockCreator.createBlocks();
+        randomBlockCreator.setupBlocks();
     
         activeBlocks = FindObjectsOfType<Block>().Length;
+    }
+
+    void Update()
+    {
+
     }
 
     public void BlockDestroyed(int pointValue)

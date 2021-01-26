@@ -23,15 +23,15 @@ public class RandomBlockCreator : MonoBehaviour
     // starting block width
     [SerializeField] int prefabBlockWidthWorld = 1;
 
-    [SerializeField] float spaceBetweenBlocks = .05f;
+    [SerializeField] float spaceBetweenBlocks = 0.05f;
+    [SerializeField] float blockHeightScale = 0.5f;
 
     private bool isBlockFR(){
         return block.name == "block_fr";
     }
 
-    public void createBlocks()
+    public void setupBlocks()
     {
-        Debug.Log("Made it here!");
         if(isBlockFR())
         {
             // Used below when creating blocks to create them under the "Blocks"
@@ -46,7 +46,7 @@ public class RandomBlockCreator : MonoBehaviour
     }
 
     // Frannie's Level - others can use if it's helpful
-    public void DestroyExistingBlocks()
+    private void DestroyExistingBlocks()
     {
         Block[] allBlocks = GameObject.FindObjectsOfType<Block>();
         foreach(Block block in allBlocks)
@@ -105,9 +105,10 @@ public class RandomBlockCreator : MonoBehaviour
         // y = current row position
         GameObject newBlock = Instantiate(block, 
                     new Vector2(blockMidPoint, blockRow), 
-                    Quaternion.identity, 
+                    Quaternion.identity,
                     parentBlock.transform // need this to it groups under "Blocks"
         );
+        Debug.Log("made it here 2");
         return newBlock;
     }
 
@@ -116,6 +117,7 @@ public class RandomBlockCreator : MonoBehaviour
     // block vector position is the MIDDLE OF THE BLOCK
     public void placeBlocks()
     {
+        
         float randNum;
         int blocksPlaced;
         float blockRow = blockStartRow;
@@ -128,8 +130,9 @@ public class RandomBlockCreator : MonoBehaviour
         Vector3 scaleChange;
         for(int i = 0; i < 5; i ++) // 5 rows
         {
+            
             // curr row start position (i.e. y value for block)
-            blockRow += (1f + spaceBetweenBlocks);
+            blockRow += (blockHeightScale + spaceBetweenBlocks);
 
             // reset these values each iteration
             blocksPlaced = 0;  
@@ -142,6 +145,9 @@ public class RandomBlockCreator : MonoBehaviour
             // ROW WIDTH INCLUDES SPACE BETWEEN BLOCKS AND BLOCK WIDTHS
             while(rowWidth < screenWidthWorld){
 
+                Debug.Log("made it here - while");
+
+                
                 randNum = UnityEngine.Random.Range(minBlockWidthWorld, maxBlockWidthWorld);
                 widths = calculateWidths(randNum, rowWidth);
                 blockWidth = widths[0]; // block widths in position 0
@@ -149,10 +155,10 @@ public class RandomBlockCreator : MonoBehaviour
                                                        priorBlockWidth, priorBlockMidpoint);
                 priorBlockWidth = blockWidth;
                 priorBlockMidpoint = blockMidpoint;
-                GameObject newBlock = createBlock(blockMidpoint, blockRow);
-
+                var newBlock = createBlock(blockMidpoint, blockRow);
+                
                 // update block scale based on block width, note scale is a PERCENTAGE
-                scaleChange = new Vector2(blockWidth/prefabBlockWidthWorld - 1, 0);
+                scaleChange = new Vector2(blockWidth/prefabBlockWidthWorld - 1, -1f * blockHeightScale);
                 newBlock.transform.localScale += scaleChange;
 
                 // Update counter variables

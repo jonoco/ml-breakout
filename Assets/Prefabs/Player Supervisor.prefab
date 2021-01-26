@@ -98,4 +98,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameManager: {fileID: 0}
   activeBlocks: 0
-  block: {fileID: 0}
