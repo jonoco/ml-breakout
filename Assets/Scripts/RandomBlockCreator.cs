@@ -109,7 +109,6 @@ public class RandomBlockCreator : MonoBehaviour
                     Quaternion.identity,
                     parentBlock.transform // need this to it groups under "Blocks"
         );
-        Debug.Log("made it here 2");
         return newBlock;
     }
 
@@ -145,10 +144,7 @@ public class RandomBlockCreator : MonoBehaviour
             // While there is still space left in current row
             // ROW WIDTH INCLUDES SPACE BETWEEN BLOCKS AND BLOCK WIDTHS
             while(rowWidth < screenWidthWorld){
-
-                Debug.Log("made it here - while");
-
-                
+                                
                 randNum = UnityEngine.Random.Range(minBlockWidthWorld, maxBlockWidthWorld);
                 widths = calculateWidths(randNum, rowWidth);
                 blockWidth = widths[0]; // block widths in position 0
