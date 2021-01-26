@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
+    public float transitionTime = 1.5f; 
     public void LoadFirstLevel()
     {
         SceneManager.LoadScene("Level 1");
@@ -12,11 +13,17 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadLoseScreen()
     {
-        SceneManager.LoadScene("Lose Screen");
+        StartCoroutine(DelayedLoadScene("Lose Screen"));
     }
 
     public void LoadWinScreen()
     {
-        SceneManager.LoadScene("Win Screen");
+        StartCoroutine(DelayedLoadScene("Win Screen"));
+    }
+
+    private IEnumerator DelayedLoadScene(string scene_name)
+    {
+        yield return new WaitForSeconds(transitionTime);
+        SceneManager.LoadScene(scene_name);
     }
 }
