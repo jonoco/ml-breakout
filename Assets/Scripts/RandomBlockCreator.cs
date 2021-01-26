@@ -6,28 +6,29 @@ public class RandomBlockCreator : MonoBehaviour
 {
     // to indicate block in current scene (in Inspector)
     // and parent block, which will always be "Blocks" empty object
-    [SerializeField] GameObject block;
+    [SerializeField] GameObject blockObjType;
     [SerializeField] GameObject parentBlock;
 
     // our project uses fixed 4-3 ratio, so these world units will not be changing
-    [SerializeField] float screenWidthWorld = 16f;
-    [SerializeField] float screenHeightWorld = 12f;
+    float screenWidthWorld = 16f;
+    // float screenHeightWorld = 12f; // not used, but keeping just in case
 
     // for random block settings - max and min widths
     [SerializeField] int minBlockWidthWorld = 1;
     [SerializeField] int maxBlockWidthWorld = 4;
 
     // for random block settings - start row to place blocks
+    [Range(3,7)]
     [SerializeField] float blockStartRow = 5f;
 
     // starting block width
     [SerializeField] int prefabBlockWidthWorld = 1;
 
-    [SerializeField] float spaceBetweenBlocks = 0.05f;
+    [SerializeField] float spaceBetweenBlocks = 0.1f;
     [SerializeField] float blockHeightScale = 0.5f;
 
     private bool isBlockFR(){
-        return block.name == "block_fr";
+        return blockObjType.name == "block_fr";
     }
 
     public void setupBlocks()
@@ -103,7 +104,7 @@ public class RandomBlockCreator : MonoBehaviour
         // create new game object
         // x = midpoint position of block in screen space
         // y = current row position
-        GameObject newBlock = Instantiate(block, 
+        GameObject newBlock = Instantiate(blockObjType, 
                     new Vector2(blockMidPoint, blockRow), 
                     Quaternion.identity,
                     parentBlock.transform // need this to it groups under "Blocks"
@@ -158,8 +159,8 @@ public class RandomBlockCreator : MonoBehaviour
                 var newBlock = createBlock(blockMidpoint, blockRow);
                 
                 // update block scale based on block width, note scale is a PERCENTAGE
-                scaleChange = new Vector2(blockWidth/prefabBlockWidthWorld - 1, -1f * blockHeightScale);
-                newBlock.transform.localScale += scaleChange;
+                scaleChange = new Vector2(blockWidth/prefabBlockWidthWorld, blockHeightScale);
+                newBlock.transform.localScale = scaleChange;
 
                 // Update counter variables
                 rowWidth += widths[1]; // total widths in position 1

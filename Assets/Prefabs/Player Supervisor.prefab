@@ -43,15 +43,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a343f552d297fc3478303739f1f60ad6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  block: {fileID: 0}
+  blockObjType: {fileID: 0}
   parentBlock: {fileID: 0}
-  screenWidthWorld: 16
-  screenHeightWorld: 12
   minBlockWidthWorld: 1
   maxBlockWidthWorld: 4
   blockStartRow: 5
   prefabBlockWidthWorld: 1
-  spaceBetweenBlocks: 0.05
+  spaceBetweenBlocks: 0.1
+  blockHeightScale: 0.5
 --- !u!1 &6902707035986185609
 GameObject:
   m_ObjectHideFlags: 0
