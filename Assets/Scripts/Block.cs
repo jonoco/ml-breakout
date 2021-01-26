@@ -7,6 +7,9 @@ public class Block : MonoBehaviour
 
     [SerializeField] PlayerSupervisor playerSupervisor;
 
+    // The number of points destroying this block is worth.
+    [SerializeField] int pointValue = 10;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -21,7 +24,7 @@ public class Block : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        playerSupervisor.BlockDestroyed();
+        playerSupervisor.BlockDestroyed(pointValue);
         Destroy(gameObject);
     }
 }

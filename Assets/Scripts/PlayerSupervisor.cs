@@ -8,6 +8,8 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] int activeBlocks;
 
+    private int points = 0;
+
     // to indicate block in current scene (in Inspector)
     // and parent block, which will always be "Blocks" empty object
     [SerializeField] GameObject block;
@@ -174,11 +176,11 @@ public class PlayerSupervisor : MonoBehaviour
     } // end function
 
 
-
-
-
-    public void BlockDestroyed()
+    public void BlockDestroyed(int pointValue)
     {
+        points += pointValue;
+        gameManager.UpdatePoints(points);
+
         --activeBlocks;
         if (activeBlocks <= 0)
         {
