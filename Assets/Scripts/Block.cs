@@ -14,7 +14,6 @@ public class Block : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Debug.Log("THIS IS A TEST");
         playerSupervisor = FindObjectOfType<PlayerSupervisor>();
     }
 
