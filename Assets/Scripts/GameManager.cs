@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip loseSound;
     [SerializeField] AudioClip winSound;
 
-    [SerializeField] AudioClip music;
 
     DateTime startTime = DateTime.Now;
     
@@ -24,7 +23,6 @@ public class GameManager : MonoBehaviour
         playerSupervisor = FindObjectOfType<PlayerSupervisor>();
         sceneLoader = FindObjectOfType<SceneLoader>();
         uiManager = FindObjectOfType<UIManager>();
-        AudioManager.Instance.PlaySound(music);
     }
 
     // Update is called once per frame
