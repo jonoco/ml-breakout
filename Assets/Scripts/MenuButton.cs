@@ -14,7 +14,7 @@ public class MenuButton : MonoBehaviour, IPointerEnterHandler, IPointerClickHand
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        AudioManager.Instance.PlaySound(selectSound);
+        AudioManager.Instance.PlaySoundBetweenScenes(selectSound);
     }
 
 }
