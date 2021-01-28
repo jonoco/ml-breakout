@@ -13,14 +13,12 @@ public class Ball : MonoBehaviour
 
     [SerializeField] AudioClip bounceSound;
 
-    [SerializeField] SoundManager soundManager;
     Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        soundManager = FindObjectOfType<SoundManager>();
     }
 
     // Update is called once per frame
@@ -41,7 +39,7 @@ public class Ball : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision) {
         if (collision.gameObject.tag != "Lose Collider")
         {
-            soundManager.PlaySound(bounceSound);
+            AudioManager.Instance.PlaySound(bounceSound);
         }
     }
 }

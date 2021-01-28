@@ -214,6 +214,7 @@ GameObject:
   - component: {fileID: 533762045}
   - component: {fileID: 533762044}
   - component: {fileID: 533762043}
+  - component: {fileID: 533762046}
   m_Layer: 5
   m_Name: Restart Button
   m_TagString: Untagged
@@ -262,7 +263,7 @@ MonoBehaviour:
   m_Transition: 1
   m_Colors:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_HighlightedColor: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
     m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
@@ -332,6 +333,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 533762041}
   m_CullTransparentMesh: 0
+--- !u!114 &533762046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 533762041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 100a8a4e27d38444ab9415fa0177b280, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 8300000, guid: 358adcc7b70ae4396baa2a36443bad7b, type: 3}
+  selectSound: {fileID: 8300000, guid: f9ce0bd536f6f4244b7151c5ba3c341e, type: 3}
+  audioManager: {fileID: 0}
 --- !u!1 &535805871
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,6 +575,75 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1160918395}
   m_CullTransparentMesh: 0
+--- !u!1001 &1218137349
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 504934386145764530, guid: 590cd750d92b64541a22b0305b5fd6e3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 504934386145764530, guid: 590cd750d92b64541a22b0305b5fd6e3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 504934386145764530, guid: 590cd750d92b64541a22b0305b5fd6e3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 504934386145764530, guid: 590cd750d92b64541a22b0305b5fd6e3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 504934386145764530, guid: 590cd750d92b64541a22b0305b5fd6e3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 504934386145764530, guid: 590cd750d92b64541a22b0305b5fd6e3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 504934386145764530, guid: 590cd750d92b64541a22b0305b5fd6e3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 504934386145764530, guid: 590cd750d92b64541a22b0305b5fd6e3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 504934386145764530, guid: 590cd750d92b64541a22b0305b5fd6e3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 504934386145764530, guid: 590cd750d92b64541a22b0305b5fd6e3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 504934386145764530, guid: 590cd750d92b64541a22b0305b5fd6e3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 504934386145764533, guid: 590cd750d92b64541a22b0305b5fd6e3,
+        type: 3}
+      propertyPath: m_Name
+      value: Audio Manager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 590cd750d92b64541a22b0305b5fd6e3, type: 3}
 --- !u!1 &2026961113
 GameObject:
   m_ObjectHideFlags: 0

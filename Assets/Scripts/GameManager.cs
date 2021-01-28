@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip loseSound;
     [SerializeField] AudioClip winSound;
 
-    SoundManager soundManager;
     DateTime startTime = DateTime.Now;
     
     // Start is called before the first frame update
@@ -23,7 +22,6 @@ public class GameManager : MonoBehaviour
         playerSupervisor = FindObjectOfType<PlayerSupervisor>();
         sceneLoader = FindObjectOfType<SceneLoader>();
         uiManager = FindObjectOfType<UIManager>();
-        soundManager = FindObjectOfType<SoundManager>();
     }
 
     // Update is called once per frame
@@ -40,14 +38,14 @@ public class GameManager : MonoBehaviour
 
     public void WinGame()
     {
-        soundManager.PlaySound(winSound);
+        AudioManager.Instance.PlaySound(winSound);
         playerSupervisor.PauseGame();
         sceneLoader.LoadWinScreen();
     }
 
     public void LoseGame()
     {
-        soundManager.PlaySound(loseSound);
+        AudioManager.Instance.PlaySound(loseSound);
         playerSupervisor.PauseGame();
         sceneLoader.LoadLoseScreen();
     }
