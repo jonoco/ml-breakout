@@ -9,7 +9,6 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
     [SerializeField] int activeBlocks;
-
     [SerializeField] GameObject trainingBlocks;
     
     // Frannie's Level Items
@@ -38,6 +37,9 @@ public class PlayerSupervisor : MonoBehaviour
         paddle = FindObjectOfType<Paddle>();
         paddleOffset = paddle.transform.position;
 
+        CountBlocks();
+
+        // Check if scene is ready for training
         if (gameManager.trainingMode)
         {
             ResetState();
@@ -55,7 +57,7 @@ public class PlayerSupervisor : MonoBehaviour
         {
             if (!trainingBlocks)
             {
-                Debug.LogError("trainingBlocks missing");
+                Debug.LogError("trainingBlocks reference missing");
                 return;
             }
             else
@@ -84,12 +86,15 @@ public class PlayerSupervisor : MonoBehaviour
         ball.gameObject.SetActive(false);
 
         gameManager.LoseGame();
-        playerAgent.LoseGame();
+        
+        if (playerAgent)
+            playerAgent.LoseGame();
     }
 
     public void BlockDestroyed(int pointValue)
     {
-        playerAgent.BlockHit();
+        if (playerAgent)
+            playerAgent.BlockHit();
 
         points += pointValue;
         gameManager.UpdatePoints(points);
@@ -97,11 +102,16 @@ public class PlayerSupervisor : MonoBehaviour
         --activeBlocks;
         if (activeBlocks <= 0)
         {
-            playerAgent.WinGame();
             gameManager.WinGame();
+
+            if (playerAgent)
+                playerAgent.WinGame();
         }
     }
 
+    /// <summary>
+    /// Game environment reset for training.  
+    /// </summary>
     public void ResetState()
     {
         paddle.transform.position = paddleOffset;

@@ -80,7 +80,7 @@ MonoBehaviour:
   maxPaddlePosX: 16
   screenWidth: 16
   screenHeight: 12
-  paddleMoveSpeed: 1
+  paddleMoveSpeed: 100
   ballLaunched: 0
   blockReward: 0.1
   losePenalty: -1

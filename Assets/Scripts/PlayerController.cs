@@ -23,14 +23,14 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Vector2 paddlePos = new Vector2(Input.mousePosition.x / Screen.width * 16f, paddle.transform.position.y);
-        // paddlePos.x = Mathf.Clamp(paddlePos.x, minPaddlePosX, maxPaddlePosX);
-        // paddle.transform.position = paddlePos;
+        Vector2 paddlePos = new Vector2(Input.mousePosition.x / Screen.width * 16f, paddle.transform.position.y);
+        paddlePos.x = Mathf.Clamp(paddlePos.x, minPaddlePosX, maxPaddlePosX);
+        paddle.transform.position = paddlePos;
 
-        // if (Input.GetMouseButtonDown(0))
-        // {
-        //     LaunchBall();
-        // }
+        if (Input.GetMouseButtonDown(0))
+        {
+            LaunchBall();
+        }
     }
 
     public void MovePaddle(float pos)

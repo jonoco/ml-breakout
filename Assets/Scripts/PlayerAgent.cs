@@ -9,8 +9,8 @@ public class PlayerAgent : Agent
     [SerializeField] GameManager gameManager;
     [SerializeField] Ball ball;
     [SerializeField] Paddle paddle;
-    public float minPaddlePosX = 0f;
-    public float maxPaddlePosX = 16f;
+    public float minPaddlePosX = 1f;
+    public float maxPaddlePosX = 15f;
     public float screenWidth = 16f;
     public float screenHeight = 12f;
     public float paddleMoveSpeed = 100f;
@@ -45,17 +45,20 @@ public class PlayerAgent : Agent
 
     public override void OnActionReceived(float[] vectorAction)
     {
-        float paddleXPos = (vectorAction[0] + 1f) / 2f;     // Normalize to [0-1]
-        bool launchBall = vectorAction[1] > 0;              // Determine whether to launch the ball
+        // Determine paddle position
+        float paddleXPos = vectorAction[0]; 
+        
+        // Determine whether to launch the ball 
+        bool launchBall = vectorAction[1] > 0;             
 
-        MovePaddle(vectorAction[0]);
+        MovePaddle(paddleXPos);
         if (launchBall)
             LaunchBall();
     }
 
     public override void Heuristic(float[] actionsOut)
     {
-        // Normalize to [-1, 1]
+        // Normalize paddle input to [-1, 1]
         float paddlePos = (Input.mousePosition.x / Screen.width) - (paddle.transform.position.x / screenWidth);
          
         bool launchBall = Input.GetMouseButton(0);
@@ -66,7 +69,10 @@ public class PlayerAgent : Agent
 
     public void MovePaddle(float pos)
     {
+        // Calculate the eased paddle movement
         smoothMovementChange = Mathf.MoveTowards(smoothMovementChange, pos, 2f * Time.fixedDeltaTime);
+        
+        // Calculate the new paddle position
         Vector3 paddlePos = paddle.transform.position;
         paddlePos.x = paddlePos.x + smoothMovementChange * Time.fixedDeltaTime * paddleMoveSpeed;
         paddlePos.x = Mathf.Clamp(paddlePos.x, minPaddlePosX, maxPaddlePosX);
