@@ -1099,11 +1099,6 @@ PrefabInstance:
       propertyPath: paddle
       value: 
       objectReference: {fileID: 1532930651}
-    - target: {fileID: 9082988071149554432, guid: 8e104197f51b5a140bf66a8737f8dcf5,
-        type: 3}
-      propertyPath: bounceSound
-      value: 
-      objectReference: {fileID: 8300000, guid: d7b94e05a9ba5e04b8433493f222e877, type: 3}
     - target: {fileID: 9082988071149554433, guid: 8e104197f51b5a140bf66a8737f8dcf5,
         type: 3}
       propertyPath: m_Name

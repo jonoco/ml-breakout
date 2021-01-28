@@ -99,8 +99,7 @@ MonoBehaviour:
   paddle: {fileID: 0}
   hasStarted: 0
   launchVelocity: {x: 2, y: 15}
-  bounceSound: {fileID: 0}
-  soundManager: {fileID: 0}
+  bounceSound: {fileID: 8300000, guid: d7b94e05a9ba5e04b8433493f222e877, type: 3}
 --- !u!50 &9082988071149554437
 Rigidbody2D:
   serializedVersion: 4
