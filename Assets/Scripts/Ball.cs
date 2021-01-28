@@ -13,7 +13,7 @@ public class Ball : MonoBehaviour
 
     [SerializeField] AudioClip bounceSound;
 
-    SoundManager soundManager;
+    [SerializeField] SoundManager soundManager;
     Rigidbody2D rb;
 
     // Start is called before the first frame update

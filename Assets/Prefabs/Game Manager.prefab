@@ -44,3 +44,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneLoader: {fileID: 0}
+  uiManager: {fileID: 0}
+  playerSupervisor: {fileID: 0}
+  loseSound: {fileID: 8300000, guid: 699a21ca60012784c9805c6473120785, type: 3}
+  winSound: {fileID: 8300000, guid: becf2d19fedff7b479581f8ea2716d3c, type: 3}

@@ -9,13 +9,13 @@ public class SoundManager : MonoBehaviour
     {
         // Set the first SoundManager created to persist between
         // scenes. Delete any additional SoundManagers instantiated.
-        if (FindObjectsOfType<SoundManager>().Length != 0)
+        if (FindObjectsOfType<SoundManager>().Length == 1)
         {
-            Destroy(gameObject);
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
-            DontDestroyOnLoad(gameObject);
+            Destroy(gameObject);
         }
     }
 
