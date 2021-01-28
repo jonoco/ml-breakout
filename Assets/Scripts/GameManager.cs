@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] PlayerSupervisor playerSupervisor;
 
+    public bool trainingMode = false;
+
     DateTime startTime = DateTime.Now;
     
     // Start is called before the first frame update
@@ -42,12 +44,25 @@ public class GameManager : MonoBehaviour
 
     public void LoseGame()
     {
-        playerSupervisor.PauseGame();
-        sceneLoader.LoadLoseScreen();
+        if (trainingMode)
+        {
+            RestartGame();
+        }
+        else
+        {
+            playerSupervisor.PauseGame();
+            sceneLoader.LoadLoseScreen();
+        } 
     }
 
     public void UpdatePoints(int points)
     {
         uiManager.UpdatePoints(points);
+    }
+
+    public void RestartGame()
+    {
+        playerSupervisor.ResetState();
+        StartGame();
     }
 }

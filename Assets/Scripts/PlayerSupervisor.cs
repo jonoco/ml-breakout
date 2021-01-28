@@ -5,32 +5,68 @@ using UnityEngine;
 public class PlayerSupervisor : MonoBehaviour
 {
     [SerializeField] Ball ball;
+    [SerializeField] Paddle paddle;
     [SerializeField] GameManager gameManager;
+    [SerializeField] PlayerAgent playerAgent;
     [SerializeField] int activeBlocks;
+
+    [SerializeField] GameObject trainingBlocks;
     
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
     
     private int points = 0;
 
+    private Vector3 ballOffset;
+    private Vector3 paddleOffset;
+
     // Start is called before the first frame update
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+        playerAgent = FindObjectOfType<PlayerAgent>();
 
         // the code will check whether or not to execute
         // based on the block.name assigned in the Inspector Window
         // in the RandomBlockCreator empty child object
         randomBlockCreator = FindObjectOfType<RandomBlockCreator>();
         randomBlockCreator.setupBlocks();
-    
-        activeBlocks = FindObjectsOfType<Block>().Length;
+        
         ball = FindObjectOfType<Ball>();
+        ballOffset = ball.transform.position;
+
+        paddle = FindObjectOfType<Paddle>();
+        paddleOffset = paddle.transform.position;
+
+        if (gameManager.trainingMode)
+        {
+            ResetState();
+        }
+    }
+
+    void CountBlocks()
+    {
+        activeBlocks = FindObjectsOfType<Block>().Length;
     }
 
     public void StartGame()
     {
-        LaunchBall();
+        if (gameManager.trainingMode)
+        {
+            if (!trainingBlocks)
+            {
+                Debug.LogError("trainingBlocks missing");
+                return;
+            }
+            else
+            {
+                LaunchBall();
+            }     
+        }
+        else
+        {
+            LaunchBall();
+        }
     }
 
     public void PauseGame()
@@ -45,20 +81,43 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseColliderHit()
     {
-        Destroy(ball.gameObject);
-        
+        ball.gameObject.SetActive(false);
+
         gameManager.LoseGame();
+        playerAgent.LoseGame();
     }
 
     public void BlockDestroyed(int pointValue)
     {
+        playerAgent.BlockHit();
+
         points += pointValue;
         gameManager.UpdatePoints(points);
 
         --activeBlocks;
         if (activeBlocks <= 0)
         {
+            playerAgent.WinGame();
             gameManager.WinGame();
         }
+    }
+
+    public void ResetState()
+    {
+        paddle.transform.position = paddleOffset;
+        ball.transform.position = ballOffset;
+        ball.gameObject.SetActive(true);
+        
+        GameObject tb = GameObject.FindGameObjectWithTag("TrainingBlock");
+        if (tb)
+            Destroy(tb);
+
+        foreach(Block block in FindObjectsOfType<Block>())
+        {
+            Destroy(block.gameObject);
+        }
+
+        Instantiate(trainingBlocks);
+        CountBlocks();
     }
 }
