@@ -19,6 +19,13 @@ public class PlayerSupervisor : MonoBehaviour
     private Vector3 ballOffset;
     private Vector3 paddleOffset;
 
+    private int boundaryHits = 0;
+
+    public int boundaryReboundLimit = 10;
+    [SerializeField] Vector2 reboundForceMin = new Vector2(-.5f, -.5f);
+
+    [SerializeField] Vector2 reboundForceMax = new Vector2(.5f, .5f);
+
     // Start is called before the first frame update
     void Start()
     {
@@ -93,6 +100,8 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void BlockDestroyed(int pointValue)
     {
+        boundaryHits = 0;
+
         if (playerAgent)
             playerAgent.BlockHit();
 
@@ -114,6 +123,7 @@ public class PlayerSupervisor : MonoBehaviour
     /// </summary>
     public void ResetState()
     {
+        boundaryHits = 0;
         paddle.transform.position = paddleOffset;
         ball.transform.position = ballOffset;
         ball.gameObject.SetActive(true);
@@ -130,4 +140,24 @@ public class PlayerSupervisor : MonoBehaviour
         Instantiate(trainingBlocks);
         CountBlocks();
     }
+
+    public void BoundaryHit()
+    {
+        ++boundaryHits;
+        if (boundaryHits >= boundaryReboundLimit)
+        {
+            Debug.Log("Ball rebound check");
+
+            float randForceX = UnityEngine.Random.Range(reboundForceMin.x, reboundForceMin.y);
+            float randForceY = UnityEngine.Random.Range(reboundForceMax.x, reboundForceMax.y);
+            Vector2 force = new Vector2(randForceX, randForceY);
+            ball.GetComponent<Rigidbody2D>().AddForce(force);
+        }
+    }
+
+    public void PaddleHit()
+    {
+        boundaryHits = 0;
+    }
 }
+

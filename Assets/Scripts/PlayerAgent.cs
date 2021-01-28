@@ -20,6 +20,12 @@ public class PlayerAgent : Agent
 
     private float smoothMovementChange = 0f;
 
+    private void Awake()
+    {
+        PlayerController playerController = FindObjectOfType<PlayerController>();
+        if (playerController)
+            Destroy(playerController.gameObject);    
+    }
 
     private void Start() 
     {
