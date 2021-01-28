@@ -40,9 +40,9 @@ public class GameManager : MonoBehaviour
 
     public void WinGame()
     {
+        soundManager.PlaySound(winSound);
         playerSupervisor.PauseGame();
         sceneLoader.LoadWinScreen();
-        soundManager.PlaySound(winSound);
     }
 
     public void LoseGame()
