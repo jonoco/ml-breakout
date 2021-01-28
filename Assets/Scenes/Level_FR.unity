@@ -355,7 +355,7 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 531840240, guid: d8b0fe998368cbf45a1e859ac21418b4, type: 3}
       propertyPath: blockStartRow
-      value: 6.62
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6902707035986185609, guid: d8b0fe998368cbf45a1e859ac21418b4,
         type: 3}
