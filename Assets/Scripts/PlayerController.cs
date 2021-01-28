@@ -4,12 +4,17 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] GameManager gameManager;
     [SerializeField] Paddle paddle;
     [SerializeField] Ball ball;
 
     [SerializeField] float minPaddlePosX = 0f;
     [SerializeField] float maxPaddlePosX = 16f;
 
+    private void Start()
+    {
+        gameManager = FindObjectOfType<GameManager>();
+    }
 
     // Update is called once per frame
     void Update()
@@ -20,13 +25,7 @@ public class PlayerController : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            LaunchBall();
+            gameManager.StartGame();
         }
-    }
-
-
-    void LaunchBall()
-    {
-        ball.LaunchBall();
     }
 }

@@ -6,6 +6,7 @@ public class Block : MonoBehaviour
 {
 
     [SerializeField] PlayerSupervisor playerSupervisor;
+    [SerializeField] GameObject particleVFX;
 
     // The number of points destroying this block is worth.
     [SerializeField] int pointValue = 10;
@@ -24,7 +25,15 @@ public class Block : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
+        TriggerParticles();
         playerSupervisor.BlockDestroyed(pointValue);
         Destroy(gameObject);
+    }
+
+    private void TriggerParticles()
+    {
+        GameObject particle = Instantiate(particleVFX, transform.position, transform.rotation);
+        ParticleSystem ps = particle.GetComponent<ParticleSystem>();
+        Destroy(particle, ps.main.duration + ps.main.startLifetime.constant);
     }
 }

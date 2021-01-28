@@ -3,16 +3,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class GameManager : MonoBehaviour
 {
     [SerializeField] SceneLoader sceneLoader;
     [SerializeField] UIManager uiManager;
 
-    DateTime startTime = DateTime.Now;
+    [SerializeField] PlayerSupervisor playerSupervisor;
 
+    DateTime startTime = DateTime.Now;
+    
     // Start is called before the first frame update
     void Start()
     {
+        playerSupervisor = FindObjectOfType<PlayerSupervisor>();
         sceneLoader = FindObjectOfType<SceneLoader>();
         uiManager = FindObjectOfType<UIManager>();
     }
@@ -24,9 +29,21 @@ public class GameManager : MonoBehaviour
         uiManager.UpdateElapsedTime(elapsedTime.ToString(@"mm\:ss\:ff"));
     }
 
+    public void StartGame()
+    {
+        playerSupervisor.StartGame();
+    }
+
     public void WinGame()
     {
+        playerSupervisor.PauseGame();
         sceneLoader.LoadWinScreen();
+    }
+
+    public void LoseGame()
+    {
+        playerSupervisor.PauseGame();
+        sceneLoader.LoadLoseScreen();
     }
 
     public void UpdatePoints(int points)

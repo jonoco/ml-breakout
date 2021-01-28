@@ -4,17 +4,15 @@ using UnityEngine;
 
 public class LoseCollider : MonoBehaviour
 {
-    SoundManager soundManager;
-
-    AudioClip loseSound;
+    [SerializeField] PlayerSupervisor playerSupervisor;
 
     private void Start()
     {
-        soundManager = FindObjectOfType<SoundManager>();
+        playerSupervisor = FindObjectOfType<PlayerSupervisor>();    
     }
+
     private void OnTriggerEnter2D(Collider2D other) 
     {
-        soundManager.PlaySound(loseSound);
-        FindObjectOfType<SceneLoader>().LoadLoseScreen(); 
+        playerSupervisor.LoseColliderHit();
     }
 }
