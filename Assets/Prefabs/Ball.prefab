@@ -98,7 +98,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   paddle: {fileID: 0}
   hasStarted: 0
-  launchVelocity: {x: 2, y: 15}
+  launchVelocityMin: {x: -2, y: 15}
+  launchVelocityMax: {x: 2, y: 15}
 --- !u!50 &9082988071149554437
 Rigidbody2D:
   serializedVersion: 4

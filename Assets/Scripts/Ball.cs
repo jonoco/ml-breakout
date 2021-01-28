@@ -8,7 +8,8 @@ public class Ball : MonoBehaviour
 
     [SerializeField] bool hasStarted = false;
 
-    [SerializeField] Vector2 launchVelocity = new Vector2(2f, 15f);
+    [SerializeField] Vector2 launchVelocityMin = new Vector2(-2f, 15f);
+    [SerializeField] Vector2 launchVelocityMax = new Vector2(2f, 15f);
 
     Rigidbody2D rb;
 
@@ -30,6 +31,8 @@ public class Ball : MonoBehaviour
     public void LaunchBall()
     {
         hasStarted = true;
-        rb.velocity = launchVelocity;
+        float launchVelocityX = UnityEngine.Random.Range(launchVelocityMin.x, launchVelocityMax.x);
+        float launchVelocityY = UnityEngine.Random.Range(launchVelocityMin.y, launchVelocityMax.y);
+        rb.velocity = new Vector2(launchVelocityX, launchVelocityY);
     }
 }
