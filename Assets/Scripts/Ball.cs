@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
@@ -10,12 +11,16 @@ public class Ball : MonoBehaviour
 
     [SerializeField] Vector2 launchVelocity = new Vector2(2f, 15f);
 
+    [SerializeField] AudioClip bounceSound;
+
+    AudioSource audioSource;
     Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -31,5 +36,16 @@ public class Ball : MonoBehaviour
     {
         hasStarted = true;
         rb.velocity = launchVelocity;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision) {
+        if (collision.gameObject.tag == "Lose Collider")
+        {
+            audioSource.PlayOneShot(audioSource.clip);
+        }
+        else
+        {
+            audioSource.PlayOneShot(audioSource.clip);
+        }
     }
 }
