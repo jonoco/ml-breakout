@@ -11,7 +11,7 @@ public class Ball : MonoBehaviour
 
     [SerializeField] Vector2 launchVelocity = new Vector2(2f, 15f);
 
-    [SerializeField] AudioClip bounceSound;
+    [SerializeField] AudioClip[] bounceSounds;
     [Range(-3, 3)]
     [SerializeField] float bounceSoundPitch = 0.5f;
 
@@ -42,8 +42,7 @@ public class Ball : MonoBehaviour
     {
         if (collision.gameObject.tag != "Lose Collider")
         {
-            bounceSoundPitch = bounceSoundPitch + bounceSoundPitch * UnityEngine.Random.Range(-0.02f, 0.02f);
-            AudioManager.Instance.PlaySound(bounceSound, bounceSoundPitch);
+            AudioManager.Instance.PlaySound(bounceSounds[UnityEngine.Random.Range(0, bounceSounds.Length)]);
         }
     }
 }
