@@ -35,9 +35,8 @@ public class AudioManager : MonoBehaviour
     // This function plays the given sound without cancelling any
     // sounds already being played by the audioSource. It's ideal for
     // frequent environmental sounds that are likely to overlap.
-    public void PlaySound(AudioClip sound, float pitch = 1f)
+    public void PlaySound(AudioClip sound)
     {
-        audioSource.pitch = pitch;
         audioSource.PlayOneShot(sound);
     }
 }

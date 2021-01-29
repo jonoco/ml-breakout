@@ -12,8 +12,7 @@ public class Ball : MonoBehaviour
     [SerializeField] Vector2 launchVelocity = new Vector2(2f, 15f);
 
     [SerializeField] AudioClip[] bounceSounds;
-    [Range(-3, 3)]
-    [SerializeField] float bounceSoundPitch = 0.5f;
+
 
     Rigidbody2D rb;
 
