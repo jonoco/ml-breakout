@@ -16,8 +16,8 @@ public class PlayerSupervisor : MonoBehaviour
     
     private int points = 0;
 
-    private Vector3 ballOffset;
-    private Vector3 paddleOffset;
+    private Vector3 ballOffset;         // Starting position of ball
+    private Vector3 paddleOffset;       // Starting position of paddle
 
     private int boundaryHits = 0;
 
@@ -48,14 +48,17 @@ public class PlayerSupervisor : MonoBehaviour
 
         // Check if scene is ready for training
         if (gameManager.trainingMode)
-        {
             ResetState();
-        }
     }
 
     void CountBlocks()
     {
         activeBlocks = FindObjectsOfType<Block>().Length;
+    }
+
+    public void PlayerReady()
+    {
+        gameManager.StartGame();
     }
 
     public void StartGame()

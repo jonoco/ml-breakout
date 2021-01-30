@@ -6,7 +6,7 @@ using Unity.MLAgents.Sensors;
 
 public class PlayerAgent : Agent
 {
-    [SerializeField] GameManager gameManager;
+    [SerializeField] PlayerSupervisor playerSupervisor;
     [SerializeField] Ball ball;
     [SerializeField] Paddle paddle;
     public float minPaddlePosX = 1f;
@@ -17,7 +17,6 @@ public class PlayerAgent : Agent
     public bool ballLaunched =  false;
     public float blockReward = .1f;
     public float losePenalty = -1f;
-
     private float smoothMovementChange = 0f;
 
     private void Awake()
@@ -29,9 +28,9 @@ public class PlayerAgent : Agent
 
     private void Start() 
     {
-         gameManager = FindObjectOfType<GameManager>();
-         ball = FindObjectOfType<Ball>();
-         paddle = FindObjectOfType<Paddle>();
+        playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+        ball = FindObjectOfType<Ball>();
+        paddle = FindObjectOfType<Paddle>();
     }
 
     public override void OnEpisodeBegin()
@@ -54,7 +53,7 @@ public class PlayerAgent : Agent
         // Determine paddle position
         float paddleXPos = vectorAction[0]; 
         
-        // Determine whether to launch the ball 
+        // Determine whether to launch the ball and start the game
         bool launchBall = vectorAction[1] > 0;             
 
         MovePaddle(paddleXPos);
@@ -90,7 +89,7 @@ public class PlayerAgent : Agent
         if (!ballLaunched)
         {
             ballLaunched = true;
-            gameManager.StartGame();
+            playerSupervisor.PlayerReady();
         }
     }
 
