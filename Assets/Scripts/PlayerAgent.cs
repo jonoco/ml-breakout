@@ -91,8 +91,6 @@ public class PlayerAgent : Agent
     {   
         if (!playerReady)
         {
-            Debug.Log("Start game");
-
             playerReady = true;
             playerSupervisor.PlayerReady();
         }
