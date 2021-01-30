@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Ball : MonoBehaviour
@@ -9,6 +10,9 @@ public class Ball : MonoBehaviour
     [SerializeField] bool hasStarted = false;
 
     [SerializeField] Vector2 launchVelocity = new Vector2(2f, 15f);
+
+    [SerializeField] AudioClip[] bounceSounds;
+
 
     Rigidbody2D rb;
 
@@ -31,5 +35,13 @@ public class Ball : MonoBehaviour
     {
         hasStarted = true;
         rb.velocity = launchVelocity;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag != "Lose Collider")
+        {
+            AudioManager.Instance.PlaySound(bounceSounds[UnityEngine.Random.Range(0, bounceSounds.Length)]);
+        }
     }
 }

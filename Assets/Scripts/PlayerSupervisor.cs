@@ -10,7 +10,6 @@ public class PlayerSupervisor : MonoBehaviour
     
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
-    
     private int points = 0;
 
     // Start is called before the first frame update

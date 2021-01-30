@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] UIManager uiManager;
 
     [SerializeField] PlayerSupervisor playerSupervisor;
+    [SerializeField] AudioClip loseSound;
+    [SerializeField] AudioClip winSound;
+
 
     DateTime startTime = DateTime.Now;
     
@@ -36,12 +39,14 @@ public class GameManager : MonoBehaviour
 
     public void WinGame()
     {
+        AudioManager.Instance.PlaySoundBetweenScenes(winSound);
         playerSupervisor.PauseGame();
         sceneLoader.LoadWinScreen();
     }
 
     public void LoseGame()
     {
+        AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
         playerSupervisor.PauseGame();
         sceneLoader.LoadLoseScreen();
     }
