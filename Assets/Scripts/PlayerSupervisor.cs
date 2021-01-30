@@ -53,7 +53,12 @@ public class PlayerSupervisor : MonoBehaviour
 
     void CountBlocks()
     {
-        activeBlocks = FindObjectsOfType<Block>().Length;
+        activeBlocks = 0;
+        foreach (Block block in FindObjectsOfType<Block>())
+        {
+            if (block.gameObject.activeSelf)
+                ++activeBlocks;
+        }
     }
 
     public void PlayerReady()
@@ -137,6 +142,7 @@ public class PlayerSupervisor : MonoBehaviour
 
         foreach(Block block in FindObjectsOfType<Block>())
         {
+            block.gameObject.SetActive(false);
             Destroy(block.gameObject);
         }
 
@@ -155,6 +161,8 @@ public class PlayerSupervisor : MonoBehaviour
             float randForceY = UnityEngine.Random.Range(reboundForceMax.x, reboundForceMax.y);
             Vector2 force = new Vector2(randForceX, randForceY);
             ball.GetComponent<Rigidbody2D>().AddForce(force);
+            
+            boundaryHits = 0;
         }
     }
 

@@ -17,6 +17,7 @@ public class PlayerAgent : Agent
     public bool ballLaunched =  false;
     public float blockReward = .1f;
     public float losePenalty = -1f;
+    public float paddleReward = .1f;
     private float smoothMovementChange = 0f;
 
     private void Awake()
@@ -96,6 +97,12 @@ public class PlayerAgent : Agent
     public void BlockHit()
     {
         AddReward(blockReward);
+    }
+
+    public void PaddleHit()
+    {
+        AddReward(paddleReward);
+        
     }
 
     public void LoseGame()
