@@ -14,7 +14,7 @@ public class PlayerAgent : Agent
     public float screenWidth = 16f;
     public float screenHeight = 12f;
     public float paddleMoveSpeed = 100f;
-    public bool ballLaunched =  false;
+    public bool playerReady =  false;
     public float blockReward = .1f;
     public float losePenalty = -1f;
     public float paddleReward = .1f;
@@ -36,7 +36,9 @@ public class PlayerAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        ballLaunched = false;
+        // Reset any Agent state
+        
+        playerReady = false;
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -59,7 +61,7 @@ public class PlayerAgent : Agent
 
         MovePaddle(paddleXPos);
         if (launchBall)
-            LaunchBall();
+            StartGame();
     }
 
     public override void Heuristic(float[] actionsOut)
@@ -85,11 +87,11 @@ public class PlayerAgent : Agent
         paddle.transform.position = paddlePos;
     }
 
-    public void LaunchBall()
+    public void StartGame()
     {   
-        if (!ballLaunched)
+        if (!playerReady)
         {
-            ballLaunched = true;
+            playerReady = true;
             playerSupervisor.PlayerReady();
         }
     }
@@ -102,7 +104,6 @@ public class PlayerAgent : Agent
     public void PaddleHit()
     {
         AddReward(paddleReward);
-        
     }
 
     public void LoseGame()
