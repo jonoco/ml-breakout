@@ -6,17 +6,17 @@ public class Ball : MonoBehaviour
 {
     [SerializeField] Paddle paddle;
 
-    [SerializeField] bool hasStarted = false;
+    public bool hasStarted = false;
 
     [SerializeField] Vector2 launchVelocityMin = new Vector2(-2f, 15f);
     [SerializeField] Vector2 launchVelocityMax = new Vector2(2f, 15f);
 
-    Rigidbody2D rb;
+    new Rigidbody2D rigidbody;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rigidbody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -30,9 +30,19 @@ public class Ball : MonoBehaviour
 
     public void LaunchBall()
     {
-        hasStarted = true;
-        float launchVelocityX = UnityEngine.Random.Range(launchVelocityMin.x, launchVelocityMax.x);
-        float launchVelocityY = UnityEngine.Random.Range(launchVelocityMin.y, launchVelocityMax.y);
-        rb.velocity = new Vector2(launchVelocityX, launchVelocityY);
+        if (!hasStarted)
+        {
+            hasStarted = true;
+            float launchVelocityX = UnityEngine.Random.Range(launchVelocityMin.x, launchVelocityMax.x);
+            float launchVelocityY = UnityEngine.Random.Range(launchVelocityMin.y, launchVelocityMax.y);
+            rigidbody.velocity = new Vector2(launchVelocityX, launchVelocityY);
+        }
+    }
+
+    public void ResetBall()
+    {
+        hasStarted = false;
+        if (rigidbody)
+            rigidbody.velocity = Vector2.zero;
     }
 }

@@ -37,7 +37,7 @@ public class PlayerAgent : Agent
     public override void OnEpisodeBegin()
     {
         // Reset any Agent state
-        
+
         playerReady = false;
     }
 
@@ -91,6 +91,8 @@ public class PlayerAgent : Agent
     {   
         if (!playerReady)
         {
+            Debug.Log("Start game");
+
             playerReady = true;
             playerSupervisor.PlayerReady();
         }
