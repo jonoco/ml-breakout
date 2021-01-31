@@ -93,8 +93,6 @@ public class PlayerSupervisor : MonoBehaviour
 
     void LaunchBall()
     {
-        Debug.Log("Launch ball");
-
         ball.LaunchBall();
     }
 
@@ -163,17 +161,12 @@ public class PlayerSupervisor : MonoBehaviour
             Debug.Log("Ball rebound check");
 
             Rigidbody2D ballRB = ball.GetComponent<Rigidbody2D>();
-            Debug.LogFormat("Ball magnitude: {0}, velocity: {1}", 
-                ballRB.velocity.magnitude, 
-                ballRB.velocity);
-
+            
+            // Rebound 45 degrees up and away from wall
             Vector2 newVelocity = Vector2.one;
-            newVelocity *= ballRB.velocity.magnitude/newVelocity.magnitude;
+            newVelocity *= ballRB.velocity.magnitude / newVelocity.magnitude;
             newVelocity.x *= ballRB.velocity.x > 0 ? 1 : -1;
-
-            Debug.LogFormat("New velocity: {0} mag: {1}", newVelocity, newVelocity.magnitude);
-
-            ball.GetComponent<Rigidbody2D>().velocity = newVelocity;
+            ballRB.velocity = newVelocity;
             
             boundaryHits = 0;
         }
