@@ -13,7 +13,6 @@ public class PlayerSupervisor : MonoBehaviour
     
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
-    
     private int points = 0;
 
     private Vector3 ballOffset;         // Starting position of ball

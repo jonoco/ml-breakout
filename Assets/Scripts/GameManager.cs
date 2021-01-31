@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] SceneLoader sceneLoader;
     [SerializeField] UIManager uiManager;
     [SerializeField] PlayerSupervisor playerSupervisor;
+    [SerializeField] AudioClip loseSound;
+    [SerializeField] AudioClip winSound;
 
     public bool trainingMode = false;
 
@@ -37,12 +39,16 @@ public class GameManager : MonoBehaviour
 
     public void WinGame()
     {
+        AudioManager.Instance.PlaySoundBetweenScenes(winSound);
         playerSupervisor.PauseGame();
         sceneLoader.LoadWinScreen();
     }
 
     public void LoseGame()
     {
+        AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
+        playerSupervisor.PauseGame();
+        sceneLoader.LoadLoseScreen();
         if (trainingMode)
         {
             RestartGame();
