@@ -9,7 +9,6 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] SceneLoader sceneLoader;
     [SerializeField] UIManager uiManager;
-
     [SerializeField] PlayerSupervisor playerSupervisor;
 
     public bool trainingMode = false;

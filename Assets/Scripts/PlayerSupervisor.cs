@@ -22,9 +22,6 @@ public class PlayerSupervisor : MonoBehaviour
     private int boundaryHits = 0;
 
     public int boundaryReboundLimit = 10;
-    [SerializeField] Vector2 reboundForceMin = new Vector2(-.5f, -.5f);
-
-    [SerializeField] Vector2 reboundForceMax = new Vector2(.5f, .5f);
 
     // Start is called before the first frame update
     void Start()
