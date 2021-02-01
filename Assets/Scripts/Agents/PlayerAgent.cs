@@ -6,17 +6,22 @@ using Unity.MLAgents.Sensors;
 
 public class PlayerAgent : Agent
 {
-    [SerializeField] PlayerSupervisor playerSupervisor;
-    [SerializeField] Ball ball;
-    [SerializeField] Paddle paddle;
+    public PlayerSupervisor playerSupervisor;
+    public Ball ball;
+    public Paddle paddle;
     public float minPaddlePosX = 1f;
     public float maxPaddlePosX = 15f;
     public float screenWidth = 16f;
     public float screenHeight = 12f;
+   
+    [Range(10f, 200f)]
     public float paddleMoveSpeed = 100f;
+
+    [Range(.1f, 10f)]
+    public float moveStep = 2f;
     public bool playerReady =  false;
-    public float blockReward = .1f;
-    public float losePenalty = -1f;
+    public float blockReward = .5f;
+    public float losePenalty = -10f;
     public float paddleReward = .1f;
     private float smoothMovementChange = 0f;
 
@@ -75,10 +80,14 @@ public class PlayerAgent : Agent
         actionsOut[1] = launchBall ? 1 : -1;
     }
 
-    public void MovePaddle(float pos)
+    /// <summary>
+    /// Move the player's paddle
+    /// </summary>
+    /// <param name="pos">Relative position in the range [-1, 1]</param>
+    public virtual void MovePaddle(float pos)
     {
         // Calculate the eased paddle movement
-        smoothMovementChange = Mathf.MoveTowards(smoothMovementChange, pos, 2f * Time.fixedDeltaTime);
+        smoothMovementChange = Mathf.MoveTowards(smoothMovementChange, pos, moveStep * Time.fixedDeltaTime);
         
         // Calculate the new paddle position
         Vector3 paddlePos = paddle.transform.position;
@@ -87,7 +96,7 @@ public class PlayerAgent : Agent
         paddle.transform.position = paddlePos;
     }
 
-    public void StartGame()
+    public virtual void StartGame()
     {   
         if (!playerReady)
         {
@@ -96,23 +105,23 @@ public class PlayerAgent : Agent
         }
     }
 
-    public void BlockHit()
+    public virtual void BlockHit()
     {
         AddReward(blockReward);
     }
 
-    public void PaddleHit()
+    public virtual void PaddleHit()
     {
         AddReward(paddleReward);
     }
 
-    public void LoseGame()
+    public virtual void LoseGame()
     {
         AddReward(losePenalty);
         EndEpisode();
     }
 
-    public void WinGame()
+    public virtual void WinGame()
     {
         EndEpisode();
     }
