@@ -97,5 +97,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d816e5b1fd79f94096f04591bab1cf1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ball: {fileID: 0}
   gameManager: {fileID: 0}
   activeBlocks: 0
+  playerData: {fileID: 11400000, guid: c753f81020ac40b4e96c0a53d1e0d8e8, type: 2}

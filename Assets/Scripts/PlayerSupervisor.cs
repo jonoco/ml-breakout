@@ -7,10 +7,12 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] Ball ball;
     [SerializeField] GameManager gameManager;
     [SerializeField] int activeBlocks;
+
+    [SerializeField] PlayerData playerData;
     
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
-    private int points = 1000;
+    private int points = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -53,6 +55,7 @@ public class PlayerSupervisor : MonoBehaviour
     {
         points += pointValue;
         gameManager.UpdatePoints(points);
+        playerData.points = points;
 
         --activeBlocks;
         if (activeBlocks <= 0)

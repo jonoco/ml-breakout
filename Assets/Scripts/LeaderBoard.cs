@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
@@ -9,9 +8,10 @@ public class LeaderBoard : MonoBehaviour
 {
     // Start is called before the first frame update
     private List<Score> scores;
-    private List<Transform> scoreTransformList;
+    private List<Transform> scoreTransforms;
     const string PREFS_KEY = "LeaderBoard";
-    const int SCORES_LIMIT = 3;
+    const int SCORES_DISPLAY_LIMIT = 3;
+    [SerializeField] PlayerData playerData;
 
     // Wrapper for Score list because Json cannot directly convert a list and
     // instead takes an object that contains a list.
@@ -20,6 +20,7 @@ public class LeaderBoard : MonoBehaviour
         public List<Score> scoresList;
     }
 
+    // The Score object represents a single score entry.
     [System.Serializable]
     private class Score
     {
@@ -38,7 +39,6 @@ public class LeaderBoard : MonoBehaviour
 
         SetupLeaderboardUI();
     }
-
 
     private List<Score> LoadScores()
     {
@@ -59,22 +59,32 @@ public class LeaderBoard : MonoBehaviour
         };
     }
 
-    private void AddScore(string initials, int points)
+    public void SaveScore()
     {
-        Score score = new Score { initials = initials, points = points};
+        //  Score Input's transform
+        Transform scoreInputRow = scoreTransforms.Find(t => t.name.Contains("Score Input"));
 
-        string json = PlayerPrefs.GetString("highScoreTable");
-        ScoresWrapper leaderboard = JsonUtility.FromJson<ScoresWrapper>(json);
+        // Retrieve the input initials then inactivate the Save Button and text box.
+        String inputInitials = scoreInputRow.GetComponentInChildren<TMP_InputField>().text;
+        scoreInputRow.Find("Initials Input").gameObject.SetActive(false);
+        scoreInputRow.GetComponentInChildren<Button>().gameObject.SetActive(false);
 
-        leaderboard.scoresList.Add(score);
-        string jsonOut = JsonUtility.ToJson(leaderboard);
-        PlayerPrefs.SetString("highScoreTable", json);
-        PlayerPrefs.Save();
+        // Activate the plain text initials display and set it's text equal to the given initials.
+        GameObject initialsDisplay = scoreInputRow.Find("Initials Display").gameObject;
+        initialsDisplay.SetActive(true);
+        initialsDisplay.GetComponent<TextMeshProUGUI>().text = inputInitials;
+
+        // Update the initials property of the edited score object and mark it no longer new.
+        Score inputScore = scores.Find(s => s.newScore == true);
+        inputScore.initials = inputInitials;
+        inputScore.newScore = false;
+
+        // Commit the updated Score list to PlayerPrefs.
+        SaveScores();
     }
 
     private void SaveScores()
     {
-        // Make sure no newScore bools are saved as true in the db
         ScoresWrapper scoresWrapper = new ScoresWrapper { scoresList = scores };
         string json = JsonUtility.ToJson(scoresWrapper);
         PlayerPrefs.SetString(PREFS_KEY, json);
@@ -83,22 +93,30 @@ public class LeaderBoard : MonoBehaviour
 
     private void CheckForNewHighScore()
     {
-        // Check if the player's score belongs on the leaderboard.
-        // int playerPoints = FindObjectOfType<PlayerSupervisor>().GetPoints();
-        int playerPoints = 200;
+        // Check if the player's score places within the SCORES_DISPLAY_LIMIT
+        // of existing high scores.
+        int playerPoints = playerData.points;
         int index = scores.FindIndex((score) => score.points < playerPoints);
-        scores.Insert(index, new Score { initials = "", points = playerPoints, newScore = true });
-        while (scores.Count > SCORES_LIMIT)
+        if (index != -1)
         {
-            scores.RemoveAt(SCORES_LIMIT);
+            scores.Insert(index, new Score { initials = "", points = playerPoints, newScore = true });
+
+            // If a high score was added to the list, reduce the lowest scores until the
+            // list's size to matches the SCORES_DISPLAY_LIMIT.
+            while (scores.Count > SCORES_DISPLAY_LIMIT)
+            {
+                scores.RemoveAt(SCORES_DISPLAY_LIMIT);
+            }
         }
     }
 
+    // Dynamic creation of score transforms based on Code Monkey tutorial "High Score Table
+    // with Saving and Loading": https://youtu.be/iAbaqGYdnyI.
     private void SetupLeaderboardUI()
     {
         Transform scoresContainer = transform.Find("Scores");
 
-        // Get templates for each score display and score input rows, then hide them.
+        // Get templates for score display and score input rows then hide them.
         Transform scoreDisplayTemplate = scoresContainer.Find("Score Display");
         scoreDisplayTemplate.gameObject.SetActive(false);
         Transform scoreInputTemplate = scoresContainer.Find("Score Input");
@@ -108,32 +126,32 @@ public class LeaderBoard : MonoBehaviour
         float verticalOffset = scoreDisplayTemplate.GetComponent<RectTransform>().rect.height;
 
         // Render a row for each score in the given list.
-        int scoreCount = 0;
+        scoreTransforms = new List<Transform>();
         foreach (Score score in scores)
         {
             Transform scoreTransform;
             if (score.newScore)
             {
+                // Create a Score Input row.
                 scoreTransform = Instantiate(scoreInputTemplate, scoresContainer);
-                scoreTransform.GetComponentInChildren<TMP_InputField>().text = "";
+                scoreTransform.GetComponentInChildren<TMP_InputField>().text = "Test";
                 scoreTransform.Find("Points").GetComponent<TextMeshProUGUI>().text = score.points.ToString();
-            } 
+            }
             else
             {
+                // Create a Score Display row.
                 scoreTransform = Instantiate(scoreDisplayTemplate, scoresContainer);
                 scoreTransform.Find("Initials").GetComponent<TextMeshProUGUI>().text = score.initials;
                 scoreTransform.Find("Points").GetComponent<TextMeshProUGUI>().text = score.points.ToString();
             }
-            
+
+            // Adjust the row's vertical position:
             scoreTransform.position = new Vector2(scoreTransform.position.x,
-                                                scoreTransform.position.y - verticalOffset * scoreCount);
+                                                scoreTransform.position.y - verticalOffset * scoreTransforms.Count);
             scoreTransform.gameObject.SetActive(true);
 
-
-
-            scoreCount++;
+            // Add the score to the list of transforms for easier manipulation later.
+            scoreTransforms.Add(scoreTransform);
         }
     }
-
-
 }

@@ -13,12 +13,12 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadLoseScreen()
     {
-        StartCoroutine(DelayedLoadScene("Lose Screen"));
+        StartCoroutine(DelayedLoadScene("End Screen"));
     }
 
     public void LoadWinScreen()
     {
-        StartCoroutine(DelayedLoadScene("Win Screen"));
+        StartCoroutine(DelayedLoadScene("End Screen"));
     }
 
     private IEnumerator DelayedLoadScene(string sceneName)
