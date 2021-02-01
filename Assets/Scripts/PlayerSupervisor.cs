@@ -10,7 +10,7 @@ public class PlayerSupervisor : MonoBehaviour
     
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
-    private int points = 0;
+    private int points = 1000;
 
     // Start is called before the first frame update
     void Start()
@@ -59,5 +59,10 @@ public class PlayerSupervisor : MonoBehaviour
         {
             gameManager.WinGame();
         }
+    }
+
+    public int GetPoints()
+    {
+        return points;
     }
 }
