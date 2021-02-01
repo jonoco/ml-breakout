@@ -47,7 +47,7 @@ public class PlayerSupervisor : MonoBehaviour
     public void LoseColliderHit()
     {
         Destroy(ball.gameObject);
-        
+        playerData.gameResult = "You Lose!";
         gameManager.LoseGame();
     }
 
@@ -60,6 +60,7 @@ public class PlayerSupervisor : MonoBehaviour
         --activeBlocks;
         if (activeBlocks <= 0)
         {
+            playerData.gameResult = "You Win!";
             gameManager.WinGame();
         }
     }
