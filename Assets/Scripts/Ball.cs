@@ -7,19 +7,18 @@ public class Ball : MonoBehaviour
 {
     [SerializeField] Paddle paddle;
 
-    [SerializeField] bool hasStarted = false;
+    public bool hasStarted = false;
 
-    [SerializeField] Vector2 launchVelocity = new Vector2(2f, 15f);
+    [SerializeField] Vector2 launchVelocityMin = new Vector2(-2f, 15f);
+    [SerializeField] Vector2 launchVelocityMax = new Vector2(2f, 15f);
 
+    new Rigidbody2D rigidbody;
     [SerializeField] AudioClip[] bounceSounds;
-
-
-    Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rigidbody = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
@@ -33,15 +32,30 @@ public class Ball : MonoBehaviour
 
     public void LaunchBall()
     {
-        hasStarted = true;
-        rb.velocity = launchVelocity;
+        if (!hasStarted)
+        {
+            hasStarted = true;
+            float launchVelocityX = UnityEngine.Random.Range(launchVelocityMin.x, launchVelocityMax.x);
+            float launchVelocityY = UnityEngine.Random.Range(launchVelocityMin.y, launchVelocityMax.y);
+            rigidbody.velocity = new Vector2(launchVelocityX, launchVelocityY);
+        }
+    }
+
+    public void ResetBall()
+    {
+        hasStarted = false;
+        if (rigidbody)
+            rigidbody.velocity = Vector2.zero;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag != "Lose Collider")
         {
-            AudioManager.Instance.PlaySound(bounceSounds[UnityEngine.Random.Range(0, bounceSounds.Length)]);
+            if (bounceSounds.Length > 0 && AudioManager.Instance)
+            {
+                AudioManager.Instance.PlaySound(bounceSounds[UnityEngine.Random.Range(0, bounceSounds.Length)]);
+            }
         }
     }
 }
