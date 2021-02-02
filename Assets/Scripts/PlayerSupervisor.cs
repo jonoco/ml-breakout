@@ -95,7 +95,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseColliderHit()
     {
-        playerData.gameResult = "You Lose!";
+        playerData.gameResult = "Game Over!";
         ball.gameObject.SetActive(false);
         gameManager.LoseGame();
         
