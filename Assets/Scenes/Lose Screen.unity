@@ -424,17 +424,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2056196635}
     m_Modifications:
-    - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 7656653274348306419, guid: f9fb47d462dd10b45a3d5a02e0208ab5,
-        type: 3}
-    - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadFirstLevel
-      objectReference: {fileID: 0}
     - target: {fileID: 1971520465715875325, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
       propertyPath: m_Pivot.x
@@ -448,7 +437,7 @@ PrefabInstance:
     - target: {fileID: 1971520465715875325, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1971520465715875325, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
