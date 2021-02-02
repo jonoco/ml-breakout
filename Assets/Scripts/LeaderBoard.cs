@@ -52,6 +52,11 @@ public class LeaderBoard : MonoBehaviour
         }
 
         // If one is not found, return a default scoresList.
+        return GenerateDefaultScores();
+    }
+
+    private List<Score> GenerateDefaultScores()
+    {
         return new List<Score>() {
             new Score { initials = "AAA", points = 100 },
             new Score { initials = "BBB", points = 50 },
@@ -59,7 +64,7 @@ public class LeaderBoard : MonoBehaviour
         };
     }
 
-    public void SaveScore()
+    public void AddNewScore()
     {
         Transform scoreInputRow = scoreTransforms.Find(t => t.name.Contains("Score Input"));
 
@@ -158,5 +163,17 @@ public class LeaderBoard : MonoBehaviour
             // Add the score to the list of transforms for easier manipulation later.
             scoreTransforms.Add(scoreTransform);
         }
+    }
+
+    public void ResetScores()
+    {
+        foreach(Transform score in scoreTransforms)
+        {
+            Destroy(score.gameObject);
+        }
+
+        scores = GenerateDefaultScores();
+        SaveScores();
+        SetupLeaderboardUI();
     }
 }
