@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 public class SceneLoader : MonoBehaviour
 {
     public float transitionTime = 1.5f; 
-    public void LoadFirstLevel()
+    public void LoadLevel(string levelName)
     {
-        SceneManager.LoadScene("Level 1");
+        SceneManager.LoadScene(levelName);
     }
 
     public void LoadLoseScreen()
