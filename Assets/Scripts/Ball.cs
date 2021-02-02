@@ -52,7 +52,10 @@ public class Ball : MonoBehaviour
     {
         if (collision.gameObject.tag != "Lose Collider")
         {
-            AudioManager.Instance.PlaySound(bounceSounds[UnityEngine.Random.Range(0, bounceSounds.Length)]);
+            if (bounceSounds.Length > 0)
+            {
+                AudioManager.Instance.PlaySound(bounceSounds[UnityEngine.Random.Range(0, bounceSounds.Length)]);
+            }
         }
     }
 }
