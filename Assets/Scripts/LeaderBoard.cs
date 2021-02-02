@@ -135,7 +135,6 @@ public class LeaderBoard : MonoBehaviour
             {
                 // Create a Score Input row.
                 scoreTransform = Instantiate(scoreInputTemplate, scoresContainer);
-                scoreTransform.GetComponentInChildren<TMP_InputField>().text = "Test";
                 scoreTransform.Find("Points").GetComponent<TextMeshProUGUI>().text = score.points.ToString();
             }
             else
