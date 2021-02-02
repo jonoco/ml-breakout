@@ -47,7 +47,11 @@ public class PlayerSupervisor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        IncreaseBallSpeed();
+        if(ball)  // if ball object has not been destroyed yet
+        {
+            IncreaseBallSpeed();
+        }
+        
     }
 
     public void StartGame()
