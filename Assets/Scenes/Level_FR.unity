@@ -367,6 +367,16 @@ PrefabInstance:
       propertyPath: speedIncreaseIncrementInSeconds
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
+        type: 3}
+      propertyPath: ballSpeedIncreasePctEachIncrement
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
+        type: 3}
+      propertyPath: ballSpeedIncreaseIncrementInSeconds
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 6902707035986185609, guid: d8b0fe998368cbf45a1e859ac21418b4,
         type: 3}
       propertyPath: m_Name

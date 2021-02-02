@@ -7,18 +7,15 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] Ball ball;
     [SerializeField] GameManager gameManager;
     [SerializeField] int activeBlocks;
-
-    // Used for increasing ball velocity throughout game
-    [Range(0.1f, 5f)]
-    [SerializeField] float currentGameSpeed = 1f; 
+    private Rigidbody2D ballRB;
 
     // Increase the game speed every x # of seconds defined here
     [Range(0.1f,15)]
-    [SerializeField] float speedIncreaseIncrementInSeconds = 5;
+    [SerializeField] float ballSpeedIncreaseIncrementInSeconds = 5;
 
-    // Percentage the game speed increases after each increment defined in speedIncreaseIncrementInSeconds
+    // Percentage the game speed increases after each increment defined in ballSpeedIncreaseIncrementInSeconds
     [Range(0,15)]
-    [SerializeField] int speedIncreasePctEachIncrement = 1;
+    [SerializeField] int ballSpeedIncreasePctEachIncrement = 1;
 
     // To keep track of when the last speed increase was to determine if a new speed incr. is needed
     private float previousIncreaseTimeInSeconds = 0;
@@ -43,15 +40,14 @@ public class PlayerSupervisor : MonoBehaviour
     
         activeBlocks = FindObjectsOfType<Block>().Length;
         ball = FindObjectOfType<Ball>();
+        ballRB = ball.GetComponent<Rigidbody2D>();
 
-        // game speed
-        SetGameSpeed();
     }
 
     // Update is called once per frame
     void Update()
     {
-        IncreaseGameSpeed();
+        IncreaseBallSpeed();
     }
 
     public void StartGame()
@@ -76,18 +72,27 @@ public class PlayerSupervisor : MonoBehaviour
         gameManager.LoseGame();
     }
 
-    public void SetGameSpeed()
+    public bool isNextSpeedIncreaseIncrement()
     {
-        Time.timeScale = currentGameSpeed;
+        return (Time.time - previousIncreaseTimeInSeconds) > ballSpeedIncreaseIncrementInSeconds;
     }
 
-    public void IncreaseGameSpeed()
+    public void setPreviousIncreaseTime()
     {
-        if(Time.time - previousIncreaseTimeInSeconds > speedIncreaseIncrementInSeconds)
+        previousIncreaseTimeInSeconds = Time.time;
+    }
+
+    public void setNewBallVelocity()
+    {
+        ballRB.velocity *= (1 + (float)ballSpeedIncreasePctEachIncrement/100);
+    }
+
+    public void IncreaseBallSpeed()
+    {
+        if(isNextSpeedIncreaseIncrement())
         {
-            previousIncreaseTimeInSeconds = Time.time;
-            currentGameSpeed *= (1 + (float)speedIncreasePctEachIncrement/100);
-            SetGameSpeed();
+            setPreviousIncreaseTime();
+            setNewBallVelocity();
         }        
     }
 
