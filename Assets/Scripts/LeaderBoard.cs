@@ -6,12 +6,12 @@ using UnityEngine.UI;
 
 public class LeaderBoard : MonoBehaviour
 {
-    // Start is called before the first frame update
-    private List<Score> scores;
-    private List<Transform> scoreTransforms;
+    [SerializeField] PlayerData playerData;
     const string PREFS_KEY = "LeaderBoard";
     const int SCORES_DISPLAY_LIMIT = 3;
-    [SerializeField] PlayerData playerData;
+    private List<Score> scores;
+    private List<Transform> scoreTransforms;
+
 
     // Wrapper for Score list because Json cannot directly convert a list and
     // instead takes an object that contains a list.
@@ -20,7 +20,7 @@ public class LeaderBoard : MonoBehaviour
         public List<Score> scoresList;
     }
 
-    // The Score object represents a single score entry.
+    // The Score class represents a single score entry.
     [System.Serializable]
     private class Score
     {
@@ -61,11 +61,16 @@ public class LeaderBoard : MonoBehaviour
 
     public void SaveScore()
     {
-        //  Score Input's transform
         Transform scoreInputRow = scoreTransforms.Find(t => t.name.Contains("Score Input"));
 
-        // Retrieve the input initials then inactivate the Save Button and text box.
+        // Retrieve the input initials. If none were entered, do not save.
         String inputInitials = scoreInputRow.GetComponentInChildren<TMP_InputField>().text;
+        if (inputInitials.Equals(""))
+        {
+            return;
+        }
+
+        // Inactivate the Save Button and text box.
         scoreInputRow.Find("Initials Input").gameObject.SetActive(false);
         scoreInputRow.GetComponentInChildren<Button>().gameObject.SetActive(false);
 
