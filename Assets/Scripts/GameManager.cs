@@ -9,11 +9,11 @@ public class GameManager : MonoBehaviour
 {
     [SerializeField] SceneLoader sceneLoader;
     [SerializeField] UIManager uiManager;
-
     [SerializeField] PlayerSupervisor playerSupervisor;
     [SerializeField] AudioClip loseSound;
     [SerializeField] AudioClip winSound;
 
+    public bool trainingMode = false;
 
     DateTime startTime = DateTime.Now;
     
@@ -39,20 +39,37 @@ public class GameManager : MonoBehaviour
 
     public void WinGame()
     {
-        AudioManager.Instance.PlaySoundBetweenScenes(winSound);
-        playerSupervisor.PauseGame();
-        sceneLoader.LoadWinScreen();
+        if (!trainingMode)
+        {
+            AudioManager.Instance.PlaySoundBetweenScenes(winSound);
+            playerSupervisor.PauseGame();
+            sceneLoader.LoadWinScreen();
+        } 
     }
 
     public void LoseGame()
     {
-        AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
-        playerSupervisor.PauseGame();
-        sceneLoader.LoadLoseScreen();
+        if (trainingMode)
+        {
+            RestartGame();
+        }
+        else
+        {
+            AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
+            playerSupervisor.PauseGame();
+            sceneLoader.LoadLoseScreen();
+        } 
     }
 
     public void UpdatePoints(int points)
     {
         uiManager.UpdatePoints(points);
+    }
+
+    public void RestartGame()
+    {
+        // Reset any game state then let the player start again
+
+        playerSupervisor.ResetState();
     }
 }

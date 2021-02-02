@@ -1,0 +1,13 @@
+behaviors: 
+    Paddle:
+        hyperparameters:
+            batch_size: 2048
+            buffer_size: 20480
+        max_steps: 5.0e6
+        network_settings:
+            hidden_units: 256
+        summary_freq: 10000
+        time_horizon: 128
+        trainer_type: ppo
+        
+
