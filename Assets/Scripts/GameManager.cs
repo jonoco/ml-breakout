@@ -39,22 +39,23 @@ public class GameManager : MonoBehaviour
 
     public void WinGame()
     {
-        AudioManager.Instance.PlaySoundBetweenScenes(winSound);
-        playerSupervisor.PauseGame();
-        sceneLoader.LoadWinScreen();
+        if (!trainingMode)
+        {
+            AudioManager.Instance.PlaySoundBetweenScenes(winSound);
+            playerSupervisor.PauseGame();
+            sceneLoader.LoadWinScreen();
+        } 
     }
 
     public void LoseGame()
     {
-        AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
-        playerSupervisor.PauseGame();
-        sceneLoader.LoadLoseScreen();
         if (trainingMode)
         {
             RestartGame();
         }
         else
         {
+            AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
             playerSupervisor.PauseGame();
             sceneLoader.LoadLoseScreen();
         } 
