@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySoundBetweenScenes(winSound);
             playerSupervisor.PauseGame();
-            sceneLoader.LoadWinScreen();
+            sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
         } 
     }
 
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
             playerSupervisor.PauseGame();
-            sceneLoader.LoadLoseScreen();
+            sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
         } 
     }
 

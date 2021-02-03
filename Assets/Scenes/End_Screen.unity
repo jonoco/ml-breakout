@@ -884,6 +884,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 155246404}
@@ -1938,6 +1943,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
+        type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 155246404}
@@ -1945,6 +1960,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: AddNewScore
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1971520465715875325, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}

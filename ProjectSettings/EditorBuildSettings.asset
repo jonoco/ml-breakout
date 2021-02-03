@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/End_Screen.unity
     guid: d686e4e288e443e4f94ac4fb02a8b128
+  - enabled: 1
+    path: Assets/Scenes/Training_0.unity
+    guid: 9214be4b244f0df4ab2bfa93d7a2e399
+  - enabled: 1
+    path: Assets/Scenes/Training_Demo.unity
+    guid: 004c337436e4dde4a9b75ac422a123fd
   m_configObjects: {}

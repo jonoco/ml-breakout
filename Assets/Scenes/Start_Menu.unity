@@ -531,12 +531,12 @@ PrefabInstance:
     - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadLevel
+      value: LoadScene
       objectReference: {fileID: 0}
     - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Training_Scene
+      value: Training_Demo
       objectReference: {fileID: 0}
     - target: {fileID: 1971520465715875325, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
@@ -646,17 +646,17 @@ PrefabInstance:
     - target: {fileID: 1971520465715875326, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
       propertyPath: m_Name
-      value: Solo Play Button
+      value: Training Scene Button
       objectReference: {fileID: 0}
     - target: {fileID: 1971520467359266904, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
       propertyPath: m_Name
-      value: Play Breakout
+      value: Text
       objectReference: {fileID: 0}
     - target: {fileID: 1971520467359266918, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
       propertyPath: m_Text
-      value: Play Breakout
+      value: Watch a Training Scene
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 808dbe2c748a999439fbf66a5821d413, type: 3}
@@ -1092,7 +1092,7 @@ PrefabInstance:
     - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: LoadLevel
+      value: LoadScene
       objectReference: {fileID: 0}
     - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
@@ -1212,7 +1212,7 @@ PrefabInstance:
     - target: {fileID: 1971520467359266904, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
       propertyPath: m_Name
-      value: Play Breakout
+      value: Text
       objectReference: {fileID: 0}
     - target: {fileID: 1971520467359266918, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
