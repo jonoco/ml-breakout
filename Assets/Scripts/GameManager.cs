@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour
             AudioManager.Instance.PlaySoundBetweenScenes(winSound);
             playerSupervisor.PauseGame();
             sceneLoader.LoadWinScreen();
-        } 
+        }  
     }
 
     public void LoseGame()
@@ -62,14 +62,14 @@ public class GameManager : MonoBehaviour
     }
 
     public void UpdatePoints(int points)
-    {
+    { 
         uiManager.UpdatePoints(points);
     }
 
     public void RestartGame()
     {
         // Reset any game state then let the player start again
-
+        
         playerSupervisor.ResetState();
     }
 }

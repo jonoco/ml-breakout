@@ -129,6 +129,8 @@ public class PlayerSupervisor : MonoBehaviour
     {
         boundaryHits = 0;
 
+        points = 0;  // resetting points but not timer each round.
+        
         ball.gameObject.SetActive(true);
         ball.ResetBall();
         ball.transform.position = ballOffset;
