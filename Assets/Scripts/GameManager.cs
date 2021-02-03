@@ -69,7 +69,6 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         // Reset any game state then let the player start again
-        
         playerSupervisor.ResetState();
     }
 }
