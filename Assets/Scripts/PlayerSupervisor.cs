@@ -136,6 +136,8 @@ public class PlayerSupervisor : MonoBehaviour
     public void ResetState()
     {
         boundaryHits = 0;
+        points = 0;
+        gameManager.UpdatePoints(points);
 
         ball.gameObject.SetActive(true);
         ball.ResetBall();
