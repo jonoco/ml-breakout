@@ -9,6 +9,7 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
     [SerializeField] int activeBlocks;
+    [SerializeField] PlayerData playerData;
     [SerializeField] GameObject trainingBlocks;
     
     // Frannie's Level Items
@@ -94,8 +95,8 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseColliderHit()
     {
+        playerData.gameResult = "Game Over!";
         ball.gameObject.SetActive(false);
-
         gameManager.LoseGame();
         
         if (playerAgent)
@@ -111,15 +112,22 @@ public class PlayerSupervisor : MonoBehaviour
 
         points += pointValue;
         gameManager.UpdatePoints(points);
+        playerData.points = points;
 
         --activeBlocks;
         if (activeBlocks <= 0)
         {
+            playerData.gameResult = "You Win!";
             gameManager.WinGame();
 
             if (playerAgent)
                 playerAgent.WinGame();
         }
+    }
+
+    public int GetPoints()
+    {
+        return points;
     }
 
     /// <summary>
@@ -128,6 +136,8 @@ public class PlayerSupervisor : MonoBehaviour
     public void ResetState()
     {
         boundaryHits = 0;
+        points = 0;
+        gameManager.UpdatePoints(points);
 
         ball.gameObject.SetActive(true);
         ball.ResetBall();

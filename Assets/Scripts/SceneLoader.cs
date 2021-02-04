@@ -5,25 +5,31 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    public float transitionTime = 1.5f; 
-    public void LoadFirstLevel()
+    public const float transitionTime = 1.5f;
+
+    public struct SceneNames
     {
-        SceneManager.LoadScene("Level 1");
+        public static readonly string Level_1 = "Level 1";
+        public static readonly string Level_FR = "Level_FR";
+        public static readonly string EndScreen = "End_Screen";
+        public static readonly string Training_0 = "Training_0";
+
     }
 
-    public void LoadLoseScreen()
+    public void LoadScene(string sceneName)
     {
-        StartCoroutine(DelayedLoadScene("Lose Screen"));
+        SceneManager.LoadScene(sceneName);
     }
 
-    public void LoadWinScreen()
+
+    public void LoadSceneDelayed(string sceneName, float delay = transitionTime)
     {
-        StartCoroutine(DelayedLoadScene("Win Screen"));
+        StartCoroutine(DelayedLoadScene(sceneName, delay));
     }
 
-    private IEnumerator DelayedLoadScene(string sceneName)
+    private IEnumerator DelayedLoadScene(string sceneName, float delay)
     {
-        yield return new WaitForSeconds(transitionTime);
+        yield return new WaitForSeconds(delay);
         SceneManager.LoadScene(sceneName);
     }
 }

@@ -102,6 +102,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   playerAgent: {fileID: 0}
   activeBlocks: 0
+  playerData: {fileID: 11400000, guid: c753f81020ac40b4e96c0a53d1e0d8e8, type: 2}
   trainingBlocks: {fileID: 567816811006681950, guid: 8b954e0001ef9df428ecad3d8f2f1b78,
     type: 3}
   boundaryReboundLimit: 10

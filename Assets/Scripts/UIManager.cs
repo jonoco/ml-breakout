@@ -7,7 +7,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI pointsDisplay;
     [SerializeField] TextMeshProUGUI timeDisplay;
 
-    private void Start()
+    private void Awake()
     {
         // Find the child elements for this prefab's points and timer locations.
         pointsDisplay = gameObject.transform.Find("Points Display").gameObject.GetComponent<TextMeshProUGUI>();

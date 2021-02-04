@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     DateTime startTime = DateTime.Now;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         playerSupervisor = FindObjectOfType<PlayerSupervisor>();
         sceneLoader = FindObjectOfType<SceneLoader>();
@@ -43,7 +43,7 @@ public class GameManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySoundBetweenScenes(winSound);
             playerSupervisor.PauseGame();
-            sceneLoader.LoadWinScreen();
+            sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
         } 
     }
 
@@ -57,8 +57,8 @@ public class GameManager : MonoBehaviour
         {
             AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
             playerSupervisor.PauseGame();
-            sceneLoader.LoadLoseScreen();
-        } 
+            sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
+        }
     }
 
     public void UpdatePoints(int points)
@@ -69,7 +69,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame()
     {
         // Reset any game state then let the player start again
-
+        startTime = DateTime.Now;
         playerSupervisor.ResetState();
     }
 }
