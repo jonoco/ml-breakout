@@ -23,6 +23,8 @@ public class PlayerSupervisor : MonoBehaviour
 
     public int boundaryReboundLimit = 10;
 
+    public float detectionFreq = 1f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,22 +67,14 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void StartGame()
     {
-        if (gameManager.trainingMode)
+        if (gameManager.trainingMode && !trainingBlocks)
         {
-            if (!trainingBlocks)
-            {
-                Debug.LogError("trainingBlocks reference missing");
-                return;
-            }
-            else
-            {
-                LaunchBall();
-            }     
+            Debug.LogError("trainingBlocks reference missing");
+            return;
         }
-        else
-        {
-            LaunchBall();
-        }
+
+        LaunchBall();
+        StartCoroutine(DetectBallLockup());
     }
 
     public void PauseGame()
@@ -98,6 +92,7 @@ public class PlayerSupervisor : MonoBehaviour
         playerData.gameResult = "Game Over!";
         ball.gameObject.SetActive(false);
         gameManager.LoseGame();
+        StopCoroutine(DetectBallLockup());
         
         if (playerAgent)
             playerAgent.LoseGame();
@@ -181,6 +176,21 @@ public class PlayerSupervisor : MonoBehaviour
     public void PaddleHit()
     {
         boundaryHits = 0;
+    }
+
+    private IEnumerator DetectBallLockup()
+    {
+        // Re-launch a stuck ball
+        if (ball.GetComponent<Rigidbody2D>().velocity.magnitude == 0)
+        {
+            Debug.Log("Ball lockup check");
+
+            ball.ResetBall();
+            ball.transform.position = ballOffset;
+            ball.LaunchBall();
+        }
+            
+        yield return new WaitForSeconds(detectionFreq);
     }
 }
 
