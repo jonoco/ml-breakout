@@ -176,7 +176,7 @@ public class PlayerSupervisor : MonoBehaviour
         CountBlocks();
     }
 
-    public void BoundaryHit()
+    public void BoundaryHit(BoundaryName boundaryName)
     {
         Rigidbody2D ballRB = ball.GetComponent<Rigidbody2D>();
 
@@ -193,7 +193,7 @@ public class PlayerSupervisor : MonoBehaviour
             
             boundaryHits = 0;
         }
-        else if (ballRB.velocity.x == 0 && ceilingReboundAngle > 0f)
+        else if (boundaryName == BoundaryName.Ceiling && ballRB.velocity.x == 0 && ceilingReboundAngle > 0f)
         {
             Debug.Log("Ceiling rebound check");
 
