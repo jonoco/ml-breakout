@@ -21,7 +21,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     private int boundaryHits = 0;
 
-
+    // Public fields
     public int boundaryReboundLimit = 10;
 
     [Tooltip("How often to check for anomalies (0 eliminates check)")]
@@ -31,6 +31,10 @@ public class PlayerSupervisor : MonoBehaviour
     [Tooltip("Limit to wait before ending training (0 eliminates timeout)")]
     [Range(0f, 600f)]
     public float timeLimit = 0f;
+
+    [Tooltip("Angle that ball will ricochet off ceiling to prevent juggling")]
+    [Range(0f, 5f)]
+    public float ceilingReboundAngle = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -174,13 +178,13 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void BoundaryHit()
     {
+        Rigidbody2D ballRB = ball.GetComponent<Rigidbody2D>();
+
         ++boundaryHits;
         if (boundaryHits >= boundaryReboundLimit)
         {
             Debug.Log("Ball rebound check");
 
-            Rigidbody2D ballRB = ball.GetComponent<Rigidbody2D>();
-            
             // Rebound 45 degrees up and away from wall
             Vector2 newVelocity = Vector2.one;
             newVelocity *= ballRB.velocity.magnitude / newVelocity.magnitude;
@@ -188,6 +192,18 @@ public class PlayerSupervisor : MonoBehaviour
             ballRB.velocity = newVelocity;
             
             boundaryHits = 0;
+        }
+        else if (ballRB.velocity.x == 0 && ceilingReboundAngle > 0f)
+        {
+            Debug.Log("Ceiling rebound check");
+
+            // Rebound ceilingReboundAngle degrees off the ceiling
+            float originalMag = ballRB.velocity.magnitude;
+            Vector2 newVelocity = ballRB.velocity;
+            newVelocity.x = ballRB.velocity.y * Mathf.Tan(ceilingReboundAngle);
+            newVelocity *= originalMag / newVelocity.magnitude;
+            newVelocity.x *= UnityEngine.Random.Range(0,2) == 0 ? 1 : -1;
+            ballRB.velocity = newVelocity;
         }
     }
 
