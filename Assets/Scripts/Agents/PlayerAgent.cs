@@ -23,7 +23,11 @@ public class PlayerAgent : Agent
     public float blockReward = .5f;
     public float losePenalty = -10f;
     public float paddleReward = .1f;
+    public float timeoutPenalty = 0f;
+
+    // Private fields
     private float smoothMovementChange = 0f;
+
 
     private void Awake()
     {
@@ -45,6 +49,8 @@ public class PlayerAgent : Agent
 
         playerReady = false;
     }
+
+    
 
     public override void CollectObservations(VectorSensor sensor)
     {
@@ -124,5 +130,10 @@ public class PlayerAgent : Agent
     public virtual void WinGame()
     {
         EndEpisode();
+    }
+
+    public virtual void Timeout()
+    {
+        AddReward(timeoutPenalty);
     }
 }

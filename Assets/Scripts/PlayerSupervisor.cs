@@ -21,9 +21,16 @@ public class PlayerSupervisor : MonoBehaviour
 
     private int boundaryHits = 0;
 
+
     public int boundaryReboundLimit = 10;
 
+    [Tooltip("How often to check for anomalies (0 eliminates check)")]
+    [Range(0f, 2f)]
     public float detectionFreq = 1f;
+
+    [Tooltip("Limit to wait before ending training (0 eliminates timeout)")]
+    [Range(0f, 600f)]
+    public float timeLimit = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -74,7 +81,12 @@ public class PlayerSupervisor : MonoBehaviour
         }
 
         LaunchBall();
-        StartCoroutine(DetectBallLockup());
+
+        if (detectionFreq > 0)
+            StartCoroutine(DetectBallLockup());
+
+        if (gameManager.trainingMode && timeLimit > 0)
+            StartCoroutine(Timeout());
     }
 
     public void PauseGame()
@@ -89,10 +101,16 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseColliderHit()
     {
+        LoseGame();
+    }
+
+    public void LoseGame()
+    {
         playerData.gameResult = "Game Over!";
         ball.gameObject.SetActive(false);
         gameManager.LoseGame();
-        StopCoroutine(DetectBallLockup());
+
+        StopAllCoroutines();
         
         if (playerAgent)
             playerAgent.LoseGame();
@@ -180,17 +198,30 @@ public class PlayerSupervisor : MonoBehaviour
 
     private IEnumerator DetectBallLockup()
     {
-        // Re-launch a stuck ball
-        if (ball.GetComponent<Rigidbody2D>().velocity.magnitude == 0)
+        while (true)
         {
-            Debug.Log("Ball lockup check");
+            // Re-launch a stuck ball
+            if (ball.GetComponent<Rigidbody2D>().velocity.magnitude == 0)
+            {
+                Debug.Log("Ball lockup check");
 
-            ball.ResetBall();
-            ball.transform.position = ballOffset;
-            ball.LaunchBall();
+                ball.ResetBall();
+                ball.transform.position = ballOffset;
+                ball.LaunchBall();
+            }
+                
+            yield return new WaitForSeconds(detectionFreq);
         }
-            
-        yield return new WaitForSeconds(detectionFreq);
+    }
+
+    private IEnumerator Timeout()
+    {   
+        yield return new WaitForSeconds(timeLimit);
+        
+        Debug.Log("Timeout check");
+
+        playerAgent.Timeout();
+        LoseGame();
     }
 }
 
