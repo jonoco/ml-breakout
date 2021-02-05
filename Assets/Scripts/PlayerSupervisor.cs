@@ -194,6 +194,7 @@ public class PlayerSupervisor : MonoBehaviour
     public void PaddleHit()
     {
         boundaryHits = 0;
+        playerAgent.PaddleHit();
     }
 
     private IEnumerator DetectBallLockup()
