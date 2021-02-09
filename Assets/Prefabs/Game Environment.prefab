@@ -71,6 +71,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSupervisor: {fileID: 0}
+  boundaryName: 2
 --- !u!1 &3547972479868734341
 GameObject:
   m_ObjectHideFlags: 0
@@ -142,6 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSupervisor: {fileID: 0}
+  boundaryName: 2
 --- !u!1 &3547972480689804135
 GameObject:
   m_ObjectHideFlags: 0
@@ -369,3 +371,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerSupervisor: {fileID: 0}
+  boundaryName: 1

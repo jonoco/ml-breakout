@@ -21,7 +21,20 @@ public class PlayerSupervisor : MonoBehaviour
 
     private int boundaryHits = 0;
 
+    // Public fields
     public int boundaryReboundLimit = 10;
+
+    [Tooltip("How often to check for anomalies (0 eliminates check)")]
+    [Range(0f, 2f)]
+    public float detectionFreq = 1f;
+
+    [Tooltip("Limit to wait before ending training (0 eliminates timeout)")]
+    [Range(0f, 600f)]
+    public float timeLimit = 0f;
+
+    [Tooltip("Angle that ball will ricochet off ceiling to prevent juggling")]
+    [Range(0f, 5f)]
+    public float ceilingReboundAngle = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -65,22 +78,19 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void StartGame()
     {
-        if (gameManager.trainingMode)
+        if (gameManager.trainingMode && !trainingBlocks)
         {
-            if (!trainingBlocks)
-            {
-                Debug.LogError("trainingBlocks reference missing");
-                return;
-            }
-            else
-            {
-                LaunchBall();
-            }     
+            Debug.LogError("trainingBlocks reference missing");
+            return;
         }
-        else
-        {
-            LaunchBall();
-        }
+
+        LaunchBall();
+
+        if (detectionFreq > 0)
+            StartCoroutine(DetectBallLockup());
+
+        if (gameManager.trainingMode && timeLimit > 0)
+            StartCoroutine(Timeout());
     }
 
     public void PauseGame()
@@ -95,9 +105,16 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseColliderHit()
     {
+        LoseGame();
+    }
+
+    public void LoseGame()
+    {
         playerData.gameResult = "Game Over!";
         ball.gameObject.SetActive(false);
         gameManager.LoseGame();
+
+        StopAllCoroutines();
         
         if (playerAgent)
             playerAgent.LoseGame();
@@ -159,15 +176,15 @@ public class PlayerSupervisor : MonoBehaviour
         CountBlocks();
     }
 
-    public void BoundaryHit()
+    public void BoundaryHit(BoundaryName boundaryName)
     {
+        Rigidbody2D ballRB = ball.GetComponent<Rigidbody2D>();
+
         ++boundaryHits;
         if (boundaryHits >= boundaryReboundLimit)
         {
             Debug.Log("Ball rebound check");
 
-            Rigidbody2D ballRB = ball.GetComponent<Rigidbody2D>();
-            
             // Rebound 45 degrees up and away from wall
             Vector2 newVelocity = Vector2.one;
             newVelocity *= ballRB.velocity.magnitude / newVelocity.magnitude;
@@ -176,11 +193,52 @@ public class PlayerSupervisor : MonoBehaviour
             
             boundaryHits = 0;
         }
+        else if (boundaryName == BoundaryName.Ceiling && ballRB.velocity.x == 0 && ceilingReboundAngle > 0f)
+        {
+            Debug.Log("Ceiling rebound check");
+
+            // Rebound ceilingReboundAngle degrees off the ceiling
+            float originalMag = ballRB.velocity.magnitude;
+            Vector2 newVelocity = ballRB.velocity;
+            newVelocity.x = ballRB.velocity.y * Mathf.Tan(ceilingReboundAngle);
+            newVelocity *= originalMag / newVelocity.magnitude;
+            newVelocity.x *= UnityEngine.Random.Range(0,2) == 0 ? 1 : -1;
+            ballRB.velocity = newVelocity;
+        }
     }
 
     public void PaddleHit()
     {
         boundaryHits = 0;
+        playerAgent.PaddleHit();
+    }
+
+    private IEnumerator DetectBallLockup()
+    {
+        while (true)
+        {
+            // Re-launch a stuck ball
+            if (ball.GetComponent<Rigidbody2D>().velocity.magnitude == 0)
+            {
+                Debug.Log("Ball lockup check");
+
+                ball.ResetBall();
+                ball.transform.position = ballOffset;
+                ball.LaunchBall();
+            }
+                
+            yield return new WaitForSeconds(detectionFreq);
+        }
+    }
+
+    private IEnumerator Timeout()
+    {   
+        yield return new WaitForSeconds(timeLimit);
+        
+        Debug.Log("Timeout check");
+
+        playerAgent.Timeout();
+        LoseGame();
     }
 }
 
