@@ -1,0 +1,24 @@
+{
+    "Paddle": {
+        "checkpoints": [
+            {
+                "steps": 11586,
+                "file_path": "results\\CM_04\\Paddle\\Paddle-11586.onnx",
+                "reward": -0.8040586042363856,
+                "creation_time": 1612836509.252152
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 11586,
+            "file_path": "results\\CM_04\\Paddle.onnx",
+            "reward": -0.8040586042363856,
+            "creation_time": 1612836509.252152
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.2.0",
+        "mlagents_version": "0.23.0",
+        "torch_version": "1.7.1",
+        "tensorflow_version": -1
+    }
+}
