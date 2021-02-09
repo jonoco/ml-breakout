@@ -9,6 +9,9 @@ public class PlayerAgent : Agent
     public PlayerSupervisor playerSupervisor;
     public Ball ball;
     public Paddle paddle;
+
+    [Header("Game environment")]
+
     public float minPaddlePosX = 1f;
     public float maxPaddlePosX = 15f;
     public float screenWidth = 16f;
@@ -19,6 +22,8 @@ public class PlayerAgent : Agent
 
     [Range(.1f, 10f)]
     public float moveStep = 2f;
+
+    [Header("Training rules")]
 
     [Tooltip("Limit to wait before ending training (0 eliminates timeout)")]
     [Range(0f, 300f)]
@@ -57,8 +62,6 @@ public class PlayerAgent : Agent
 
         playerReady = false;
     }
-
-    
 
     public override void CollectObservations(VectorSensor sensor)
     {
