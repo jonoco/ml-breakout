@@ -19,7 +19,10 @@ public class PlayerAgent : Agent
 
     [Range(.1f, 10f)]
     public float moveStep = 2f;
-    public bool playerReady =  false;
+
+    [Tooltip("Limit to wait before ending training (0 eliminates timeout)")]
+    [Range(0f, 300f)]
+    public float timeLimit = 0f;
     public float blockReward = .5f;
     public float losePenalty = -10f;
     public float paddleReward = .1f;
@@ -27,7 +30,7 @@ public class PlayerAgent : Agent
 
     // Private fields
     private float smoothMovementChange = 0f;
-
+    private bool playerReady =  false;
 
     private void Awake()
     {

@@ -21,7 +21,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     private int boundaryHits = 0;
 
-    public GameObject trainingBlocksInstance;
+    private GameObject trainingBlocksInstance;
 
     // Public fields
     public int boundaryReboundLimit = 10;
@@ -29,10 +29,6 @@ public class PlayerSupervisor : MonoBehaviour
     [Tooltip("How often to check for anomalies (0 eliminates check)")]
     [Range(0f, 2f)]
     public float detectionFreq = 1f;
-
-    [Tooltip("Limit to wait before ending training (0 eliminates timeout)")]
-    [Range(0f, 600f)]
-    public float timeLimit = 0f;
 
     [Tooltip("Angle that ball will ricochet off ceiling to prevent juggling")]
     [Range(0f, 5f)]
@@ -110,7 +106,7 @@ public class PlayerSupervisor : MonoBehaviour
         if (detectionFreq > 0)
             StartCoroutine(DetectBallLockup());
 
-        if (gameManager.trainingMode && timeLimit > 0)
+        if (gameManager.trainingMode && playerAgent.timeLimit > 0)
             StartCoroutine(Timeout());
     }
 
@@ -258,7 +254,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     private IEnumerator Timeout()
     {   
-        yield return new WaitForSeconds(timeLimit);
+        yield return new WaitForSeconds(playerAgent.timeLimit);
         
         Debug.Log("Timeout check");
 
