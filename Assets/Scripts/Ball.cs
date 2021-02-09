@@ -26,7 +26,7 @@ public class Ball : MonoBehaviour
     {
         if (!hasStarted)
         {
-            transform.position = new Vector2(paddle.transform.position.x, transform.position.y);
+            transform.localPosition = new Vector2(paddle.transform.localPosition.x, transform.localPosition.y);
         }
     }
 

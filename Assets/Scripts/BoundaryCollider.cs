@@ -17,7 +17,8 @@ public class BoundaryCollider : MonoBehaviour
 
     private void Start()
     {
-        playerSupervisor = FindObjectOfType<PlayerSupervisor>();    
+        if (!playerSupervisor)
+            playerSupervisor = FindObjectOfType<PlayerSupervisor>();    
     }
 
     private void OnCollisionEnter2D(Collision2D other) 

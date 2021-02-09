@@ -38,9 +38,14 @@ public class PlayerAgent : Agent
 
     private void Start() 
     {
-        playerSupervisor = FindObjectOfType<PlayerSupervisor>();
-        ball = FindObjectOfType<Ball>();
-        paddle = FindObjectOfType<Paddle>();
+        if (!playerSupervisor)
+            playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+        
+        if(!ball)
+            ball = FindObjectOfType<Ball>();
+        
+        if(!paddle)
+            paddle = FindObjectOfType<Paddle>();
     }
 
     public override void OnEpisodeBegin()
@@ -55,11 +60,11 @@ public class PlayerAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         // Paddle x-axis position [0-1]
-        sensor.AddObservation(paddle.transform.position.x / screenWidth);
+        sensor.AddObservation(paddle.transform.localPosition.x / screenWidth);
 
         // Ball x and y-axis positions [0-1]
-        sensor.AddObservation(ball.transform.position.x / screenWidth);
-        sensor.AddObservation(ball.transform.position.y / screenHeight);
+        sensor.AddObservation(ball.transform.localPosition.x / screenWidth);
+        sensor.AddObservation(ball.transform.localPosition.y / screenHeight);
     }
 
     public override void OnActionReceived(float[] vectorAction)
@@ -78,7 +83,8 @@ public class PlayerAgent : Agent
     public override void Heuristic(float[] actionsOut)
     {
         // Normalize paddle input to [-1, 1]
-        float paddlePos = (Input.mousePosition.x / Screen.width) - (paddle.transform.position.x / screenWidth);
+        // TODO mouse position needs to be relative to player controlled environment space
+        float paddlePos = (Input.mousePosition.x / Screen.width) - (paddle.transform.localPosition.x / screenWidth);
          
         bool launchBall = Input.GetMouseButton(0);
         
@@ -96,10 +102,10 @@ public class PlayerAgent : Agent
         smoothMovementChange = Mathf.MoveTowards(smoothMovementChange, pos, moveStep * Time.fixedDeltaTime);
         
         // Calculate the new paddle position
-        Vector3 paddlePos = paddle.transform.position;
+        Vector3 paddlePos = paddle.transform.localPosition;
         paddlePos.x = paddlePos.x + smoothMovementChange * Time.fixedDeltaTime * paddleMoveSpeed;
         paddlePos.x = Mathf.Clamp(paddlePos.x, minPaddlePosX, maxPaddlePosX);
-        paddle.transform.position = paddlePos;
+        paddle.transform.localPosition = paddlePos;
     }
 
     public virtual void StartGame()

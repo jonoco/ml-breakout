@@ -21,6 +21,8 @@ public class PlayerSupervisor : MonoBehaviour
 
     private int boundaryHits = 0;
 
+    public GameObject trainingBlocksInstance;
+
     // Public fields
     public int boundaryReboundLimit = 10;
 
@@ -40,7 +42,9 @@ public class PlayerSupervisor : MonoBehaviour
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-        playerAgent = FindObjectOfType<PlayerAgent>();
+        
+        if (!playerAgent)
+            playerAgent = FindObjectOfType<PlayerAgent>();
 
         // the code will check whether or not to execute
         // based on the block.name assigned in the Inspector Window
@@ -48,32 +52,49 @@ public class PlayerSupervisor : MonoBehaviour
         randomBlockCreator = FindObjectOfType<RandomBlockCreator>();
         randomBlockCreator.setupBlocks();
         
-        ball = FindObjectOfType<Ball>();
-        ballOffset = ball.transform.position;
+        if (!ball)
+            ball = FindObjectOfType<Ball>();
+        ballOffset = ball.transform.localPosition;
 
-        paddle = FindObjectOfType<Paddle>();
-        paddleOffset = paddle.transform.position;
-
-        CountBlocks();
+        if (!paddle)
+            paddle = FindObjectOfType<Paddle>();
+        paddleOffset = paddle.transform.localPosition;
 
         // Check if scene is ready for training
         if (gameManager.trainingMode)
             ResetState();
+        else
+            CountBlocks();
     }
 
     void CountBlocks()
     {
         activeBlocks = 0;
-        foreach (Block block in FindObjectsOfType<Block>())
+
+        // TODO need to count only blocks in each player's environment to
+        //  work for general multiplayer use; Maybe keep all blocks in a
+        //  container for easier tracking
+        if (gameManager.trainingMode)
         {
-            if (block.gameObject.activeSelf)
-                ++activeBlocks;
+            foreach(Transform child in trainingBlocksInstance.transform)
+            {
+                if (child.gameObject.GetComponent<Block>() && child.gameObject.activeSelf)
+                    ++activeBlocks;
+            }
+        }
+        else
+        {
+            foreach (Block block in FindObjectsOfType<Block>())
+            {
+                if (block.gameObject.activeSelf)
+                    ++activeBlocks;
+            }
         }
     }
 
     public void PlayerReady()
     {
-        gameManager.StartGame();
+        gameManager.StartGame(this);
     }
 
     public void StartGame()
@@ -112,7 +133,7 @@ public class PlayerSupervisor : MonoBehaviour
     {
         playerData.gameResult = "Game Over!";
         ball.gameObject.SetActive(false);
-        gameManager.LoseGame();
+        gameManager.LoseGame(this);
 
         StopAllCoroutines();
         
@@ -135,7 +156,7 @@ public class PlayerSupervisor : MonoBehaviour
         if (activeBlocks <= 0)
         {
             playerData.gameResult = "You Win!";
-            gameManager.WinGame();
+            gameManager.WinGame(this);
 
             if (playerAgent)
                 playerAgent.WinGame();
@@ -158,21 +179,25 @@ public class PlayerSupervisor : MonoBehaviour
 
         ball.gameObject.SetActive(true);
         ball.ResetBall();
-        ball.transform.position = ballOffset;
+        ball.transform.localPosition = ballOffset;
         
-        paddle.transform.position = paddleOffset;
+        paddle.transform.localPosition = paddleOffset;
         
-        GameObject tb = GameObject.FindGameObjectWithTag("TrainingBlock");
-        if (tb)
-            Destroy(tb);
-
-        foreach(Block block in FindObjectsOfType<Block>())
+        // Destroy training blocks, then the block holder
+        if (trainingBlocksInstance)
         {
-            block.gameObject.SetActive(false);
-            Destroy(block.gameObject);
+            foreach(Transform child in trainingBlocksInstance.transform)
+            {
+                if (child.gameObject.GetComponent<Block>())
+                    child.gameObject.SetActive(false);
+                    Destroy(child.gameObject);
+            }
+
+            Destroy(trainingBlocksInstance);
         }
 
-        Instantiate(trainingBlocks);
+        trainingBlocksInstance = Instantiate(trainingBlocks, transform);
+        
         CountBlocks();
     }
 
