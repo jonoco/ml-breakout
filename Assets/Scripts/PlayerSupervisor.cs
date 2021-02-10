@@ -111,6 +111,7 @@ public class PlayerSupervisor : MonoBehaviour
         playerData.gameScoresList.Add(playerData.points);
         playerData.blocksBrokenList.Add(startingNumBlocks - activeBlocks);
         playerData.gameWinStatusList.Add(winStatus);
+        print(playerData.gameScoresList);
     }
     // -----------
 
@@ -127,7 +128,7 @@ public class PlayerSupervisor : MonoBehaviour
 
         StopAllCoroutines();
 
-        if(!gameManager.trainingMode)
+        if(gameManager.trackingPerformance)
             UpdatePlayerDataLists(false);
     
         if (playerAgent)
@@ -139,7 +140,7 @@ public class PlayerSupervisor : MonoBehaviour
         playerData.gameResult = "You Win!";
         gameManager.WinGame();
 
-        if(!gameManager.trainingMode)
+        if(gameManager.trackingPerformance)
             UpdatePlayerDataLists(true);
 
         if (playerAgent)

@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip winSound;
 
     public bool trainingMode = false;
+    
+    public bool trackingPerformance = false;
 
     DateTime startTime = DateTime.Now;
     
