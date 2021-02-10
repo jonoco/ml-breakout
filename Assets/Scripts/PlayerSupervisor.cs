@@ -104,7 +104,10 @@ public class PlayerSupervisor : MonoBehaviour
         ball.LaunchBall();
     }
 
-    // ---------- Data tracking
+    // --------------------------------------------------
+    // Data tracking
+    // --------------------------------------------------
+
     public void UpdatePlayerDataLists(bool winStatus)
     {
         // update at end of game
@@ -113,7 +116,22 @@ public class PlayerSupervisor : MonoBehaviour
         playerData.gameWinStatusList.Add(winStatus);
         print(playerData.gameScoresList);
     }
-    // -----------
+
+    // Unity Default Function
+    // In the Editor, Unity calls this message when playmode is stopped.
+    // sources:
+    // https://docs.unity3d.com/Manual/ExecutionOrder.html
+    // https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationQuit.html
+    void OnApplicationQuit()
+    {
+        WritePlayerDataToTextFile();
+    }
+
+    void WritePlayerDataToTextFile()
+    {
+        Debug.Log("Final");
+    }
+    // --------------------------------------------------
 
     public void LoseColliderHit()
     {

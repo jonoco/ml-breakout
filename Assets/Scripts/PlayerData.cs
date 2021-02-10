@@ -6,7 +6,9 @@ using UnityEngine;
 public class PlayerData : ScriptableObject
 {
     public int points;
-    public string gameResult; 
+    public string gameResult;
+    
+    public bool isHumanPlayer; // no functionality for this yet.
 
   // NOTE: All of these values RELY on the fact that this object
     // is NEVER reset until one stops Unity with the play button.
@@ -21,7 +23,7 @@ public class PlayerData : ScriptableObject
     public List<int> blocksBrokenList;
 
     [Tooltip("true=win, false=lose', by individual game, len should match numGames")]
-    public List<bool> gameWinStatusList;
+    public List<bool> gameWinStatusList;  
 
     void Awake()
     {
