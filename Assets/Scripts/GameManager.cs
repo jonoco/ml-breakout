@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public int trackingNumberOfGames = 1;
 
     DateTime startTime = DateTime.Now;
+    public TimeSpan elapsedTime;
     
     // Start is called before the first frame update
     void Awake()
@@ -32,7 +33,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TimeSpan elapsedTime = DateTime.Now - startTime;
+        elapsedTime = DateTime.Now - startTime;
         uiManager.UpdateElapsedTime(elapsedTime.ToString(@"mm\:ss\:ff"));
         
         if(trackingPerformanceTF)

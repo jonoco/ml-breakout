@@ -10,6 +10,7 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] PlayerAgent playerAgent;
     [SerializeField] int activeBlocks;
     private int startingNumBlocks;
+    private double gameTimeStart = 0;
     [SerializeField] PlayerData playerData;
     [SerializeField] GameObject trainingBlocks;
 
@@ -116,7 +117,24 @@ public class PlayerSupervisor : MonoBehaviour
         playerData.gameScoresList.Add(playerData.points);
         playerData.blocksBrokenList.Add(startingNumBlocks - activeBlocks);
         playerData.gameWinStatusList.Add(winStatus);
-        print(playerData.gameScoresList);
+        playerData.gameTimePlayedList.Add(GetElapsedTimeDouble());
+    
+        Debug.Log(playerData.gameTimePlayedList[playerData.gameTimePlayedList.Count - 1]);
+    }
+
+    public double GetElapsedTimeDouble()
+    {
+        int seconds = (int)gameManager.elapsedTime.TotalSeconds;
+        int milliseconds = (int)gameManager.elapsedTime.TotalMilliseconds;
+        return System.Math.Round(((double)seconds/60 + (double)milliseconds/1000), 2);
+    }
+
+    public void PrintGameScoresList()
+    {
+        foreach(double item in playerData.gameTimePlayedList)
+        {
+            Debug.Log(item);
+        }
     }
 
     public int GetNumGamesPlayed()
@@ -136,7 +154,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     void WritePlayerDataToTextFile()
     {
-        Debug.Log("Final");
+        Debug.Log("Final");  // TO BE UPDATED
     }
     // --------------------------------------------------
 
@@ -159,6 +177,8 @@ public class PlayerSupervisor : MonoBehaviour
     
         if (playerAgent)
             playerAgent.LoseGame();
+        
+
     }
 
     public void WinGame()
@@ -209,6 +229,8 @@ public class PlayerSupervisor : MonoBehaviour
         ball.gameObject.SetActive(true);
         ball.ResetBall();
         ball.transform.position = ballOffset;
+
+        gameTimeStart = Time.time;
         
         paddle.transform.position = paddleOffset;
         

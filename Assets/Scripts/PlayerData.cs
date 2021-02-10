@@ -23,13 +23,17 @@ public class PlayerData : ScriptableObject
     public List<int> blocksBrokenList;
 
     [Tooltip("true=win, false=lose', by individual game, len should match numGames")]
-    public List<bool> gameWinStatusList;  
+    public List<bool> gameWinStatusList; 
+
+    [Tooltip("Game length in seconds, by individual game, len should match numGames, will be rounded to 2 decimal places")]
+    public List<double> gameTimePlayedList;    
 
     void Awake()
     {
         gameScoresList = new List<int>();
         blocksBrokenList = new List<int>();
         gameWinStatusList = new List<bool>();
+        gameTimePlayedList = new List<double>();
     }
 
 }
