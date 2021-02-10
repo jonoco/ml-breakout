@@ -35,7 +35,6 @@ public class PlayerAgent : Agent
 
     // Private fields
     private float smoothMovementChange = 0f;
-    private bool playerReady =  false;
 
     private void Awake()
     {
@@ -59,8 +58,6 @@ public class PlayerAgent : Agent
     public override void OnEpisodeBegin()
     {
         // Reset any Agent state
-
-        playerReady = false;
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -116,11 +113,7 @@ public class PlayerAgent : Agent
 
     public virtual void StartGame()
     {   
-        if (!playerReady)
-        {
-            playerReady = true;
-            playerSupervisor.PlayerReady();
-        }
+        playerSupervisor.PlayerReady();
     }
 
     public virtual void BlockHit()

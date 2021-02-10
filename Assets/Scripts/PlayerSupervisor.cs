@@ -2,6 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerState
+{
+    Waiting,
+    Ready,
+    Playing,
+    Over
+}
+
 public class PlayerSupervisor : MonoBehaviour
 {
     [SerializeField] Ball ball;
@@ -33,6 +41,8 @@ public class PlayerSupervisor : MonoBehaviour
     [Tooltip("Angle that ball will ricochet off ceiling to prevent juggling")]
     [Range(0f, 5f)]
     public float ceilingReboundAngle = 0f;
+
+    public PlayerState playerState = PlayerState.Waiting;
 
     // Start is called before the first frame update
     void Start()
@@ -90,7 +100,11 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void PlayerReady()
     {
-        gameManager.StartGame(this);
+        if (playerState == PlayerState.Waiting)
+        {
+            playerState = PlayerState.Ready;
+            gameManager.StartGame(this);
+        }
     }
 
     public void StartGame()
@@ -100,6 +114,12 @@ public class PlayerSupervisor : MonoBehaviour
             Debug.LogError("trainingBlocks reference missing");
             return;
         }
+
+        // Only start if the player is ready
+        if (playerState != PlayerState.Ready)
+            return;
+
+        playerState = PlayerState.Playing;
 
         LaunchBall();
 
@@ -127,14 +147,28 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseGame()
     {
+        playerState = PlayerState.Waiting;
+
         playerData.gameResult = "Game Over!";
         ball.gameObject.SetActive(false);
-        gameManager.LoseGame(this);
-
-        StopAllCoroutines();
         
         if (playerAgent)
             playerAgent.LoseGame();
+
+        gameManager.LoseGame(this);
+
+        StopAllCoroutines();
+    }
+
+    public void WinGame()
+    {
+        playerState = PlayerState.Waiting;
+
+        if (playerAgent)
+            playerAgent.WinGame();
+
+        playerData.gameResult = "You Win!";
+        gameManager.WinGame(this);
     }
 
     public void BlockDestroyed(int pointValue)
@@ -151,11 +185,7 @@ public class PlayerSupervisor : MonoBehaviour
         --activeBlocks;
         if (activeBlocks <= 0)
         {
-            playerData.gameResult = "You Win!";
-            gameManager.WinGame(this);
-
-            if (playerAgent)
-                playerAgent.WinGame();
+            WinGame();
         }
     }
 
