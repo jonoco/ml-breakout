@@ -10,8 +10,9 @@ public class PlayerData : ScriptableObject
     
     public bool isHumanPlayer; // no functionality for this yet.
 
-  // NOTE: All of these values RELY on the fact that this object
+    // NOTE: All of these values RELY on the fact that this object
     // is NEVER reset until one stops Unity with the play button.
+    // or the editor play is reset programmatically
 
     [Tooltip("Number of games played in a single performance-tracking session")]
     public int numGames;  
