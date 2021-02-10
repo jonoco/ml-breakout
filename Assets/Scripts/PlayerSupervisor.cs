@@ -134,6 +134,18 @@ public class PlayerSupervisor : MonoBehaviour
             playerAgent.LoseGame();
     }
 
+    public void WinGame()
+    {
+        playerData.gameResult = "You Win!";
+        gameManager.WinGame();
+
+        if(!gameManager.trainingMode)
+            UpdatePlayerDataLists(true);
+
+        if (playerAgent)
+            playerAgent.WinGame();
+    }
+
     public void BlockDestroyed(int pointValue)
     {
         boundaryHits = 0;
@@ -148,14 +160,7 @@ public class PlayerSupervisor : MonoBehaviour
         --activeBlocks;
         if (activeBlocks <= 0)
         {
-            playerData.gameResult = "You Win!";
-            gameManager.WinGame();
-
-            if(!gameManager.trainingMode)
-                UpdatePlayerDataLists(true);
-
-            if (playerAgent)
-                playerAgent.WinGame();
+            WinGame();
         }
     }
 
