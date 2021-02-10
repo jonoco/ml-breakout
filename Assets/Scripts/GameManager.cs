@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -15,7 +14,10 @@ public class GameManager : MonoBehaviour
 
     public bool trainingMode = false;
     
-    public bool trackingPerformance = false;
+    public bool trackingPerformanceTF = false;
+
+    [Range(1, 100000)]
+    public int trackingNumberOfGames = 1;
 
     DateTime startTime = DateTime.Now;
     
@@ -32,6 +34,24 @@ public class GameManager : MonoBehaviour
     {
         TimeSpan elapsedTime = DateTime.Now - startTime;
         uiManager.UpdateElapsedTime(elapsedTime.ToString(@"mm\:ss\:ff"));
+        
+        if(trackingPerformanceTF)
+            PerformanceCheckNumGames();
+    }
+
+    private void PerformanceCheckNumGames()
+    {
+        // If played up to number of performance games,
+        // end game play in editor window.
+        if(playerSupervisor.GetNumGamesPlayed() >= trackingNumberOfGames)
+        {
+            #if UNITY_EDITOR
+            if(EditorApplication.isPlaying) 
+            {
+                UnityEditor.EditorApplication.isPlaying = false;
+            }
+            #endif
+        }
     }
 
     public void StartGame()

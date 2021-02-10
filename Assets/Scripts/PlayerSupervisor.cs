@@ -12,6 +12,8 @@ public class PlayerSupervisor : MonoBehaviour
     private int startingNumBlocks;
     [SerializeField] PlayerData playerData;
     [SerializeField] GameObject trainingBlocks;
+
+    private int numGamesPlayed;  // For agent inference perf tracking
     
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
@@ -117,6 +119,11 @@ public class PlayerSupervisor : MonoBehaviour
         print(playerData.gameScoresList);
     }
 
+    public int GetNumGamesPlayed()
+    {
+        return numGamesPlayed;
+    }
+
     // Unity Default Function
     // In the Editor, Unity calls this message when playmode is stopped.
     // sources:
@@ -146,8 +153,9 @@ public class PlayerSupervisor : MonoBehaviour
 
         StopAllCoroutines();
 
-        if(gameManager.trackingPerformance)
+        if(gameManager.trackingPerformanceTF)
             UpdatePlayerDataLists(false);
+            numGamesPlayed++;
     
         if (playerAgent)
             playerAgent.LoseGame();
@@ -158,8 +166,9 @@ public class PlayerSupervisor : MonoBehaviour
         playerData.gameResult = "You Win!";
         gameManager.WinGame();
 
-        if(gameManager.trackingPerformance)
+        if(gameManager.trackingPerformanceTF)
             UpdatePlayerDataLists(true);
+            numGamesPlayed++;
 
         if (playerAgent)
             playerAgent.WinGame();
