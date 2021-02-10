@@ -9,6 +9,7 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
     [SerializeField] int activeBlocks;
+    private int startingNumBlocks;
     [SerializeField] PlayerData playerData;
     [SerializeField] GameObject trainingBlocks;
     
@@ -103,6 +104,16 @@ public class PlayerSupervisor : MonoBehaviour
         ball.LaunchBall();
     }
 
+    // ---------- Data tracking
+    public void UpdatePlayerDataLists(bool winStatus)
+    {
+        // update at end of game
+        playerData.gameScoresList.Add(playerData.points);
+        playerData.blocksBrokenList.Add(startingNumBlocks - activeBlocks);
+        playerData.gameWinStatusList.Add(winStatus);
+    }
+    // -----------
+
     public void LoseColliderHit()
     {
         LoseGame();
@@ -115,7 +126,10 @@ public class PlayerSupervisor : MonoBehaviour
         gameManager.LoseGame();
 
         StopAllCoroutines();
-        
+
+        if(!gameManager.trainingMode)
+            UpdatePlayerDataLists(false);
+    
         if (playerAgent)
             playerAgent.LoseGame();
     }
@@ -136,6 +150,9 @@ public class PlayerSupervisor : MonoBehaviour
         {
             playerData.gameResult = "You Win!";
             gameManager.WinGame();
+
+            if(!gameManager.trainingMode)
+                UpdatePlayerDataLists(true);
 
             if (playerAgent)
                 playerAgent.WinGame();
