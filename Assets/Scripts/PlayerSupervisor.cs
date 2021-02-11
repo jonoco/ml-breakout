@@ -24,6 +24,7 @@ public class PlayerSupervisor : MonoBehaviour
     private Vector3 paddleOffset;       // Starting position of paddle
 
     private int boundaryHits = 0;
+    private int paddleHits = 0;
 
     // Public fields
     public int boundaryReboundLimit = 10;
@@ -118,8 +119,9 @@ public class PlayerSupervisor : MonoBehaviour
         playerData.blocksBrokenList.Add(startingNumBlocks - activeBlocks);
         playerData.gameWinStatusList.Add(winStatus);
         playerData.gameTimePlayedList.Add(GetElapsedTimeDouble());
+        playerData.paddleHitCountList.Add(paddleHits);
     
-        Debug.Log(playerData.gameTimePlayedList[playerData.gameTimePlayedList.Count - 1]);
+        Debug.Log(playerData.paddleHitCountList[playerData.paddleHitCountList.Count - 1]);
     }
 
     public double GetElapsedTimeDouble()
@@ -127,14 +129,6 @@ public class PlayerSupervisor : MonoBehaviour
         int seconds = (int)gameManager.elapsedTime.TotalSeconds;
         int milliseconds = (int)gameManager.elapsedTime.TotalMilliseconds;
         return System.Math.Round(((double)seconds/60 + (double)milliseconds/1000), 2);
-    }
-
-    public void PrintGameScoresList()
-    {
-        foreach(double item in playerData.gameTimePlayedList)
-        {
-            Debug.Log(item);
-        }
     }
 
     public int GetNumGamesPlayed()
@@ -156,6 +150,12 @@ public class PlayerSupervisor : MonoBehaviour
     {
         Debug.Log("Final");  // TO BE UPDATED
     }
+
+    void IncrementPaddleHits()
+    {
+        paddleHits+=1;
+    }
+
     // --------------------------------------------------
 
     public void LoseColliderHit()
@@ -165,20 +165,23 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseGame()
     {
+        // in our current code logic, this if stmt needs to happen
+        // BEFORE game manager calls lose game below b/c GM has an if(Trainingmode)
+        // in the losegame method and training mode is technically all of the time.
+        // and if trainingmode is true, resetstate is called
+        // which resets the paddleHits
+        if(gameManager.trackingPerformanceTF)
+            UpdatePlayerDataLists(false);
+            numGamesPlayed++;
+
         playerData.gameResult = "Game Over!";
         ball.gameObject.SetActive(false);
         gameManager.LoseGame();
 
         StopAllCoroutines();
-
-        if(gameManager.trackingPerformanceTF)
-            UpdatePlayerDataLists(false);
-            numGamesPlayed++;
     
         if (playerAgent)
             playerAgent.LoseGame();
-        
-
     }
 
     public void WinGame()
@@ -223,6 +226,7 @@ public class PlayerSupervisor : MonoBehaviour
     public void ResetState()
     {
         boundaryHits = 0;
+        paddleHits = 0;
         points = 0;
         gameManager.UpdatePoints(points);
 
@@ -281,6 +285,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void PaddleHit()
     {
+        IncrementPaddleHits(); // for performance tracking
         boundaryHits = 0;
         playerAgent.PaddleHit();
     }

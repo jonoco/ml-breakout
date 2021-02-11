@@ -14,9 +14,6 @@ public class PlayerData : ScriptableObject
     // is NEVER reset until one stops Unity with the play button.
     // or the editor play is reset programmatically
 
-    [Tooltip("Number of games played in a single performance-tracking session")]
-    public int numGames;  
-
     [Tooltip("List of all game scores, by individual game, len should match numGames")]
     public List<int> gameScoresList;
 
@@ -29,12 +26,16 @@ public class PlayerData : ScriptableObject
     [Tooltip("Game length in seconds, by individual game, len should match numGames, will be rounded to 2 decimal places")]
     public List<double> gameTimePlayedList;    
 
+    [Tooltip("Count num paddle hits, by individual game, len should match numGames")]
+    public List<int> paddleHitCountList;   
+
     void Awake()
     {
         gameScoresList = new List<int>();
         blocksBrokenList = new List<int>();
         gameWinStatusList = new List<bool>();
         gameTimePlayedList = new List<double>();
+        paddleHitCountList = new List<int>();
     }
 
 }
