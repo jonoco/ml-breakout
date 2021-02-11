@@ -160,6 +160,13 @@ public class PlayerSupervisor : MonoBehaviour
     void WriteDataToCSVFile()
     {
 
+        // THINGS TO KEEP IN MIND
+        // NUMBER OF GAMES PLAYED IN FILE NAME?
+        // PLAYER AGENT SCRIPT NAME?
+        // MODEL NAME?
+        // IT WOULD BE GREAT IF THESE COULD BE INCLUDED IN THE FILE
+        // SO WE WOULDN'T HAVE TO FIGURE THAT OUT LATER!
+
     }
 
 
@@ -177,9 +184,9 @@ public class PlayerSupervisor : MonoBehaviour
         else 
         {
             int currHighestFileNum = FindHighestFileNum();
-            string fileNum = AddLeadingZeroIfSingleDigit(currHighestFileNum);
-            CreateEmptyFile(CreateFilePath(dataDir, "summarydata_" + fileNum + ".csv"));
-            CreateEmptyFile(CreateFilePath(dataDir, "rawdata_" + fileNum + ".csv"));
+            string newFileNum = AddLeadingZeroIfSingleDigit(currHighestFileNum+1);
+            CreateEmptyFile(CreateFilePath(dataDir, "summarydata_" + (newFileNum) + ".csv"));
+            CreateEmptyFile(CreateFilePath(dataDir, "rawdata_" + (newFileNum) + ".csv"));
         }
 
     }
@@ -199,10 +206,11 @@ public class PlayerSupervisor : MonoBehaviour
     int FindHighestFileNum()
     {
         int maxFileNum = 0;
-        var currFiles = new System.IO.DirectoryInfo(dataDir).GetFiles();
-        foreach(var File in currFiles)
+        string[] files = System.IO.Directory.GetFiles(dataDir, "*.csv");
+        foreach(string file in files)
         {
-            int fileNum = System.Convert.ToInt32(File.ToString().Split('_')[1].Split('.')[0]);
+            //file format = typefile_numfile2digits.csv
+            int fileNum = System.Int32.Parse((Path.GetFileName(file).ToString().Split('_')[1].Split('.')[0]));
             if(fileNum > maxFileNum)
             {
                 maxFileNum = fileNum;
