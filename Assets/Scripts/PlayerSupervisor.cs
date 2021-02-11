@@ -167,6 +167,8 @@ public class PlayerSupervisor : MonoBehaviour
         // IT WOULD BE GREAT IF THESE COULD BE INCLUDED IN THE FILE
         // SO WE WOULDN'T HAVE TO FIGURE THAT OUT LATER!
 
+        // -------- create new class for all of this.
+
     }
 
 
