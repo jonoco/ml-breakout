@@ -14,8 +14,8 @@ public class PlayerAgent : Agent
 
     public float minPaddlePosX = 1f;
     public float maxPaddlePosX = 15f;
-    public float screenWidth = 16f;
-    public float screenHeight = 12f;
+    public float instanceWidth = 16f;
+    public float instanceHeight = 12f;
    
     [Range(10f, 200f)]
     public float paddleMoveSpeed = 100f;
@@ -58,16 +58,17 @@ public class PlayerAgent : Agent
     public override void OnEpisodeBegin()
     {
         // Reset any Agent state
+        smoothMovementChange = 0f;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
         // Paddle x-axis position [0-1]
-        sensor.AddObservation(paddle.transform.localPosition.x / screenWidth);
+        sensor.AddObservation(paddle.transform.localPosition.x / instanceWidth);
 
         // Ball x and y-axis positions [0-1]
-        sensor.AddObservation(ball.transform.localPosition.x / screenWidth);
-        sensor.AddObservation(ball.transform.localPosition.y / screenHeight);
+        sensor.AddObservation(ball.transform.localPosition.x / instanceWidth);
+        sensor.AddObservation(ball.transform.localPosition.y / instanceHeight);
     }
 
     public override void OnActionReceived(float[] vectorAction)
@@ -85,9 +86,11 @@ public class PlayerAgent : Agent
 
     public override void Heuristic(float[] actionsOut)
     {
+        float mousePos = (Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x) / instanceWidth;
+        mousePos = Mathf.Clamp(mousePos, 0, 1);
+
         // Normalize paddle input to [-1, 1]
-        // TODO mouse position needs to be relative to player controlled environment space
-        float paddlePos = (Input.mousePosition.x / Screen.width) - (paddle.transform.localPosition.x / screenWidth);
+        float paddlePos = mousePos - (paddle.transform.localPosition.x / instanceWidth);
          
         bool launchBall = Input.GetMouseButton(0);
         
@@ -125,6 +128,7 @@ public class PlayerAgent : Agent
     {
         EndEpisode();
     }
+
     public virtual void BlockHit()
     {
         AddReward(blockReward);

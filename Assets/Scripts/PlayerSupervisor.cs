@@ -55,7 +55,8 @@ public class PlayerSupervisor : MonoBehaviour
         // based on the block.name assigned in the Inspector Window
         // in the RandomBlockCreator empty child object
         randomBlockCreator = FindObjectOfType<RandomBlockCreator>();
-        randomBlockCreator.setupBlocks();
+        if (randomBlockCreator)
+            randomBlockCreator.setupBlocks();
         
         if (!ball)
             ball = FindObjectOfType<Ball>();
