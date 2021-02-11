@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.IO;  // for writing performance files.
-using System.Text; // for writing per files.
+// --- the following are for writing performance files only
+using System.IO;  
+using System.Text; 
+using Unity.MLAgents.Policies; 
 
 public class PlayerSupervisor : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] int activeBlocks;
     private int startingNumBlocks;
     private double gameTimeStart = 0;
+    public string nnModelName; 
     [SerializeField] PlayerData playerData;
     [SerializeField] GameObject trainingBlocks;
 
@@ -64,7 +67,9 @@ public class PlayerSupervisor : MonoBehaviour
 
         CountBlocks();
 
+        // DATA PERFORMANCE 
         SetDataDirectory();
+        nnModelName = FindObjectOfType<PlayerAgent>().GetComponent<BehaviorParameters>().Model.name;
 
         // Check if scene is ready for training
         if (gameManager.trainingMode)
@@ -151,8 +156,9 @@ public class PlayerSupervisor : MonoBehaviour
 
     void WritePlayerDataToTextFile()
     {
-        CreateCSVFiles();
+        CreateEmptyCSVFiles();
         FindHighestFileNum();
+        Debug.Log(nnModelName);
     }
 
 
@@ -161,9 +167,9 @@ public class PlayerSupervisor : MonoBehaviour
     {
 
         // THINGS TO KEEP IN MIND
-        // NUMBER OF GAMES PLAYED IN FILE NAME?
-        // PLAYER AGENT SCRIPT NAME?
         // MODEL NAME?
+        // ^^ put these details in the summary file
+        // easier and less data
         // IT WOULD BE GREAT IF THESE COULD BE INCLUDED IN THE FILE
         // SO WE WOULDN'T HAVE TO FIGURE THAT OUT LATER!
 
@@ -172,25 +178,29 @@ public class PlayerSupervisor : MonoBehaviour
     }
 
 
-    void CreateCSVFiles()
+
+    void CreateEmptyCSVFiles()
     {
-        
         var currFiles = new System.IO.DirectoryInfo(dataDir).GetFiles();
-        
         if(currFiles.Length == 0)
         {
             // two files are created per performance run, 1 for summary, 1 for raw data
-            CreateEmptyFile(CreateFilePath(dataDir, "summarydata_01.csv"));
-            CreateEmptyFile(CreateFilePath(dataDir, "rawdata_01.csv"));
+            CreateEmptyFile(CreateFilePath(dataDir, BuildFileName("01", "summary")));
+            CreateEmptyFile(CreateFilePath(dataDir, BuildFileName("01", "raw")));
         } 
         else 
         {
             int currHighestFileNum = FindHighestFileNum();
             string newFileNum = AddLeadingZeroIfSingleDigit(currHighestFileNum+1);
-            CreateEmptyFile(CreateFilePath(dataDir, "summarydata_" + (newFileNum) + ".csv"));
-            CreateEmptyFile(CreateFilePath(dataDir, "rawdata_" + (newFileNum) + ".csv"));
+            CreateEmptyFile(CreateFilePath(dataDir, BuildFileName(newFileNum, "summary")));
+            CreateEmptyFile(CreateFilePath(dataDir, BuildFileName(newFileNum, "raw")));
         }
 
+    }
+
+    string BuildFileName(string fileNum, string category)
+    {
+        return category + "_._" + nnModelName + "_-_" + fileNum + ".csv";
     }
 
     string AddLeadingZeroIfSingleDigit(int num)
@@ -209,10 +219,15 @@ public class PlayerSupervisor : MonoBehaviour
     {
         int maxFileNum = 0;
         string[] files = System.IO.Directory.GetFiles(dataDir, "*.csv");
+        string[] stringSeparator = new string[] { "_-_" };
         foreach(string file in files)
         {
             //file format = typefile_numfile2digits.csv
-            int fileNum = System.Int32.Parse((Path.GetFileName(file).ToString().Split('_')[1].Split('.')[0]));
+            int fileNum = System.Int32.Parse(
+                Path.GetFileName(file).ToString().
+                Split(stringSeparator, System.StringSplitOptions.None)[1].Split('.')[0]
+            );
+
             if(fileNum > maxFileNum)
             {
                 maxFileNum = fileNum;
