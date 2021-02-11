@@ -29,7 +29,7 @@ public class PlayerAgent : Agent
     [Range(0f, 300f)]
     public float timeLimit = 0f;
     public float blockReward = .5f;
-    public float losePenalty = -10f;
+    public float loseBallPenalty = -10f;
     public float paddleReward = .1f;
     public float timeoutPenalty = 0f;
 
@@ -116,6 +116,15 @@ public class PlayerAgent : Agent
         playerSupervisor.PlayerReady();
     }
 
+    public virtual void LoseGame()
+    {
+        EndEpisode();
+    }
+
+    public virtual void WinGame()
+    {
+        EndEpisode();
+    }
     public virtual void BlockHit()
     {
         AddReward(blockReward);
@@ -126,15 +135,9 @@ public class PlayerAgent : Agent
         AddReward(paddleReward);
     }
 
-    public virtual void LoseGame()
+    public virtual void LoseBall()
     {
-        AddReward(losePenalty);
-        EndEpisode();
-    }
-
-    public virtual void WinGame()
-    {
-        EndEpisode();
+        AddReward(loseBallPenalty);
     }
 
     public virtual void Timeout()

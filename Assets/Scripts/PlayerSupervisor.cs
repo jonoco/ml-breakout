@@ -7,7 +7,6 @@ public enum PlayerState
     Waiting,
     Ready,
     Playing,
-    Over
 }
 
 public class PlayerSupervisor : MonoBehaviour
@@ -142,6 +141,9 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseColliderHit()
     {
+        if (playerAgent)
+            playerAgent.LoseBall();
+
         LoseGame();
     }
 
