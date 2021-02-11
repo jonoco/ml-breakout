@@ -141,7 +141,7 @@ PrefabInstance:
     - target: {fileID: 3269812750348595291, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
       propertyPath: trackingNumberOfGames
-      value: 10
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3269812750348595291, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}

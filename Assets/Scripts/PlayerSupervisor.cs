@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;  // for writing performance files.
+using System.Text; // for writing per files.
 
 public class PlayerSupervisor : MonoBehaviour
 {
@@ -15,6 +17,7 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] GameObject trainingBlocks;
 
     private int numGamesPlayed;  // For agent inference perf tracking
+    private string dataDir;
     
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
@@ -60,6 +63,8 @@ public class PlayerSupervisor : MonoBehaviour
         paddleOffset = paddle.transform.position;
 
         CountBlocks();
+
+        SetDataDirectory();
 
         // Check if scene is ready for training
         if (gameManager.trainingMode)
@@ -109,19 +114,17 @@ public class PlayerSupervisor : MonoBehaviour
     }
 
     // --------------------------------------------------
-    // Data tracking
+    // Data tracking - START
     // --------------------------------------------------
 
     public void UpdatePlayerDataLists(bool winStatus)
     {
-        // update at end of game
+        // append new data to playerData lists at end of game
         playerData.gameScoresList.Add(playerData.points);
         playerData.blocksBrokenList.Add(startingNumBlocks - activeBlocks);
         playerData.gameWinStatusList.Add(winStatus);
         playerData.gameTimePlayedList.Add(GetElapsedTimeDouble());
         playerData.paddleHitCountList.Add(paddleHits);
-    
-        Debug.Log(playerData.paddleHitCountList[playerData.paddleHitCountList.Count - 1]);
     }
 
     public double GetElapsedTimeDouble()
@@ -148,7 +151,99 @@ public class PlayerSupervisor : MonoBehaviour
 
     void WritePlayerDataToTextFile()
     {
-        Debug.Log("Final");  // TO BE UPDATED
+        CreateCSVFiles();
+        FindHighestFileNum();
+    }
+
+
+
+    void WriteDataToCSVFile()
+    {
+
+    }
+
+
+    void CreateCSVFiles()
+    {
+        
+        var currFiles = new System.IO.DirectoryInfo(dataDir).GetFiles();
+        
+        if(currFiles.Length == 0)
+        {
+            // two files are created per performance run, 1 for summary, 1 for raw data
+            CreateEmptyFile(CreateFilePath(dataDir, "summarydata_01.csv"));
+            CreateEmptyFile(CreateFilePath(dataDir, "rawdata_01.csv"));
+        } 
+        else 
+        {
+            int currHighestFileNum = FindHighestFileNum();
+            string fileNum = AddLeadingZeroIfSingleDigit(currHighestFileNum);
+            CreateEmptyFile(CreateFilePath(dataDir, "summarydata_" + fileNum + ".csv"));
+            CreateEmptyFile(CreateFilePath(dataDir, "rawdata_" + fileNum + ".csv"));
+        }
+
+    }
+
+    string AddLeadingZeroIfSingleDigit(int num)
+    {
+        if(num <=9)
+        {
+            return "0" + num.ToString();
+        }
+        else 
+        {
+            return num.ToString();
+        }
+    }
+
+    int FindHighestFileNum()
+    {
+        int maxFileNum = 0;
+        var currFiles = new System.IO.DirectoryInfo(dataDir).GetFiles();
+        foreach(var File in currFiles)
+        {
+            int fileNum = System.Convert.ToInt32(File.ToString().Split('_')[1].Split('.')[0]);
+            if(fileNum > maxFileNum)
+            {
+                maxFileNum = fileNum;
+            }
+        }
+        return maxFileNum;
+    }
+
+    string CreateFilePath(string fileDir, string fileName)
+    {
+        return (fileDir + "/" + fileName);
+    }
+
+    void CreateEmptyFile(string filename)
+    {
+        // source: https://stackoverflow.com/questions/802541/creating-an-empty-file-in-c-sharp
+        File.CreateText(filename).Close();
+    }
+
+    // called in Start, sets performance_directory to var dataDir
+    void SetDataDirectory()
+    {
+        dataDir = CreateDataDirIfDoesNotExist();
+    }
+
+    // Returns performance_tracking directory
+    string CreateDataDirIfDoesNotExist()
+    {
+        // Application.dataPath returns ./Assets folder of current project
+        // System.IO.DirectoryInfo(path).Parent returns parent of input path to get us to 
+        // project folder (putting folder here
+        // this so data doesn't import into unity through assets folder)
+        // source: https://stackoverflow.com/questions/6875904/how-do-i-find-the-parent-directory-in-c/29409005
+        string assetsPath = Application.dataPath;
+        string projPath = new System.IO.DirectoryInfo(assetsPath).Parent.ToString();
+        string dir =  projPath + "/performance_tracking";
+        if(!Directory.Exists(dir))
+        {
+            Directory.CreateDirectory(dir);
+        }
+        return dir;
     }
 
     void IncrementPaddleHits()
@@ -157,6 +252,9 @@ public class PlayerSupervisor : MonoBehaviour
     }
 
     // --------------------------------------------------
+    // Data tracking - END
+    // --------------------------------------------------
+
 
     public void LoseColliderHit()
     {
