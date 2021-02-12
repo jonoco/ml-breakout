@@ -13,15 +13,12 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
     [SerializeField] int activeBlocks;
-    private int startingNumBlocks;
-    private double gameTimeStart = 0;
-    public string nnModelName; 
     [SerializeField] PlayerData playerData;
     [SerializeField] GameObject trainingBlocks;
 
-    private int numGamesPlayed;  // For agent inference perf tracking
-    private string dataDir;
-    
+    // Player Data Performance Tracking
+    private PerformanceDataManager dataManager;
+
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
     private int points = 0;
@@ -67,9 +64,9 @@ public class PlayerSupervisor : MonoBehaviour
 
         CountBlocks();
 
-        // DATA PERFORMANCE 
-        SetDataDirectory();
-        nnModelName = FindObjectOfType<PlayerAgent>().GetComponent<BehaviorParameters>().Model.name;
+        // Performance tracking
+        dataManager = FindObjectOfType<PerformanceDataManager>();
+        dataManager.SetStartingNumBlocks(activeBlocks);
 
         // Check if scene is ready for training
         if (gameManager.trainingMode)
@@ -118,184 +115,36 @@ public class PlayerSupervisor : MonoBehaviour
         ball.LaunchBall();
     }
 
-    // --------------------------------------------------
-    // Data tracking - START
-    // --------------------------------------------------
-
-    public void UpdatePlayerDataLists(bool winStatus)
-    {
-        // append new data to playerData lists at end of game
-        playerData.gameScoresList.Add(playerData.points);
-        playerData.blocksBrokenList.Add(startingNumBlocks - activeBlocks);
-        playerData.gameWinStatusList.Add(winStatus);
-        playerData.gameTimePlayedList.Add(GetElapsedTimeDouble());
-        playerData.paddleHitCountList.Add(paddleHits);
-    }
-
-    public double GetElapsedTimeDouble()
-    {
-        int seconds = (int)gameManager.elapsedTime.TotalSeconds;
-        int milliseconds = (int)gameManager.elapsedTime.TotalMilliseconds;
-        return System.Math.Round(((double)seconds/60 + (double)milliseconds/1000), 2);
-    }
-
-    public int GetNumGamesPlayed()
-    {
-        return numGamesPlayed;
-    }
-
-    // Unity Default Function
-    // In the Editor, Unity calls this message when playmode is stopped.
-    // sources:
-    // https://docs.unity3d.com/Manual/ExecutionOrder.html
-    // https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationQuit.html
-    void OnApplicationQuit()
-    {
-        WritePlayerDataToTextFile();
-    }
-
-    void WritePlayerDataToTextFile()
-    {
-        CreateEmptyCSVFiles();
-        FindHighestFileNum();
-        Debug.Log(nnModelName);
-    }
-
-
-
-    void WriteDataToCSVFile()
-    {
-
-        // THINGS TO KEEP IN MIND
-        // MODEL NAME?
-        // ^^ put these details in the summary file
-        // easier and less data
-        // IT WOULD BE GREAT IF THESE COULD BE INCLUDED IN THE FILE
-        // SO WE WOULDN'T HAVE TO FIGURE THAT OUT LATER!
-
-        // -------- create new class for all of this.
-
-    }
-
-
-
-    void CreateEmptyCSVFiles()
-    {
-        var currFiles = new System.IO.DirectoryInfo(dataDir).GetFiles();
-        if(currFiles.Length == 0)
-        {
-            // two files are created per performance run, 1 for summary, 1 for raw data
-            CreateEmptyFile(CreateFilePath(dataDir, BuildFileName("01", "summary")));
-            CreateEmptyFile(CreateFilePath(dataDir, BuildFileName("01", "raw")));
-        } 
-        else 
-        {
-            int currHighestFileNum = FindHighestFileNum();
-            string newFileNum = AddLeadingZeroIfSingleDigit(currHighestFileNum+1);
-            CreateEmptyFile(CreateFilePath(dataDir, BuildFileName(newFileNum, "summary")));
-            CreateEmptyFile(CreateFilePath(dataDir, BuildFileName(newFileNum, "raw")));
-        }
-
-    }
-
-    string BuildFileName(string fileNum, string category)
-    {
-        return category + "_._" + nnModelName + "_-_" + fileNum + ".csv";
-    }
-
-    string AddLeadingZeroIfSingleDigit(int num)
-    {
-        if(num <=9)
-        {
-            return "0" + num.ToString();
-        }
-        else 
-        {
-            return num.ToString();
-        }
-    }
-
-    int FindHighestFileNum()
-    {
-        int maxFileNum = 0;
-        string[] files = System.IO.Directory.GetFiles(dataDir, "*.csv");
-        string[] stringSeparator = new string[] { "_-_" };
-        foreach(string file in files)
-        {
-            //file format = typefile_numfile2digits.csv
-            int fileNum = System.Int32.Parse(
-                Path.GetFileName(file).ToString().
-                Split(stringSeparator, System.StringSplitOptions.None)[1].Split('.')[0]
-            );
-
-            if(fileNum > maxFileNum)
-            {
-                maxFileNum = fileNum;
-            }
-        }
-        return maxFileNum;
-    }
-
-    string CreateFilePath(string fileDir, string fileName)
-    {
-        return (fileDir + "/" + fileName);
-    }
-
-    void CreateEmptyFile(string filename)
-    {
-        // source: https://stackoverflow.com/questions/802541/creating-an-empty-file-in-c-sharp
-        File.CreateText(filename).Close();
-    }
-
-    // called in Start, sets performance_directory to var dataDir
-    void SetDataDirectory()
-    {
-        dataDir = CreateDataDirIfDoesNotExist();
-    }
-
-    // Returns performance_tracking directory
-    string CreateDataDirIfDoesNotExist()
-    {
-        // Application.dataPath returns ./Assets folder of current project
-        // System.IO.DirectoryInfo(path).Parent returns parent of input path to get us to 
-        // project folder (putting folder here
-        // this so data doesn't import into unity through assets folder)
-        // source: https://stackoverflow.com/questions/6875904/how-do-i-find-the-parent-directory-in-c/29409005
-        string assetsPath = Application.dataPath;
-        string projPath = new System.IO.DirectoryInfo(assetsPath).Parent.ToString();
-        string dir =  projPath + "/performance_tracking";
-        if(!Directory.Exists(dir))
-        {
-            Directory.CreateDirectory(dir);
-        }
-        return dir;
-    }
-
-    void IncrementPaddleHits()
-    {
-        paddleHits+=1;
-    }
-
-    // --------------------------------------------------
-    // Data tracking - END
-    // --------------------------------------------------
-
-
     public void LoseColliderHit()
     {
         LoseGame();
     }
 
-    public void LoseGame()
+    public int GetNumGamesPlayed()
+    {
+        return dataManager.GetNumGamesPlayed();
+    }
+
+    public void UpdatePlayerPerformanceData(bool gameWinTF)
     {
         // in our current code logic, this if stmt needs to happen
         // BEFORE game manager calls lose game below b/c GM has an if(Trainingmode)
         // in the losegame method and training mode is technically all of the time.
         // and if trainingmode is true, resetstate is called
-        // which resets the paddleHits
-        if(gameManager.trackingPerformanceTF)
-            UpdatePlayerDataLists(false);
-            numGamesPlayed++;
+        // which resets the paddleHits prematurely for this data set.
+        dataManager.EndOfGameDataUpdate(
+                gameManager.trackingPerformanceTF, 
+                gameWinTF,
+                (int)gameManager.elapsedTime.TotalSeconds,
+                (int)gameManager.elapsedTime.TotalMilliseconds,
+                paddleHits,
+                activeBlocks);
+    }
+
+    public void LoseGame()
+    {
+
+        UpdatePlayerPerformanceData(false);
 
         playerData.gameResult = "Game Over!";
         ball.gameObject.SetActive(false);
@@ -312,9 +161,7 @@ public class PlayerSupervisor : MonoBehaviour
         playerData.gameResult = "You Win!";
         gameManager.WinGame();
 
-        if(gameManager.trackingPerformanceTF)
-            UpdatePlayerDataLists(true);
-            numGamesPlayed++;
+        UpdatePlayerPerformanceData(true);
 
         if (playerAgent)
             playerAgent.WinGame();
@@ -357,8 +204,8 @@ public class PlayerSupervisor : MonoBehaviour
         ball.ResetBall();
         ball.transform.position = ballOffset;
 
-        gameTimeStart = Time.time;
-        
+        dataManager.ResetValues();
+
         paddle.transform.position = paddleOffset;
         
         GameObject tb = GameObject.FindGameObjectWithTag("TrainingBlock");
@@ -408,10 +255,12 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void PaddleHit()
     {
-        IncrementPaddleHits(); // for performance tracking
+        paddleHits++;
         boundaryHits = 0;
         playerAgent.PaddleHit();
     }
+
+
 
     private IEnumerator DetectBallLockup()
     {
