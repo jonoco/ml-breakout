@@ -17,10 +17,43 @@ public class PerformanceDataManager : MonoBehaviour
     private List<string> fileNames;
 
     [SerializeField] PlayerData playerData;
+
+        public bool isHumanPlayer; // no functionality for this yet.
+
+    // NOTE: All of these values RELY on the fact that this object
+    // is NEVER reset until one stops Unity with the play button.
+    // or the editor play is reset programmatically
+
+    // NOTE: all of this list data needs to be OUTSIDE OF playerdata class
+    // since that class's data is persistent beyond the end of the game, 
+    // unless manually reset.
+
+    [Tooltip("List of all game scores, by individual game, len should match numGames")]
+    public List<int> gameScoresList;
+
+    [Tooltip("List of number of blocks broken, by individual game, len should match numGames")]
+    public List<int> blocksBrokenList;
+
+    [Tooltip("true=win, false=lose', by individual game, len should match numGames")]
+    public List<bool> gameWinStatusList; 
+
+    [Tooltip("Game length in seconds, by individual game, len should match numGames, will be rounded to 2 decimal places")]
+    public List<double> gameTimePlayedList;    
+
+    [Tooltip("Count num paddle hits, by individual game, len should match numGames")]
+    public List<int> paddleHitCountList;   
+
+    void Awake()
+    {
+        gameScoresList = new List<int>();
+        blocksBrokenList = new List<int>();
+        gameWinStatusList = new List<bool>();
+        gameTimePlayedList = new List<double>();
+        paddleHitCountList = new List<int>();
+    }
     
     public void ResetValues()
     {
-        startingNumBlocks = 0;
         UpdateGameTimeStart();
     }
 
@@ -39,7 +72,7 @@ public class PerformanceDataManager : MonoBehaviour
     public void EndOfGameDataUpdate(bool dataIsTrackedTF, bool gameWin, int sec, int ms, int paddleHits, int activeBlocks)
     {
         if(dataIsTrackedTF)
-            UpdatePlayerDataLists(gameWin, sec, ms, paddleHits, activeBlocks);
+            UpdateDataLists(gameWin, sec, ms, paddleHits, activeBlocks);
             IncrementNumGamesPlayed();
     }
 
@@ -75,14 +108,23 @@ public class PerformanceDataManager : MonoBehaviour
         return dir;
     }
 
-    public void UpdatePlayerDataLists(bool winStatus, int sec, int ms, int paddleHits, int activeBlocks)
+    public void UpdateDataLists(bool winStatus, int sec, int ms, int paddleHits, int activeBlocks)
     {
         // append new data to playerData lists at end of game
-        playerData.gameScoresList.Add(playerData.points);
-        playerData.blocksBrokenList.Add(startingNumBlocks - activeBlocks);
-        playerData.gameWinStatusList.Add(winStatus);
-        playerData.gameTimePlayedList.Add(GetElapsedTimeDouble(sec, ms));
-        playerData.paddleHitCountList.Add(paddleHits);
+        gameScoresList.Add(playerData.points);
+        Debug.Log("Start blocks: " + startingNumBlocks + ", activeblocks: " + activeBlocks);
+        blocksBrokenList.Add(startingNumBlocks - activeBlocks);
+        gameWinStatusList.Add(winStatus);
+        gameTimePlayedList.Add(GetElapsedTimeDouble(sec, ms));
+        paddleHitCountList.Add(paddleHits);
+
+    }
+
+    public void TEST_PRINT_BLOCKS_BROKEN()
+    {
+        foreach(int block in blocksBrokenList){
+            Debug.Log(block.ToString());
+        }
     }
 
     public double GetElapsedTimeDouble(int sec, int ms)
@@ -116,16 +158,30 @@ public class PerformanceDataManager : MonoBehaviour
 
     // Data:
     // score, blocks broken, paddle hits, time played, win or lose
+    // source: https://stackoverflow.com/questions/18757097/writing-data-into-csv-file-in-c-sharp
     public void WriteSummaryDataFile()
     {
         var csv = new StringBuilder();
-        double avgScore = GetIntAverage(playerData.gameScoresList);
-        double avgBlocksHit = GetIntAverage(playerData.blocksBrokenList);
-        double avgPaddleHit = GetIntAverage(playerData.paddleHitCountList);
-        double avgTimePlayed = GetDoubleAvg(playerData.gameTimePlayedList);
-        double winPct = GetWinPct(playerData.gameWinStatusList);
-        
 
+        // HEADER row
+        var newLine = string.Format("{0},{1},{2},{3},{4},{5},{6},{7}", 
+                                    "ModelName", "NumGamesPlayed", "Statistic",
+                                    "Score", "BlockHits", "PaddleHits", "TimePlayed", "WinPercentage");
+        csv.AppendLine(newLine);
+
+        string avgScore = GetIntAverage(gameScoresList).ToString();
+        string avgBlocksHit = GetIntAverage(blocksBrokenList).ToString();
+        TEST_PRINT_BLOCKS_BROKEN();
+        string avgPaddleHit = GetIntAverage(paddleHitCountList).ToString();
+        string avgTimePlayed = GetDoubleAvg(gameTimePlayedList).ToString();
+        string winPct = GetWinPct(gameWinStatusList).ToString();
+    
+        newLine = string.Format("{0},{1},{2},{3},{4},{5},{6}", 
+                                    nnModelName, numGamesPlayed, "Average",
+                                    avgScore, avgBlocksHit, avgPaddleHit, avgTimePlayed, winPct);
+        csv.AppendLine(newLine);
+
+        File.WriteAllText(CreateFilePath(dataDir, fileNames[0]), csv.ToString());
 
     }
 
@@ -137,7 +193,7 @@ public class PerformanceDataManager : MonoBehaviour
             if(game)
                 numWins += 1;
         }
-        return (double)numWins/(double)games.Count;
+        return System.Math.Round((float)numWins/(float)games.Count,2);
     }
 
     public double GetIntAverage(List<int> nums)
@@ -146,7 +202,7 @@ public class PerformanceDataManager : MonoBehaviour
         foreach(int i in nums){
             sum += i;
         }
-        return (double)sum/(double)nums.Count;
+        return System.Math.Round((float)sum/(float)nums.Count,2);
     }
 
     public double GetDoubleAvg(List<double> nums)
@@ -155,7 +211,7 @@ public class PerformanceDataManager : MonoBehaviour
         foreach(double i in nums){
             sum += i;
         }
-        return sum/(double)nums.Count;
+        return System.Math.Round((float)sum/(float)nums.Count,2);
     }
 
     public void WriteRawDataFile()

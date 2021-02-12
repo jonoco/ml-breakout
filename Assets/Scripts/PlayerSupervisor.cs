@@ -62,11 +62,10 @@ public class PlayerSupervisor : MonoBehaviour
         paddle = FindObjectOfType<Paddle>();
         paddleOffset = paddle.transform.position;
 
-        CountBlocks();
-
-        // Performance tracking
+        // Performance tracking - has to come before countblocks
         dataManager = FindObjectOfType<PerformanceDataManager>();
-        dataManager.SetStartingNumBlocks(activeBlocks);
+
+        CountBlocks();
 
         // Check if scene is ready for training
         if (gameManager.trainingMode)
@@ -81,6 +80,7 @@ public class PlayerSupervisor : MonoBehaviour
             if (block.gameObject.activeSelf)
                 ++activeBlocks;
         }
+        dataManager.SetStartingNumBlocks(activeBlocks);
     }
 
     public void PlayerReady()
@@ -95,6 +95,8 @@ public class PlayerSupervisor : MonoBehaviour
             Debug.LogError("trainingBlocks reference missing");
             return;
         }
+
+        dataManager.SetStartingNumBlocks(activeBlocks);
 
         LaunchBall();
 
@@ -143,7 +145,6 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseGame()
     {
-
         UpdatePlayerPerformanceData(false);
 
         playerData.gameResult = "Game Over!";
