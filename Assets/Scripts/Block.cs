@@ -5,7 +5,7 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
 
-    [SerializeField] PlayerSupervisor playerSupervisor;
+    [SerializeField] public PlayerSupervisor playerSupervisor;
     [SerializeField] GameManager gameManager;
     [SerializeField] GameObject particleVFX;
 
@@ -15,8 +15,10 @@ public class Block : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerSupervisor = FindObjectOfType<PlayerSupervisor>();
         gameManager = FindObjectOfType<GameManager>();
+
+        if (!playerSupervisor)
+            playerSupervisor = FindObjectOfType<PlayerSupervisor>();
     }
 
     private void OnCollisionEnter2D(Collision2D other) 

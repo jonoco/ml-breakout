@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5065469761566338099}
   - component: {fileID: 5065469761566338508}
   m_Layer: 0
-  m_Name: Player Agent
+  m_Name: Multiplayer Agent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -51,7 +51,7 @@ MonoBehaviour:
     VectorActionSize: 02000000
     VectorActionDescriptions: []
     VectorActionSpaceType: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 9c4ff0f71e2049f4088ead53056cb96e, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 0
   m_BehaviorName: Paddle
@@ -78,13 +78,13 @@ MonoBehaviour:
   paddle: {fileID: 0}
   minPaddlePosX: 1
   maxPaddlePosX: 15
-  screenWidth: 16
-  screenHeight: 12
+  instanceWidth: 16
+  instanceHeight: 12
   paddleMoveSpeed: 100
   moveStep: 2
   timeLimit: 40
   blockReward: 0.1
-  losePenalty: -1
+  loseBallPenalty: -10
   paddleReward: 0
   timeoutPenalty: 0
 --- !u!114 &5065469761566338508

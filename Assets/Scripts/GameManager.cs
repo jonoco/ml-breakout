@@ -67,6 +67,10 @@ public class GameManager : MonoBehaviour
 
     public void WinGame(PlayerSupervisor supervisor)
     {
+        if (trainingMode)
+        {
+            RestartGame(supervisor);
+        }
         if (!trainingMode)
         {
             AudioManager.Instance.PlaySoundBetweenScenes(winSound);

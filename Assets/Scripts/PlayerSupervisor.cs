@@ -28,7 +28,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     private int boundaryHits = 0;
 
-    private GameObject trainingBlocksInstance;
+    public GameObject trainingBlocksInstance;
 
     // Public fields
     public int boundaryReboundLimit = 10;
@@ -167,11 +167,15 @@ public class PlayerSupervisor : MonoBehaviour
     {
         playerState = PlayerState.Waiting;
 
-        if (playerAgent)
+        playerData.gameResult = "You Win!";
+        ball.gameObject.SetActive(false);
+
+         if (playerAgent)
             playerAgent.WinGame();
 
-        playerData.gameResult = "You Win!";
         gameManager.WinGame(this);
+
+        StopAllCoroutines();
     }
 
     public void BlockDestroyed(int pointValue)
@@ -225,7 +229,14 @@ public class PlayerSupervisor : MonoBehaviour
             Destroy(trainingBlocksInstance);
         }
 
+        // Set block's supervisor
         trainingBlocksInstance = Instantiate(trainingBlocks, transform);
+        foreach(Transform child in trainingBlocksInstance.transform)
+        {
+            Block block = child.gameObject.GetComponent<Block>();
+            if (block)
+                block.playerSupervisor = this;
+        }
         
         CountBlocks();
     }
