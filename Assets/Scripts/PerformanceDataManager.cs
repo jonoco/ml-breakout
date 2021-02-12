@@ -193,7 +193,14 @@ public class PerformanceDataManager : MonoBehaviour
             if(game)
                 numWins += 1;
         }
-        return System.Math.Round((float)numWins/(float)games.Count,2);
+        if(numWins == 0)
+        {
+            return 0;
+        }
+        else
+        {
+            return System.Math.Round((float)numWins/(float)games.Count,2);
+        }
     }
 
     public double GetIntAverage(List<int> nums)
