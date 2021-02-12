@@ -10,19 +10,6 @@ public class PlayerAgent : Agent
     public Ball ball;
     public Paddle paddle;
 
-    [Header("Game environment")]
-
-    public float minPaddlePosX = 1f;
-    public float maxPaddlePosX = 15f;
-    public float instanceWidth = 16f;
-    public float instanceHeight = 12f;
-   
-    [Range(10f, 200f)]
-    public float paddleMoveSpeed = 100f;
-
-    [Range(.1f, 10f)]
-    public float moveStep = 2f;
-
     [Header("Training rules")]
 
     [Tooltip("Limit to wait before ending training (0 eliminates timeout)")]
@@ -33,8 +20,6 @@ public class PlayerAgent : Agent
     public float paddleReward = .1f;
     public float timeoutPenalty = 0f;
 
-    // Private fields
-    private float smoothMovementChange = 0f;
 
     private void Awake()
     {
@@ -58,17 +43,16 @@ public class PlayerAgent : Agent
     public override void OnEpisodeBegin()
     {
         // Reset any Agent state
-        smoothMovementChange = 0f;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
         // Paddle x-axis position [0-1]
-        sensor.AddObservation(paddle.transform.localPosition.x / instanceWidth);
+        sensor.AddObservation(paddle.transform.localPosition.x / playerSupervisor.instanceWidth);
 
         // Ball x and y-axis positions [0-1]
-        sensor.AddObservation(ball.transform.localPosition.x / instanceWidth);
-        sensor.AddObservation(ball.transform.localPosition.y / instanceHeight);
+        sensor.AddObservation(ball.transform.localPosition.x / playerSupervisor.instanceWidth);
+        sensor.AddObservation(ball.transform.localPosition.y / playerSupervisor.instanceHeight);
     }
 
     public override void OnActionReceived(float[] vectorAction)
@@ -79,39 +63,23 @@ public class PlayerAgent : Agent
         // Determine whether to launch the ball and start the game
         bool launchBall = vectorAction[1] > 0;             
 
-        MovePaddle(paddleXPos);
+        paddle.MovePaddle(paddleXPos);
         if (launchBall)
             StartGame();
     }
 
     public override void Heuristic(float[] actionsOut)
     {
-        float mousePos = (Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x) / instanceWidth;
+        float mousePos = (Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x) / playerSupervisor.instanceWidth;
         mousePos = Mathf.Clamp(mousePos, 0, 1);
 
         // Normalize paddle input to [-1, 1]
-        float paddlePos = mousePos - (paddle.transform.localPosition.x / instanceWidth);
+        float paddlePos = mousePos - (paddle.transform.localPosition.x / playerSupervisor.instanceWidth);
          
         bool launchBall = Input.GetMouseButton(0);
         
         actionsOut[0] = paddlePos;
         actionsOut[1] = launchBall ? 1 : -1;
-    }
-
-    /// <summary>
-    /// Move the player's paddle
-    /// </summary>
-    /// <param name="pos">Relative position in the range [-1, 1]</param>
-    public virtual void MovePaddle(float pos)
-    {
-        // Calculate the eased paddle movement
-        smoothMovementChange = Mathf.MoveTowards(smoothMovementChange, pos, moveStep * Time.fixedDeltaTime);
-        
-        // Calculate the new paddle position
-        Vector3 paddlePos = paddle.transform.localPosition;
-        paddlePos.x = paddlePos.x + smoothMovementChange * Time.fixedDeltaTime * paddleMoveSpeed;
-        paddlePos.x = Mathf.Clamp(paddlePos.x, minPaddlePosX, maxPaddlePosX);
-        paddle.transform.localPosition = paddlePos;
     }
 
     public virtual void StartGame()

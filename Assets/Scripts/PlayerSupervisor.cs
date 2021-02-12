@@ -28,9 +28,20 @@ public class PlayerSupervisor : MonoBehaviour
 
     private int boundaryHits = 0;
 
-    public GameObject trainingBlocksInstance;
+    private GameObject trainingBlocksInstance;
 
-    // Public fields
+    [Header("Game environment")]
+
+    public float minPaddlePosX = 1f;
+    public float maxPaddlePosX = 15f;
+    public float instanceWidth = 16f;
+    public float instanceHeight = 12f;
+   
+    [Range(10f, 200f)]
+    public float paddleMoveSpeed = 100f;
+
+    [Range(.1f, 10f)]
+    public float moveStep = 2f;
     public int boundaryReboundLimit = 10;
 
     [Tooltip("How often to check for anomalies (0 eliminates check)")]
@@ -215,6 +226,7 @@ public class PlayerSupervisor : MonoBehaviour
         ball.transform.localPosition = ballOffset;
         
         paddle.transform.localPosition = paddleOffset;
+        paddle.smoothMovementChange = 0f;
         
         // Destroy training blocks, then the block holder
         if (trainingBlocksInstance)
