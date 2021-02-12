@@ -9,11 +9,12 @@ using Unity.MLAgents.Policies;
 
 public class PerformanceDataManager : MonoBehaviour
 {
-    private string nnModelName; 
-    private int numGamesPlayed;  // For agent inference perf tracking
+    [SerializeField] private string nnModelName; 
+    [SerializeField] private int numGamesPlayed;  // For agent inference perf tracking
     private string dataDir;
     private int startingNumBlocks;
     private double gameTimeStart = 0;
+    private List<string> fileNames;
 
     [SerializeField] PlayerData playerData;
     
@@ -32,6 +33,7 @@ public class PerformanceDataManager : MonoBehaviour
     {
         SetDataDirectory();
         nnModelName = FindObjectOfType<PlayerAgent>().GetComponent<BehaviorParameters>().Model.name;
+        fileNames = new List<string>();
     }
 
     public void EndOfGameDataUpdate(bool dataIsTrackedTF, bool gameWin, int sec, int ms, int paddleHits, int activeBlocks)
@@ -100,43 +102,97 @@ public class PerformanceDataManager : MonoBehaviour
     // https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationQuit.html
     public void OnApplicationQuit()
     {
-        WritePlayerDataToTextFile();
+        WritePlayerDataToTextFiles();
     }
 
-    public void WritePlayerDataToTextFile()
+    public void WritePlayerDataToTextFiles()
     {
         CreateEmptyCSVFiles();
-        FindHighestFileNum();
+        WriteSummaryDataFile();
+        WriteRawDataFile();
         Debug.Log(nnModelName);
     }
 
 
+    // Data:
+    // score, blocks broken, paddle hits, time played, win or lose
+    public void WriteSummaryDataFile()
+    {
+        var csv = new StringBuilder();
+        double avgScore = GetIntAverage(playerData.gameScoresList);
+        double avgBlocksHit = GetIntAverage(playerData.blocksBrokenList);
+        double avgPaddleHit = GetIntAverage(playerData.paddleHitCountList);
+        double avgTimePlayed = GetDoubleAvg(playerData.gameTimePlayedList);
+        double winPct = GetWinPct(playerData.gameWinStatusList);
+        
 
-    public void WriteDataToCSVFile()
+
+    }
+
+    public double GetWinPct(List<bool> games)
+    {
+        int numWins = 0;
+        foreach(bool game in games)
+        {
+            if(game)
+                numWins += 1;
+        }
+        return (double)numWins/(double)games.Count;
+    }
+
+    public double GetIntAverage(List<int> nums)
+    {
+        int sum = 0;
+        foreach(int i in nums){
+            sum += i;
+        }
+        return (double)sum/(double)nums.Count;
+    }
+
+    public double GetDoubleAvg(List<double> nums)
+    {
+        double sum = 0;
+        foreach(double i in nums){
+            sum += i;
+        }
+        return sum/(double)nums.Count;
+    }
+
+    public void WriteRawDataFile()
     {
 
 
     }
 
-
-
     public void CreateEmptyCSVFiles()
+    {
+        CreateFileNames();
+        CreateEmptyFiles();
+    }
+
+    public void CreateFileNames()
     {
         var currFiles = new System.IO.DirectoryInfo(dataDir).GetFiles();
         if(currFiles.Length == 0)
         {
-            // two files are created per performance run, 1 for summary, 1 for raw data
-            CreateEmptyFile(CreateFilePath(dataDir, BuildFileName("01", "summary")));
-            CreateEmptyFile(CreateFilePath(dataDir, BuildFileName("01", "raw")));
+            fileNames.Add(BuildFileName("01", "summary"));
+            fileNames.Add(BuildFileName("01", "raw"));
+            
         } 
         else 
         {
             int currHighestFileNum = FindHighestFileNum();
             string newFileNum = AddLeadingZeroIfSingleDigit(currHighestFileNum+1);
-            CreateEmptyFile(CreateFilePath(dataDir, BuildFileName(newFileNum, "summary")));
-            CreateEmptyFile(CreateFilePath(dataDir, BuildFileName(newFileNum, "raw")));
-        }
+            fileNames.Add(BuildFileName(newFileNum, "summary"));
+            fileNames.Add(BuildFileName(newFileNum, "raw"));
+        }   
+    }
 
+    public void CreateEmptyFiles()
+    {
+        // source: https://stackoverflow.com/questions/802541/creating-an-empty-file-in-c-sharp
+        File.CreateText(CreateFilePath(dataDir, fileNames[0])).Close();
+        File.CreateText(CreateFilePath(dataDir, fileNames[1])).Close();
     }
 
     string BuildFileName(string fileNum, string category)
@@ -182,10 +238,6 @@ public class PerformanceDataManager : MonoBehaviour
         return (fileDir + "/" + fileName);
     }
 
-    public void CreateEmptyFile(string filename)
-    {
-        // source: https://stackoverflow.com/questions/802541/creating-an-empty-file-in-c-sharp
-        File.CreateText(filename).Close();
-    }
+
 
 }
