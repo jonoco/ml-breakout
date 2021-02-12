@@ -15,22 +15,20 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] Paddle paddle;
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
-    [SerializeField] int activeBlocks;
     [SerializeField] PlayerData playerData;
     [SerializeField] GameObject trainingBlocks;
     
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
     private int points = 0;
-
     private Vector3 ballOffset;         // Starting position of ball
     private Vector3 paddleOffset;       // Starting position of paddle
-
     private int boundaryHits = 0;
-
     private GameObject trainingBlocksInstance;
+    private int activeBlocks;
+    private PlayerState playerState = PlayerState.Waiting;
 
-    [Header("Game environment")]
+    [Header("Game Environment Settings")]
 
     public float minPaddlePosX = 1f;
     public float maxPaddlePosX = 15f;
@@ -51,8 +49,6 @@ public class PlayerSupervisor : MonoBehaviour
     [Tooltip("Angle that ball will ricochet off ceiling to prevent juggling")]
     [Range(0f, 5f)]
     public float ceilingReboundAngle = 0f;
-
-    public PlayerState playerState = PlayerState.Waiting;
 
     // Start is called before the first frame update
     void Start()
