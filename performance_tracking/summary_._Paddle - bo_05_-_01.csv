@@ -1,2 +1,4 @@
 ModelName,NumGamesPlayed,Statistic,Score,BlockHits,PaddleHits,TimePlayed,WinPercentage
-Paddle - bo_05,3,Average,10,1,0,2.3
+Paddle - bo_05,500,Minimum,10,0,0,0.08
+Paddle - bo_05,500,Average,27.14,2.64,0.28,1.95
+Paddle - bo_05,500,Maximum,190,19,22,47.89

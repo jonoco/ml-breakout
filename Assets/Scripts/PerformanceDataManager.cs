@@ -6,7 +6,6 @@ using System.IO;
 using System.Text; 
 using Unity.MLAgents.Policies; 
 
-
 public class PerformanceDataManager : MonoBehaviour
 {
     [SerializeField] private string nnModelName; 
@@ -41,7 +40,7 @@ public class PerformanceDataManager : MonoBehaviour
     public List<double> gameTimePlayedList;    
 
     [Tooltip("Count num paddle hits, by individual game, len should match numGames")]
-    public List<int> paddleHitCountList;   
+    public List<int> paddleHitCountList;  
 
     void Awake()
     {
@@ -112,19 +111,11 @@ public class PerformanceDataManager : MonoBehaviour
     {
         // append new data to playerData lists at end of game
         gameScoresList.Add(playerData.points);
-        Debug.Log("Start blocks: " + startingNumBlocks + ", activeblocks: " + activeBlocks);
         blocksBrokenList.Add(startingNumBlocks - activeBlocks);
         gameWinStatusList.Add(winStatus);
         gameTimePlayedList.Add(GetElapsedTimeDouble(sec, ms));
         paddleHitCountList.Add(paddleHits);
 
-    }
-
-    public void TEST_PRINT_BLOCKS_BROKEN()
-    {
-        foreach(int block in blocksBrokenList){
-            Debug.Log(block.ToString());
-        }
     }
 
     public double GetElapsedTimeDouble(int sec, int ms)
@@ -152,7 +143,6 @@ public class PerformanceDataManager : MonoBehaviour
         CreateEmptyCSVFiles();
         WriteSummaryDataFile();
         WriteRawDataFile();
-        Debug.Log(nnModelName);
     }
 
 
@@ -162,64 +152,71 @@ public class PerformanceDataManager : MonoBehaviour
     public void WriteSummaryDataFile()
     {
         var csv = new StringBuilder();
+        csv.AppendLine(HeaderNewLine());
+        csv.AppendLine(MinNewLine());
+        csv.AppendLine(AverageNewLine());
+        csv.AppendLine(MaxNewLine());
+        File.WriteAllText(CreateFilePath(dataDir, fileNames[0]), csv.ToString());
+    }
 
-        // HEADER row
-        var newLine = string.Format("{0},{1},{2},{3},{4},{5},{6},{7}", 
-                                    "ModelName", "NumGamesPlayed", "Statistic",
-                                    "Score", "BlockHits", "PaddleHits", "TimePlayed", "WinPercentage");
-        csv.AppendLine(newLine);
+    public string HeaderNewLine()
+    {
+        return string.Format(
+            "{0},{1},{2},{3},{4},{5},{6},{7}", 
+            "ModelName", "NumGamesPlayed", "Statistic",
+            "Score", "BlockHits", "PaddleHits",
+            "TimePlayed", "WinPercentage"
+        );
+    }
 
-        string avgScore = GetIntAverage(gameScoresList).ToString();
-        string avgBlocksHit = GetIntAverage(blocksBrokenList).ToString();
-        TEST_PRINT_BLOCKS_BROKEN();
-        string avgPaddleHit = GetIntAverage(paddleHitCountList).ToString();
-        string avgTimePlayed = GetDoubleAvg(gameTimePlayedList).ToString();
+    public string AverageNewLine()
+    {
+        string score = GetIntAverage(gameScoresList).ToString();
+        string blocksHit = GetIntAverage(blocksBrokenList).ToString();
+        string paddleHits = GetIntAverage(paddleHitCountList).ToString();
+        string timePlayed = GetDoubleAvg(gameTimePlayedList).ToString();
         string winPct = GetWinPct(gameWinStatusList).ToString();
     
-        newLine = string.Format("{0},{1},{2},{3},{4},{5},{6}", 
-                                    nnModelName, numGamesPlayed, "Average",
-                                    avgScore, avgBlocksHit, avgPaddleHit, avgTimePlayed, winPct);
-        csv.AppendLine(newLine);
-
-        File.WriteAllText(CreateFilePath(dataDir, fileNames[0]), csv.ToString());
-
+        return string.Format(
+            "{0},{1},{2},{3},{4},{5},{6}", 
+            nnModelName, numGamesPlayed, "Average",
+            score, blocksHit, paddleHits,
+            timePlayed, winPct
+        );
     }
 
-    public double GetWinPct(List<bool> games)
+    public string MinNewLine()
     {
-        int numWins = 0;
-        foreach(bool game in games)
-        {
-            if(game)
-                numWins += 1;
-        }
-        if(numWins == 0)
-        {
-            return 0;
-        }
-        else
-        {
-            return System.Math.Round((float)numWins/(float)games.Count,2);
-        }
+        string score = GetIntMin(gameScoresList).ToString();
+        string blocksHit = GetIntMin(blocksBrokenList).ToString();
+        string paddleHits = GetIntMin(paddleHitCountList).ToString();
+        string timePlayed = GetDoubleMin(gameTimePlayedList).ToString();
+        string winPct = GetWinPct(gameWinStatusList).ToString();
+    
+        return string.Format(
+            "{0},{1},{2},{3},{4},{5},{6}", 
+            nnModelName, numGamesPlayed, "Minimum",
+            score, blocksHit, paddleHits,
+            timePlayed, winPct
+        );
     }
 
-    public double GetIntAverage(List<int> nums)
+    public string MaxNewLine()
     {
-        int sum = 0;
-        foreach(int i in nums){
-            sum += i;
-        }
-        return System.Math.Round((float)sum/(float)nums.Count,2);
+        string score = GetIntMax(gameScoresList).ToString();
+        string blocksHit = GetIntMax(blocksBrokenList).ToString();
+        string paddleHits = GetIntMax(paddleHitCountList).ToString();
+        string timePlayed = GetDoubleMax(gameTimePlayedList).ToString();
+        string winPct = GetWinPct(gameWinStatusList).ToString();
+    
+        return string.Format(
+            "{0},{1},{2},{3},{4},{5},{6}", 
+            nnModelName, numGamesPlayed, "Maximum",
+            score, blocksHit, paddleHits,
+            timePlayed, winPct
+        );
     }
 
-    public double GetDoubleAvg(List<double> nums)
-    {
-        double sum = 0;
-        foreach(double i in nums){
-            sum += i;
-        }
-        return System.Math.Round((float)sum/(float)nums.Count,2);
-    }
 
     public void WriteRawDataFile()
     {
@@ -299,6 +296,119 @@ public class PerformanceDataManager : MonoBehaviour
     string CreateFilePath(string fileDir, string fileName)
     {
         return (fileDir + "/" + fileName);
+    }
+
+      public double GetWinPct(List<bool> games)
+    {
+        int numWins = 0;
+        foreach(bool game in games)
+        {
+            if(game)
+                numWins += 1;
+        }
+        Debug.Log("Wins: " + numWins + ", Games: " + games.Count);
+        if(numWins == 0)
+        {
+            return 0.0000;
+        }
+        else
+        {
+            return System.Math.Round((float)numWins/(float)games.Count,4);
+        }
+    }
+
+    public int GetIntMin(List<int> nums)
+    {
+        int min = 0;
+        bool firstElement = true;
+        foreach(int i in nums)
+        {
+            if(firstElement)
+            {
+                min = i;
+            }
+            else if (i < min)
+            {
+                min = i;
+            }
+            firstElement = false;
+        }
+        return min;
+    }
+
+    public double GetDoubleMin(List<double> nums)
+    {
+        double min = 0;
+        bool firstElement = true;
+        foreach(double i in nums)
+        {
+            if(firstElement)
+            {
+                min = i;
+            }
+            else if (i < min)
+            {
+                min = i;
+            }
+            firstElement = false;
+        }
+        return min;
+    }
+
+        public int GetIntMax(List<int> nums)
+    {
+        int max = 0;
+        bool firstElement = true;
+        foreach(int i in nums)
+        {
+            if(firstElement)
+            {
+                max = i;
+            }
+            else if (i > max)
+            {
+                max = i;
+            }
+            firstElement = false;
+        }
+        return max;
+    }
+
+    public double GetDoubleMax(List<double> nums)
+    {
+        double max = 0;
+        bool firstElement = true;
+        foreach(double i in nums)
+        {
+            if(firstElement)
+            {
+                max = i;
+            }
+            else if (i > max)
+            {
+                max = i;
+            }
+            firstElement = false;
+        }
+        return max;
+    }
+
+    public double GetIntAverage(List<int> nums)
+    {
+        int sum = 0;
+        foreach(int i in nums){
+            sum += i;
+        }
+        return System.Math.Round((float)sum/(float)nums.Count,2);
+    }
+
+    public double GetDoubleAvg(List<double> nums)
+    {
+        double sum = 0;
+        foreach(double i in nums){
+            sum += i;
+        }
+        return System.Math.Round((float)sum/(float)nums.Count,2);
     }
 
 

@@ -137,8 +137,10 @@ public class PlayerSupervisor : MonoBehaviour
         dataManager.EndOfGameDataUpdate(
                 gameManager.trackingPerformanceTF, 
                 gameWinTF,
-                (int)gameManager.elapsedTime.TotalSeconds,
-                (int)gameManager.elapsedTime.TotalMilliseconds,
+                // multiplying by timeScale here as ccan increase this in Project Settings
+                // in the editor for faster performance runs
+                (int)(gameManager.elapsedTime.TotalSeconds * Time.timeScale),
+                (int)(gameManager.elapsedTime.TotalMilliseconds * Time.timeScale),
                 paddleHits,
                 activeBlocks);
     }
@@ -163,6 +165,7 @@ public class PlayerSupervisor : MonoBehaviour
         gameManager.WinGame();
 
         UpdatePlayerPerformanceData(true);
+        Debug.Log("WIN!");
 
         if (playerAgent)
             playerAgent.WinGame();
