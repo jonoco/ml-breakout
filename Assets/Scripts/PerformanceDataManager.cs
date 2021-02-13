@@ -178,7 +178,7 @@ public class PerformanceDataManager : MonoBehaviour
         string winPct = GetWinPct(gameWinStatusList).ToString();
     
         return string.Format(
-            "{0},{1},{2},{3},{4},{5},{6}", 
+            "{0},{1},{2},{3},{4},{5},{6},{7}", 
             nnModelName, numGamesPlayed, "Average",
             score, blocksHit, paddleHits,
             timePlayed, winPct
@@ -194,7 +194,7 @@ public class PerformanceDataManager : MonoBehaviour
         string winPct = GetWinPct(gameWinStatusList).ToString();
     
         return string.Format(
-            "{0},{1},{2},{3},{4},{5},{6}", 
+            "{0},{1},{2},{3},{4},{5},{6},{7}", 
             nnModelName, numGamesPlayed, "Minimum",
             score, blocksHit, paddleHits,
             timePlayed, winPct
@@ -210,7 +210,7 @@ public class PerformanceDataManager : MonoBehaviour
         string winPct = GetWinPct(gameWinStatusList).ToString();
     
         return string.Format(
-            "{0},{1},{2},{3},{4},{5},{6}", 
+            "{0},{1},{2},{3},{4},{5},{6},{7}", 
             nnModelName, numGamesPlayed, "Maximum",
             score, blocksHit, paddleHits,
             timePlayed, winPct
