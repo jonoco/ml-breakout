@@ -21,13 +21,6 @@ public class PlayerAgent : Agent
     public float timeoutPenalty = 0f;
 
 
-    private void Awake()
-    {
-        PlayerController playerController = FindObjectOfType<PlayerController>();
-        if (playerController)
-            Destroy(playerController.gameObject);    
-    }
-
     private void Start() 
     {
         if (!playerSupervisor)
@@ -47,6 +40,9 @@ public class PlayerAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        if (!paddle || !ball)
+            return;
+
         // Paddle x-axis position [0-1]
         sensor.AddObservation(paddle.transform.localPosition.x / playerSupervisor.instanceWidth);
 
