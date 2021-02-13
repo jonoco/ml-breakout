@@ -152,14 +152,14 @@ public class PerformanceDataManager : MonoBehaviour
     public void WriteSummaryDataFile()
     {
         var csv = new StringBuilder();
-        csv.AppendLine(HeaderNewLine());
+        csv.AppendLine(HeaderSummaryNewLine());
         csv.AppendLine(MinNewLine());
         csv.AppendLine(AverageNewLine());
         csv.AppendLine(MaxNewLine());
         File.WriteAllText(CreateFilePath(dataDir, fileNames[0]), csv.ToString());
     }
 
-    public string HeaderNewLine()
+    public string HeaderSummaryNewLine()
     {
         return string.Format(
             "{0},{1},{2},{3},{4},{5},{6},{7}", 
@@ -217,11 +217,44 @@ public class PerformanceDataManager : MonoBehaviour
         );
     }
 
+    public string HeaderRawNewLine()
+    {
+        return string.Format(
+            "{0},{1},{2},{3},{4},{5},{6},{7}", 
+            "ModelName", "GameNumber", "NumGamesPlayed",
+            "Score", "BlockHits", "PaddleHits",
+            "TimePlayed", "WinStatus"
+        );
+    }
+
+    public string RawDataLine(int idx)
+    {
+        return string.Format(
+            "{0},{1},{2},{3},{4},{5},{6},{7}", 
+            nnModelName, (idx+1).ToString(),  numGamesPlayed,
+            gameScoresList[idx].ToString(), blocksBrokenList[idx].ToString(), paddleHitCountList[idx].ToString(),
+            gameTimePlayedList[idx].ToString(), WinConvertBoolToInt(gameWinStatusList[idx])
+        );
+    }
+
+    public string WinConvertBoolToInt(bool winTF)
+    {
+        if(winTF){
+            return 1.ToString();
+        } else {
+            return 0.ToString();
+        }
+    }
 
     public void WriteRawDataFile()
     {
-
-
+        var csv = new StringBuilder();
+        csv.AppendLine(HeaderRawNewLine());
+        for(int i = 0; i < numGamesPlayed; i++)
+        {
+            csv.AppendLine(RawDataLine(i)); 
+        }
+        File.WriteAllText(CreateFilePath(dataDir, fileNames[1]), csv.ToString());
     }
 
     public void CreateEmptyCSVFiles()
