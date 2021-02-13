@@ -10,6 +10,9 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
+# Ignore raw csv performance file data
+/[Aa]ssets/performance_tracking/raw*.csv
+
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
 
