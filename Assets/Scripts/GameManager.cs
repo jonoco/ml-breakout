@@ -27,9 +27,14 @@ public class GameManager : MonoBehaviour
     void Awake()
     {
         if (trainingMode)
+        {
             playerSupervisors = FindObjectsOfType<PlayerSupervisor>();
-        else
+            // still need this for single mode training/perf tracking.
             playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+        } else
+        {
+            playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+        }
             
         sceneLoader = FindObjectOfType<SceneLoader>();
         uiManager = FindObjectOfType<UIManager>();
