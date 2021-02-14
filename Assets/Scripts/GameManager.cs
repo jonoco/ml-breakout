@@ -54,7 +54,7 @@ public class GameManager : MonoBehaviour
     {
         // If played up to number of performance games,
         // end game play in editor window.
-        if(playerSupervisor.GetNumGamesPlayed() >= trackingNumberOfGames)
+        if(playerSupervisor.GetNumGamesPlayed() >= trackingNumberOfGames && !playerSupervisor.IsMultiAgent())
         {
             #if UNITY_EDITOR
             if(EditorApplication.isPlaying) 

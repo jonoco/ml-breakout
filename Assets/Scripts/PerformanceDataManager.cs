@@ -15,9 +15,8 @@ public class PerformanceDataManager : MonoBehaviour
     private double gameTimeStart = 0;
     private List<string> fileNames;
 
-    [SerializeField] PlayerData playerData;
-
-        public bool isHumanPlayer; // no functionality for this yet.
+    public bool isHumanPlayer; // no functionality for this yet.
+    [SerializeField] PlayerSupervisor playerSupervisor;
 
     // NOTE: All of these values RELY on the fact that this object
     // is NEVER reset until one stops Unity with the play button.
@@ -66,6 +65,7 @@ public class PerformanceDataManager : MonoBehaviour
         SetDataDirectory();
         nnModelName = FindObjectOfType<PlayerAgent>().GetComponent<BehaviorParameters>().Model.name;
         fileNames = new List<string>();
+        playerSupervisor = FindObjectOfType<PlayerSupervisor>();
     }
 
     public void EndOfGameDataUpdate(bool dataIsTrackedTF, bool gameWin, int sec, int ms, int paddleHits, int activeBlocks)
@@ -110,7 +110,7 @@ public class PerformanceDataManager : MonoBehaviour
     public void UpdateDataLists(bool winStatus, int sec, int ms, int paddleHits, int activeBlocks)
     {
         // append new data to playerData lists at end of game
-        gameScoresList.Add(playerData.points);
+        gameScoresList.Add(playerSupervisor.GetPoints());
         blocksBrokenList.Add(startingNumBlocks - activeBlocks);
         gameWinStatusList.Add(winStatus);
         gameTimePlayedList.Add(GetElapsedTimeDouble(sec, ms));

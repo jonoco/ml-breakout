@@ -21,6 +21,10 @@ public class PlayerSupervisor : MonoBehaviour
     // Player Data Performance Tracking
     private PerformanceDataManager dataManager;
 
+    // Using this as a band-aid for now, until i get multi-agent
+    // performance implemented
+    [SerializeField] bool isMultiTraining = false;
+
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
     private int points = 0;
@@ -77,7 +81,8 @@ public class PlayerSupervisor : MonoBehaviour
         ballOffset = ball.transform.localPosition;
 
         // Performance tracking - has to come before countblocks
-        dataManager = FindObjectOfType<PerformanceDataManager>();
+        if(!isMultiTraining)
+            dataManager = FindObjectOfType<PerformanceDataManager>();
         
         if (!paddle)
             paddle = FindObjectOfType<Paddle>();
@@ -113,7 +118,8 @@ public class PlayerSupervisor : MonoBehaviour
                     ++activeBlocks;
             }
         }
-        dataManager.SetStartingNumBlocks(activeBlocks);
+        if(!isMultiTraining)
+            dataManager.SetStartingNumBlocks(activeBlocks);
     }
 
     public void PlayerReady()
@@ -133,7 +139,8 @@ public class PlayerSupervisor : MonoBehaviour
             return;
         }
 
-        dataManager.SetStartingNumBlocks(activeBlocks);
+        if(!isMultiTraining)
+            dataManager.SetStartingNumBlocks(activeBlocks);
         
         // Only start if the player is ready
         if (playerState != PlayerState.Ready)
@@ -170,7 +177,19 @@ public class PlayerSupervisor : MonoBehaviour
 
     public int GetNumGamesPlayed()
     {
-        return dataManager.GetNumGamesPlayed();
+        if(!isMultiTraining)
+        {
+            return dataManager.GetNumGamesPlayed();
+        } 
+        else
+        {
+            return 0;
+        }
+    }
+
+    public bool IsMultiAgent()
+    {
+        return isMultiTraining;
     }
 
     public void UpdatePlayerPerformanceData(bool gameWinTF)
@@ -193,8 +212,8 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseGame()
     {
-    
-        UpdatePlayerPerformanceData(false);
+        if(!isMultiTraining)
+            UpdatePlayerPerformanceData(false);
         
         playerState = PlayerState.Waiting;
 
@@ -212,7 +231,10 @@ public class PlayerSupervisor : MonoBehaviour
     public void WinGame()
     {
         playerState = PlayerState.Waiting;
-        UpdatePlayerPerformanceData(true);
+        
+        if(!isMultiTraining)
+            UpdatePlayerPerformanceData(true);
+
         playerData.gameResult = "You Win!";
         ball.gameObject.SetActive(false);
 
@@ -261,7 +283,8 @@ public class PlayerSupervisor : MonoBehaviour
         ball.ResetBall();
 
         ball.transform.localPosition = ballOffset;
-        dataManager.ResetValues();
+        if(!isMultiTraining)
+            dataManager.ResetValues();
         
         paddle.transform.localPosition = paddleOffset;
         paddle.smoothMovementChange = 0f;
