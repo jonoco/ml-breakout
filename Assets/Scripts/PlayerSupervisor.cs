@@ -212,7 +212,7 @@ public class PlayerSupervisor : MonoBehaviour
     public void WinGame()
     {
         playerState = PlayerState.Waiting;
-
+        UpdatePlayerPerformanceData(true);
         playerData.gameResult = "You Win!";
         ball.gameObject.SetActive(false);
 
@@ -222,18 +222,6 @@ public class PlayerSupervisor : MonoBehaviour
         gameManager.WinGame(this);
 
         StopAllCoroutines();
-    }
-
-    public void WinGame()
-    {
-        playerData.gameResult = "You Win!";
-        gameManager.WinGame();
-
-        UpdatePlayerPerformanceData(true);
-        Debug.Log("WIN!");
-
-        if (playerAgent)
-            playerAgent.WinGame();
     }
 
     public void BlockDestroyed(int pointValue)
