@@ -6,6 +6,7 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     [SerializeField] Paddle paddle;
+    [SerializeField] GameManager gameManager;
 
     public bool hasStarted = false;
 
@@ -19,6 +20,7 @@ public class Ball : MonoBehaviour
     void Start()
     {
         rigidbody = GetComponent<Rigidbody2D>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     // Update is called once per frame
@@ -26,7 +28,7 @@ public class Ball : MonoBehaviour
     {
         if (!hasStarted)
         {
-            transform.position = new Vector2(paddle.transform.position.x, transform.position.y);
+            transform.localPosition = new Vector2(paddle.transform.localPosition.x, transform.localPosition.y);
         }
     }
 
@@ -50,6 +52,9 @@ public class Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        if (gameManager.trainingMode)
+            return;
+            
         if (collision.gameObject.tag != "Lose Collider")
         {
             if (bounceSounds.Length > 0 && AudioManager.Instance)

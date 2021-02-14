@@ -8,7 +8,8 @@ public class LoseCollider : MonoBehaviour
 
     private void Start()
     {
-        playerSupervisor = FindObjectOfType<PlayerSupervisor>();    
+        if (!playerSupervisor)
+            playerSupervisor = FindObjectOfType<PlayerSupervisor>();    
     }
 
     private void OnTriggerEnter2D(Collider2D other) 

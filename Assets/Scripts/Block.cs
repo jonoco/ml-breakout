@@ -5,7 +5,8 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
 
-    [SerializeField] PlayerSupervisor playerSupervisor;
+    [SerializeField] public PlayerSupervisor playerSupervisor;
+    [SerializeField] GameManager gameManager;
     [SerializeField] GameObject particleVFX;
 
     // The number of points destroying this block is worth.
@@ -14,18 +15,17 @@ public class Block : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerSupervisor = FindObjectOfType<PlayerSupervisor>();
-    }
+        gameManager = FindObjectOfType<GameManager>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (!playerSupervisor)
+            playerSupervisor = FindObjectOfType<PlayerSupervisor>();
     }
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        TriggerParticles();
+        if (!gameManager.trainingMode)
+            TriggerParticles();
+
         playerSupervisor.BlockDestroyed(pointValue);
         Destroy(gameObject);
     }
