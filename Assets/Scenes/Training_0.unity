@@ -147,12 +147,48 @@ PrefabInstance:
         type: 3}
       propertyPath: trackingPerformanceTF
       value: 1
+    - target: {fileID: 2088326103613546649, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: boundaryName
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2278110368186826790, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: boundaryName
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4315738401231054851, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: boundaryName
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4778242522678230514, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: a46b221627ac16f49b5ed31755449ef1,
+      objectReference: {fileID: 5022602860645237092, guid: cbd3ba0dd032a9f44b98babf34b7558e,
+        type: 3}
+    - target: {fileID: 4778242522678230515, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: timeLimit
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778242522678230515, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: blockReward
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778242522678230515, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: losePenalty
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4778242522678230515, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: paddleReward
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
     - target: {fileID: 4778242522678230514, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
@@ -165,6 +201,19 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c753f81020ac40b4e96c0a53d1e0d8e8,
         type: 2}
+      propertyPath: timeLimit
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: ceilingReboundAngle
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: boundaryReboundLimit
+      value: 12
+      objectReference: {fileID: 0}
     - target: {fileID: 9146408817681791003, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
       propertyPath: m_RootOrder

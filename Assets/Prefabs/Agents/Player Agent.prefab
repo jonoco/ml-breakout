@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5065469761566338099}
   - component: {fileID: 5065469761566338508}
   m_Layer: 0
-  m_Name: Agent
+  m_Name: Player Agent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,17 +73,20 @@ MonoBehaviour:
     maxStep: 0
   hasUpgradedFromAgentParameters: 1
   MaxStep: 0
-  gameManager: {fileID: 0}
+  playerSupervisor: {fileID: 0}
   ball: {fileID: 0}
   paddle: {fileID: 0}
-  minPaddlePosX: 0
-  maxPaddlePosX: 16
+  minPaddlePosX: 1
+  maxPaddlePosX: 15
   screenWidth: 16
   screenHeight: 12
   paddleMoveSpeed: 100
-  ballLaunched: 0
+  moveStep: 2
+  timeLimit: 0
   blockReward: 0.1
   losePenalty: -1
+  paddleReward: 0
+  timeoutPenalty: 0
 --- !u!114 &5065469761566338508
 MonoBehaviour:
   m_ObjectHideFlags: 0

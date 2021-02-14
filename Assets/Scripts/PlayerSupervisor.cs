@@ -2,13 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum PlayerState
+{
+    Waiting,
+    Ready,
+    Playing,
+}
+
 public class PlayerSupervisor : MonoBehaviour
 {
     [SerializeField] Ball ball;
     [SerializeField] Paddle paddle;
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
-    [SerializeField] int activeBlocks;
     [SerializeField] PlayerData playerData;
     [SerializeField] GameObject trainingBlocks;
 
@@ -18,23 +24,34 @@ public class PlayerSupervisor : MonoBehaviour
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
     private int points = 0;
-
     private Vector3 ballOffset;         // Starting position of ball
     private Vector3 paddleOffset;       // Starting position of paddle
-
     private int boundaryHits = 0;
+
     private int paddleHits = 0;
 
-    // Public fields
+    private GameObject trainingBlocksInstance;
+    private int activeBlocks;
+    private PlayerState playerState = PlayerState.Waiting;
+
+    [Header("Game Environment Settings")]
+
+    public float minPaddlePosX = 1f;
+    public float maxPaddlePosX = 15f;
+    public float instanceWidth = 16f;
+    public float instanceHeight = 12f;
+   
+    [Range(10f, 200f)]
+    public float paddleMoveSpeed = 100f;
+
+    [Range(.1f, 10f)]
+    public float moveStep = 2f;
+
     public int boundaryReboundLimit = 10;
 
     [Tooltip("How often to check for anomalies (0 eliminates check)")]
     [Range(0f, 2f)]
     public float detectionFreq = 1f;
-
-    [Tooltip("Limit to wait before ending training (0 eliminates timeout)")]
-    [Range(0f, 600f)]
-    public float timeLimit = 0f;
 
     [Tooltip("Angle that ball will ricochet off ceiling to prevent juggling")]
     [Range(0f, 5f)]
@@ -44,44 +61,68 @@ public class PlayerSupervisor : MonoBehaviour
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-        playerAgent = FindObjectOfType<PlayerAgent>();
+        
+        if (!playerAgent)
+            playerAgent = FindObjectOfType<PlayerAgent>();
 
         // the code will check whether or not to execute
         // based on the block.name assigned in the Inspector Window
         // in the RandomBlockCreator empty child object
         randomBlockCreator = FindObjectOfType<RandomBlockCreator>();
-        randomBlockCreator.setupBlocks();
+        if (randomBlockCreator)
+            randomBlockCreator.setupBlocks();
         
-        ball = FindObjectOfType<Ball>();
-        ballOffset = ball.transform.position;
-
-        paddle = FindObjectOfType<Paddle>();
-        paddleOffset = paddle.transform.position;
+        if (!ball)
+            ball = FindObjectOfType<Ball>();
+        ballOffset = ball.transform.localPosition;
 
         // Performance tracking - has to come before countblocks
         dataManager = FindObjectOfType<PerformanceDataManager>();
-
-        CountBlocks();
+        
+        if (!paddle)
+            paddle = FindObjectOfType<Paddle>();
+        paddleOffset = paddle.transform.localPosition;
 
         // Check if scene is ready for training
         if (gameManager.trainingMode)
             ResetState();
+        else
+            CountBlocks();
     }
 
     void CountBlocks()
     {
         activeBlocks = 0;
-        foreach (Block block in FindObjectsOfType<Block>())
+
+        // TODO need to count only blocks in each player's environment to
+        //  work for general multiplayer use; Maybe keep all blocks in a
+        //  container for easier tracking
+        if (gameManager.trainingMode)
         {
-            if (block.gameObject.activeSelf)
-                ++activeBlocks;
+            foreach(Transform child in trainingBlocksInstance.transform)
+            {
+                if (child.gameObject.GetComponent<Block>() && child.gameObject.activeSelf)
+                    ++activeBlocks;
+            }
+        }
+        else
+        {
+            foreach (Block block in FindObjectsOfType<Block>())
+            {
+                if (block.gameObject.activeSelf)
+                    ++activeBlocks;
+            }
         }
         dataManager.SetStartingNumBlocks(activeBlocks);
     }
 
     public void PlayerReady()
     {
-        gameManager.StartGame();
+        if (playerState == PlayerState.Waiting)
+        {
+            playerState = PlayerState.Ready;
+            gameManager.StartGame(this);
+        }
     }
 
     public void StartGame()
@@ -93,13 +134,19 @@ public class PlayerSupervisor : MonoBehaviour
         }
 
         dataManager.SetStartingNumBlocks(activeBlocks);
+        
+        // Only start if the player is ready
+        if (playerState != PlayerState.Ready)
+            return;
+
+        playerState = PlayerState.Playing;
 
         LaunchBall();
 
         if (detectionFreq > 0)
             StartCoroutine(DetectBallLockup());
 
-        if (gameManager.trainingMode && timeLimit > 0)
+        if (gameManager.trainingMode && playerAgent.timeLimit > 0)
             StartCoroutine(Timeout());
     }
 
@@ -115,6 +162,9 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseColliderHit()
     {
+        if (playerAgent)
+            playerAgent.LoseBall();
+
         LoseGame();
     }
 
@@ -143,16 +193,35 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseGame()
     {
+    
         UpdatePlayerPerformanceData(false);
+        
+        playerState = PlayerState.Waiting;
 
         playerData.gameResult = "Game Over!";
         ball.gameObject.SetActive(false);
-        gameManager.LoseGame();
-
-        StopAllCoroutines();
-    
+        
         if (playerAgent)
             playerAgent.LoseGame();
+
+        gameManager.LoseGame(this);
+
+        StopAllCoroutines();
+    }
+
+    public void WinGame()
+    {
+        playerState = PlayerState.Waiting;
+
+        playerData.gameResult = "You Win!";
+        ball.gameObject.SetActive(false);
+
+         if (playerAgent)
+            playerAgent.WinGame();
+
+        gameManager.WinGame(this);
+
+        StopAllCoroutines();
     }
 
     public void WinGame()
@@ -202,23 +271,35 @@ public class PlayerSupervisor : MonoBehaviour
 
         ball.gameObject.SetActive(true);
         ball.ResetBall();
-        ball.transform.position = ballOffset;
 
+        ball.transform.localPosition = ballOffset;
         dataManager.ResetValues();
-
-        paddle.transform.position = paddleOffset;
         
-        GameObject tb = GameObject.FindGameObjectWithTag("TrainingBlock");
-        if (tb)
-            Destroy(tb);
-
-        foreach(Block block in FindObjectsOfType<Block>())
+        paddle.transform.localPosition = paddleOffset;
+        paddle.smoothMovementChange = 0f;
+        
+        // Destroy training blocks, then the block holder
+        if (trainingBlocksInstance)
         {
-            block.gameObject.SetActive(false);
-            Destroy(block.gameObject);
+            foreach(Transform child in trainingBlocksInstance.transform)
+            {
+                if (child.gameObject.GetComponent<Block>())
+                    child.gameObject.SetActive(false);
+                    Destroy(child.gameObject);
+            }
+
+            Destroy(trainingBlocksInstance);
         }
 
-        Instantiate(trainingBlocks);
+        // Set block's supervisor
+        trainingBlocksInstance = Instantiate(trainingBlocks, transform);
+        foreach(Transform child in trainingBlocksInstance.transform)
+        {
+            Block block = child.gameObject.GetComponent<Block>();
+            if (block)
+                block.playerSupervisor = this;
+        }
+        
         CountBlocks();
     }
 
@@ -282,7 +363,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     private IEnumerator Timeout()
     {   
-        yield return new WaitForSeconds(timeLimit);
+        yield return new WaitForSeconds(playerAgent.timeLimit);
         
         Debug.Log("Timeout check");
 

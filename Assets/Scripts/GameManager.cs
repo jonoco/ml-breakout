@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] SceneLoader sceneLoader;
     [SerializeField] UIManager uiManager;
     [SerializeField] PlayerSupervisor playerSupervisor;
+    [SerializeField] PlayerSupervisor[] playerSupervisors;
     [SerializeField] AudioClip loseSound;
     [SerializeField] AudioClip winSound;
 
@@ -25,7 +26,11 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+        if (trainingMode)
+            playerSupervisors = FindObjectsOfType<PlayerSupervisor>();
+        else
+            playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+            
         sceneLoader = FindObjectOfType<SceneLoader>();
         uiManager = FindObjectOfType<UIManager>();
     }
@@ -55,44 +60,93 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    
     public void StartGame()
+    {   
+        if (!playerSupervisor)
+        {
+            Debug.LogError("No player supervisor found to manage game");
+            return;
+        }
+        
+        StartGame(playerSupervisor);
+    }
+
+    public void StartGame(PlayerSupervisor supervisor)
     {
-        playerSupervisor.StartGame();
+        supervisor.StartGame();   
     }
 
     public void WinGame()
     {
+        if (!playerSupervisor)
+        {
+            Debug.LogError("No player supervisor found to manage game");
+            return;
+        }
+
+        WinGame(playerSupervisor);
+    }
+
+    public void WinGame(PlayerSupervisor supervisor)
+    {
+        if (trainingMode)
+        {
+            RestartGame(supervisor);
+        }
         if (!trainingMode)
         {
             AudioManager.Instance.PlaySoundBetweenScenes(winSound);
-            playerSupervisor.PauseGame();
+            supervisor.PauseGame();
             sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
         } 
     }
 
     public void LoseGame()
     {
+        if (!playerSupervisor)
+        {
+            Debug.LogError("No player supervisor found to manage game");
+            return;
+        }
+        
+        LoseGame(playerSupervisor);
+    }
+
+    public void LoseGame(PlayerSupervisor supervisor)
+    {
         if (trainingMode)
         {
-            RestartGame();
+            RestartGame(supervisor);
         }
         else
         {
             AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
-            playerSupervisor.PauseGame();
+            supervisor.PauseGame();
             sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
         }
+    }
+
+    public void RestartGame()
+    {
+        if (!playerSupervisor)
+        {
+            Debug.LogError("No player supervisor found to manage game");
+            return;
+        }
+
+        RestartGame(playerSupervisor);
+    }
+
+    public void RestartGame(PlayerSupervisor supervisor)
+    {
+        // Reset any game state then let the player start again
+        startTime = DateTime.Now;
+        supervisor.ResetState();
     }
 
     public void UpdatePoints(int points)
     {
         uiManager.UpdatePoints(points);
-    }
-
-    public void RestartGame()
-    {
-        // Reset any game state then let the player start again
-        startTime = DateTime.Now;
-        playerSupervisor.ResetState();
     }
 }
