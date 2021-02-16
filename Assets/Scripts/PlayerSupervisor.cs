@@ -81,7 +81,7 @@ public class PlayerSupervisor : MonoBehaviour
         ballOffset = ball.transform.localPosition;
 
         // Performance tracking - has to come before countblocks
-        if(!isMultiTraining)
+        if(!isMultiTraining && gameManager.trackingPerformanceTF)
             dataManager = FindObjectOfType<PerformanceDataManager>();
         
         if (!paddle)
@@ -118,7 +118,7 @@ public class PlayerSupervisor : MonoBehaviour
                     ++activeBlocks;
             }
         }
-        if(!isMultiTraining)
+        if(!isMultiTraining && gameManager.trackingPerformanceTF)
             dataManager.SetStartingNumBlocks(activeBlocks);
     }
 
@@ -139,7 +139,7 @@ public class PlayerSupervisor : MonoBehaviour
             return;
         }
 
-        if(!isMultiTraining)
+        if(!isMultiTraining && gameManager.trackingPerformanceTF)
             dataManager.SetStartingNumBlocks(activeBlocks);
         
         // Only start if the player is ready
@@ -177,7 +177,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     public int GetNumGamesPlayed()
     {
-        if(!isMultiTraining)
+        if(!isMultiTraining && gameManager.trackingPerformanceTF)
         {
             return dataManager.GetNumGamesPlayed();
         } 
@@ -212,7 +212,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseGame()
     {
-        if(!isMultiTraining)
+        if(!isMultiTraining && gameManager.trackingPerformanceTF)
             UpdatePlayerPerformanceData(false);
         
         playerState = PlayerState.Waiting;
@@ -232,7 +232,7 @@ public class PlayerSupervisor : MonoBehaviour
     {
         playerState = PlayerState.Waiting;
         
-        if(!isMultiTraining)
+        if(!isMultiTraining && gameManager.trackingPerformanceTF)
             UpdatePlayerPerformanceData(true);
 
         playerData.gameResult = "You Win!";
@@ -283,7 +283,7 @@ public class PlayerSupervisor : MonoBehaviour
         ball.ResetBall();
 
         ball.transform.localPosition = ballOffset;
-        if(!isMultiTraining)
+        if(!isMultiTraining && gameManager.trackingPerformanceTF)
             dataManager.ResetValues();
         
         paddle.transform.localPosition = paddleOffset;

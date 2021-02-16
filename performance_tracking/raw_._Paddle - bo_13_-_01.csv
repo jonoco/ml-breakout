@@ -1,0 +1,5 @@
+ModelName,GameNumber,NumGamesPlayed,Score,BlockHits,PaddleHits,TimePlayed,WinStatus
+Paddle - bo_13,1,4,10,1,2,8.48,0
+Paddle - bo_13,2,4,40,4,2,3.85,0
+Paddle - bo_13,3,4,110,11,1,11.47,0
+Paddle - bo_13,4,4,10,1,0,0.61,0
