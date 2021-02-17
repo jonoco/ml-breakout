@@ -14,11 +14,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip winSound;
 
     public bool trainingMode = false;
-    
-    public bool trackingPerformanceTF = false;
-
-    [Range(1, 100000)]
-    public int trackingNumberOfGames = 1;
 
     DateTime startTime = DateTime.Now;
     public TimeSpan elapsedTime;
@@ -43,29 +38,7 @@ public class GameManager : MonoBehaviour
     {
         elapsedTime = DateTime.Now - startTime;
         uiManager.UpdateElapsedTime(elapsedTime.ToString(@"mm\:ss\:ff"));
-        
-        if(trackingPerformanceTF)
-            PerformanceCheckNumGames();
     }
-
-    private void PerformanceCheckNumGames()
-    {
-        // If played up to number of performance games,
-        // end game play in editor window.
-        if(playerSupervisor.GetNumGamesPlayed() >= trackingNumberOfGames && 
-           !playerSupervisor.IsMultiAgent() &&
-           trackingPerformanceTF
-           )
-        {
-            #if UNITY_EDITOR
-            if(EditorApplication.isPlaying) 
-            {
-                UnityEditor.EditorApplication.isPlaying = false;
-            }
-            #endif
-        }
-    }
-
     
     public void StartGame()
     {   

@@ -121,6 +121,18 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &1827302411 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8908668329378533745, guid: e863cb15819a52b46a4983fad4a685b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 289237163517297374}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdff6945a9bef3540a63dc59de9a0d02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &289237163517297374
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -201,6 +213,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
+      propertyPath: dataManager
+      value: 
+      objectReference: {fileID: 1827302411}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
       propertyPath: ceilingReboundAngle
       value: 1.5
       objectReference: {fileID: 0}
@@ -215,6 +232,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c753f81020ac40b4e96c0a53d1e0d8e8,
         type: 2}
+    - target: {fileID: 8908668329378533745, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: trackingNumberOfGames
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908668329378533745, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: trackingPerformanceTF
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9146408817681791003, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
       propertyPath: m_RootOrder

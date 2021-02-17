@@ -19,7 +19,7 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] GameObject trainingBlocks;
 
     // Player Data Performance Tracking
-    private PerformanceDataManager dataManager;
+    [SerializeField] PerformanceDataManager dataManager;
 
     // Using this as a band-aid for now, until i get multi-agent
     // performance implemented
@@ -81,7 +81,7 @@ public class PlayerSupervisor : MonoBehaviour
         ballOffset = ball.transform.localPosition;
 
         // Performance tracking - has to come before countblocks
-        if(!isMultiTraining && gameManager.trackingPerformanceTF)
+        if(!isMultiTraining)
             dataManager = FindObjectOfType<PerformanceDataManager>();
         
         if (!paddle)
@@ -118,8 +118,6 @@ public class PlayerSupervisor : MonoBehaviour
                     ++activeBlocks;
             }
         }
-        if(!isMultiTraining && gameManager.trackingPerformanceTF)
-            dataManager.SetStartingNumBlocks(activeBlocks);
     }
 
     public void PlayerReady()
@@ -139,7 +137,7 @@ public class PlayerSupervisor : MonoBehaviour
             return;
         }
 
-        if(!isMultiTraining && gameManager.trackingPerformanceTF)
+        if(!isMultiTraining && dataManager.trackingPerformanceTF)
             dataManager.SetStartingNumBlocks(activeBlocks);
         
         // Only start if the player is ready
@@ -175,18 +173,6 @@ public class PlayerSupervisor : MonoBehaviour
         LoseGame();
     }
 
-    public int GetNumGamesPlayed()
-    {
-        if(!isMultiTraining && gameManager.trackingPerformanceTF)
-        {
-            return dataManager.GetNumGamesPlayed();
-        } 
-        else
-        {
-            return 0;
-        }
-    }
-
     public bool IsMultiAgent()
     {
         return isMultiTraining;
@@ -199,8 +185,7 @@ public class PlayerSupervisor : MonoBehaviour
         // in the losegame method and training mode is technically all of the time.
         // and if trainingmode is true, resetstate is called
         // which resets the paddleHits prematurely for this data set.
-        dataManager.EndOfGameDataUpdate(
-                gameManager.trackingPerformanceTF, 
+        dataManager.EndOfGameDataUpdate( 
                 gameWinTF,
                 // multiplying by timeScale here as ccan increase this in Project Settings
                 // in the editor for faster performance runs
@@ -212,7 +197,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseGame()
     {
-        if(!isMultiTraining && gameManager.trackingPerformanceTF)
+        if(!isMultiTraining && dataManager.trackingPerformanceTF)
             UpdatePlayerPerformanceData(false);
         
         playerState = PlayerState.Waiting;
@@ -232,7 +217,7 @@ public class PlayerSupervisor : MonoBehaviour
     {
         playerState = PlayerState.Waiting;
         
-        if(!isMultiTraining && gameManager.trackingPerformanceTF)
+        if(!isMultiTraining && dataManager.trackingPerformanceTF)
             UpdatePlayerPerformanceData(true);
 
         playerData.gameResult = "You Win!";
@@ -282,10 +267,7 @@ public class PlayerSupervisor : MonoBehaviour
         ball.gameObject.SetActive(true);
         ball.ResetBall();
 
-        ball.transform.localPosition = ballOffset;
-        if(!isMultiTraining && gameManager.trackingPerformanceTF)
-            dataManager.ResetValues();
-        
+        ball.transform.localPosition = ballOffset;        
         paddle.transform.localPosition = paddleOffset;
         paddle.smoothMovementChange = 0f;
         

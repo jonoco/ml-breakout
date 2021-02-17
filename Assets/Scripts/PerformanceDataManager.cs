@@ -5,14 +5,22 @@ using UnityEngine;
 using System.IO;  
 using System.Text; 
 using Unity.MLAgents.Policies; 
+using UnityEditor;
 
 public class PerformanceDataManager : MonoBehaviour
 {
+    public bool trackingPerformanceTF = false;
+
+    [Range(1, 100000)]
+    public int trackingNumberOfGames = 1;
+
+    [Range(1,20)]
+    [SerializeField] int gameplayTimeScale = 20;
+
     [SerializeField] private string nnModelName; 
     [SerializeField] private int numGamesPlayed;  // For agent inference perf tracking
     private string dataDir;
     private int startingNumBlocks;
-    private double gameTimeStart = 0;
     private List<string> fileNames;
 
     public bool isHumanPlayer; // no functionality for this yet.
@@ -49,12 +57,29 @@ public class PerformanceDataManager : MonoBehaviour
         gameTimePlayedList = new List<double>();
         paddleHitCountList = new List<int>();
     }
-    
-    public void ResetValues()
+
+    void Update()
     {
-        UpdateGameTimeStart();
+        if(trackingPerformanceTF)
+            PerformanceCheckNumGames();
     }
 
+
+    private void PerformanceCheckNumGames()
+    {
+        if(numGamesPlayed >= trackingNumberOfGames && 
+           !playerSupervisor.IsMultiAgent() &&
+           trackingPerformanceTF)
+        {
+            #if UNITY_EDITOR
+            if(EditorApplication.isPlaying) 
+            {
+                UnityEditor.EditorApplication.isPlaying = false;
+            }
+            #endif
+        }
+    }
+    
     public void SetStartingNumBlocks(int numBlocks)
     {
         startingNumBlocks = numBlocks;
@@ -62,15 +87,24 @@ public class PerformanceDataManager : MonoBehaviour
     
     void Start()
     {
-        SetDataDirectory();
-        nnModelName = FindObjectOfType<PlayerAgent>().GetComponent<BehaviorParameters>().Model.name;
-        fileNames = new List<string>();
-        playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+        
+        if(trackingPerformanceTF)
+        {
+            
+            // SET TIME SCALE to 20 for performance tracking to speed it up
+            Time.timeScale = gameplayTimeScale;
+
+            SetDataDirectory();
+            nnModelName = FindObjectOfType<PlayerAgent>().GetComponent<BehaviorParameters>().Model.name;
+            fileNames = new List<string>();
+            playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+        }
+        
     }
 
-    public void EndOfGameDataUpdate(bool dataIsTrackedTF, bool gameWin, int sec, int ms, int paddleHits, int activeBlocks)
+    public void EndOfGameDataUpdate(bool gameWin, int sec, int ms, int paddleHits, int activeBlocks)
     {
-        if(dataIsTrackedTF)
+        if(trackingPerformanceTF)
             UpdateDataLists(gameWin, sec, ms, paddleHits, activeBlocks);
             IncrementNumGamesPlayed();
     }
@@ -78,11 +112,6 @@ public class PerformanceDataManager : MonoBehaviour
     public void IncrementNumGamesPlayed()
     {
         numGamesPlayed += 1;
-    }
-
-    public void UpdateGameTimeStart()
-    {
-        gameTimeStart = Time.time;
     }
 
     public void SetDataDirectory()
@@ -123,11 +152,6 @@ public class PerformanceDataManager : MonoBehaviour
         return System.Math.Round(((double)sec/60 + (double)ms/1000), 2);
     }
 
-    public int GetNumGamesPlayed()
-    {
-        return numGamesPlayed;
-    }
-
     // Unity Default Function
     // In the Editor, Unity calls this message when playmode is stopped.
     // sources:
@@ -135,7 +159,8 @@ public class PerformanceDataManager : MonoBehaviour
     // https://docs.unity3d.com/ScriptReference/MonoBehaviour.OnApplicationQuit.html
     public void OnApplicationQuit()
     {
-        WritePlayerDataToTextFiles();
+        if(trackingPerformanceTF)
+            WritePlayerDataToTextFiles();
     }
 
     public void WritePlayerDataToTextFiles()
