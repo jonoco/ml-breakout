@@ -29,12 +29,8 @@ public class GameManager : MonoBehaviour
         if (trainingMode)
         {
             playerSupervisors = FindObjectsOfType<PlayerSupervisor>();
-            // still need this for single mode training/perf tracking.
-            playerSupervisor = FindObjectOfType<PlayerSupervisor>();
-        } else
-        {
-            playerSupervisor = FindObjectOfType<PlayerSupervisor>();
         }
+   playerSupervisor = FindObjectOfType<PlayerSupervisor>();
             
         sceneLoader = FindObjectOfType<SceneLoader>();
         uiManager = FindObjectOfType<UIManager>();
