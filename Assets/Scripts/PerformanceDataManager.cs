@@ -13,7 +13,7 @@ public class PerformanceDataManager : MonoBehaviour
     public bool trackingPerformanceTF = false;
 
     [Range(1, 100000)]
-    public int trackingNumberOfGames = 1;
+    public int trackingNumberOfGames = 2000;
 
     [Range(1,20)]
     [SerializeField] int gameplayTimeScale = 20;
