@@ -30,7 +30,9 @@ public class GameManager : MonoBehaviour
         {
             playerSupervisors = FindObjectsOfType<PlayerSupervisor>();
         }
-   playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+   
+        // Still need this for training_0 agent performance tracking
+        playerSupervisor = FindObjectOfType<PlayerSupervisor>();
             
         sceneLoader = FindObjectOfType<SceneLoader>();
         uiManager = FindObjectOfType<UIManager>();
