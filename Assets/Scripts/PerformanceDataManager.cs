@@ -6,6 +6,7 @@ using System.IO;
 using System.Text; 
 using Unity.MLAgents.Policies; 
 using UnityEditor;
+using System;
 
 public class PerformanceDataManager : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class PerformanceDataManager : MonoBehaviour
     private string dataDir;
     private int startingNumBlocks;
     private List<string> fileNames;
+
+    private DateTime runTime;
 
     public bool isHumanPlayer; // no functionality for this yet.
     [SerializeField] PlayerSupervisor playerSupervisor;
@@ -64,7 +67,6 @@ public class PerformanceDataManager : MonoBehaviour
             PerformanceCheckNumGames();
     }
 
-
     private void PerformanceCheckNumGames()
     {
         if(numGamesPlayed >= trackingNumberOfGames && 
@@ -87,10 +89,11 @@ public class PerformanceDataManager : MonoBehaviour
     
     void Start()
     {
-        
         if(trackingPerformanceTF)
-        {
-            
+        {  
+            // Used as a unique ID for each run, likely this will come in handy
+            runTime = System.DateTime.Now;
+
             // SET TIME SCALE to 20 for performance tracking to speed it up
             Time.timeScale = gameplayTimeScale;
 
@@ -170,7 +173,6 @@ public class PerformanceDataManager : MonoBehaviour
         WriteRawDataFile();
     }
 
-
     // Data:
     // score, blocks broken, paddle hits, time played, win or lose
     // source: https://stackoverflow.com/questions/18757097/writing-data-into-csv-file-in-c-sharp
@@ -187,8 +189,8 @@ public class PerformanceDataManager : MonoBehaviour
     public string HeaderSummaryNewLine()
     {
         return string.Format(
-            "{0},{1},{2},{3},{4},{5},{6},{7}", 
-            "ModelName", "NumGamesPlayed", "Statistic",
+            "{0},{1},{2},{3},{4},{5},{6},{7},{8}", 
+            "ModelName", "NumGamesPlayed", "ID_RunTime", "Statistic",
             "Score", "BlockHits", "PaddleHits",
             "TimePlayed", "WinPercentage"
         );
@@ -203,8 +205,8 @@ public class PerformanceDataManager : MonoBehaviour
         string winPct = GetWinPct(gameWinStatusList).ToString();
     
         return string.Format(
-            "{0},{1},{2},{3},{4},{5},{6},{7}", 
-            nnModelName, numGamesPlayed, "Average",
+            "{0},{1},{2},{3},{4},{5},{6},{7},{8}", 
+            nnModelName, numGamesPlayed, runTime, "Average",
             score, blocksHit, paddleHits,
             timePlayed, winPct
         );
@@ -219,8 +221,8 @@ public class PerformanceDataManager : MonoBehaviour
         string winPct = GetWinPct(gameWinStatusList).ToString();
     
         return string.Format(
-            "{0},{1},{2},{3},{4},{5},{6},{7}", 
-            nnModelName, numGamesPlayed, "Minimum",
+            "{0},{1},{2},{3},{4},{5},{6},{7},{8}", 
+            nnModelName, numGamesPlayed, runTime, "Minimum",
             score, blocksHit, paddleHits,
             timePlayed, winPct
         );
@@ -235,8 +237,8 @@ public class PerformanceDataManager : MonoBehaviour
         string winPct = GetWinPct(gameWinStatusList).ToString();
     
         return string.Format(
-            "{0},{1},{2},{3},{4},{5},{6},{7}", 
-            nnModelName, numGamesPlayed, "Maximum",
+            "{0},{1},{2},{3},{4},{5},{6},{7},{8}",  
+            nnModelName, numGamesPlayed, runTime, "Maximum",
             score, blocksHit, paddleHits,
             timePlayed, winPct
         );
@@ -245,8 +247,8 @@ public class PerformanceDataManager : MonoBehaviour
     public string HeaderRawNewLine()
     {
         return string.Format(
-            "{0},{1},{2},{3},{4},{5},{6},{7}", 
-            "ModelName", "GameNumber", "NumGamesPlayed",
+            "{0},{1},{2},{3},{4},{5},{6},{7},{8}", 
+            "ModelName", "GameNumber", "ID_RunTime", "NumGamesPlayed",
             "Score", "BlockHits", "PaddleHits",
             "TimePlayed", "WinStatus"
         );
@@ -255,8 +257,8 @@ public class PerformanceDataManager : MonoBehaviour
     public string RawDataLine(int idx)
     {
         return string.Format(
-            "{0},{1},{2},{3},{4},{5},{6},{7}", 
-            nnModelName, (idx+1).ToString(),  numGamesPlayed,
+            "{0},{1},{2},{3},{4},{5},{6},{7},{8}", 
+            nnModelName, (idx+1).ToString(),  numGamesPlayed, runTime,
             gameScoresList[idx].ToString(), blocksBrokenList[idx].ToString(), paddleHitCountList[idx].ToString(),
             gameTimePlayedList[idx].ToString(), WinConvertBoolToInt(gameWinStatusList[idx])
         );
@@ -468,7 +470,5 @@ public class PerformanceDataManager : MonoBehaviour
         }
         return System.Math.Round((float)sum/(float)nums.Count,2);
     }
-
-
 
 }

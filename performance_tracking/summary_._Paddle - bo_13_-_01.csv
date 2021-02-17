@@ -1,4 +1,4 @@
-ModelName,NumGamesPlayed,Statistic,Score,BlockHits,PaddleHits,TimePlayed,WinPercentage
-Paddle - bo_13,4,Minimum,10,1,0,0.61,0
-Paddle - bo_13,4,Average,42.5,4.25,1.25,6.1,0
-Paddle - bo_13,4,Maximum,110,11,2,11.47,0
+ModelName,NumGamesPlayed,ID_RunTime,Statistic,Score,BlockHits,PaddleHits,TimePlayed,WinPercentage
+Paddle - bo_13,15,2/16/2021 9:17:10 PM,Minimum,10,1,0,0.58,0
+Paddle - bo_13,15,2/16/2021 9:17:10 PM,Average,52,5.2,1.07,10.84,0
+Paddle - bo_13,15,2/16/2021 9:17:10 PM,Maximum,140,14,4,99.93,0
