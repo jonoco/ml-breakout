@@ -1,0 +1,48 @@
+{
+    "Paddle": {
+        "checkpoints": [
+            {
+                "steps": 3499903,
+                "file_path": "results\\CM_03-config_bo\\Paddle\\Paddle-3499903.onnx",
+                "reward": -38.25950017929077,
+                "creation_time": 1613659691.7280843
+            },
+            {
+                "steps": 3999872,
+                "file_path": "results\\CM_03-config_bo\\Paddle\\Paddle-3999872.onnx",
+                "reward": -38.87575767979477,
+                "creation_time": 1613660269.0703099
+            },
+            {
+                "steps": 4499965,
+                "file_path": "results\\CM_03-config_bo\\Paddle\\Paddle-4499965.onnx",
+                "reward": -39.6952979766463,
+                "creation_time": 1613660777.5044382
+            },
+            {
+                "steps": 4999935,
+                "file_path": "results\\CM_03-config_bo\\Paddle\\Paddle-4999935.onnx",
+                "reward": -39.96467400288236,
+                "creation_time": 1613661285.6463716
+            },
+            {
+                "steps": 5001215,
+                "file_path": "results\\CM_03-config_bo\\Paddle\\Paddle-5001215.onnx",
+                "reward": -39.96467400288236,
+                "creation_time": 1613661285.7975383
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 5001215,
+            "file_path": "results\\CM_03-config_bo\\Paddle.onnx",
+            "reward": -39.96467400288236,
+            "creation_time": 1613661285.7975383
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.2.0",
+        "mlagents_version": "0.23.0",
+        "torch_version": "1.7.1",
+        "tensorflow_version": -1
+    }
+}
