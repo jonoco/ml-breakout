@@ -10,6 +10,10 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
+# - FER taking this out 2/16/2021, might be useful to have raw files tracked, too on github.
+# Ignore raw csv performance file data
+# /[Aa]ssets/performance_tracking/raw*.csv
+
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
 
