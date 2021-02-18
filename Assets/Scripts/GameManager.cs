@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,14 +16,18 @@ public class GameManager : MonoBehaviour
     public bool trainingMode = false;
 
     DateTime startTime = DateTime.Now;
+    public TimeSpan elapsedTime;
     
     // Start is called before the first frame update
     void Awake()
     {
         if (trainingMode)
+        {
             playerSupervisors = FindObjectsOfType<PlayerSupervisor>();
-        else
-            playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+        }
+   
+        // Still need this for training_0 agent performance tracking
+        playerSupervisor = FindObjectOfType<PlayerSupervisor>();
             
         sceneLoader = FindObjectOfType<SceneLoader>();
         uiManager = FindObjectOfType<UIManager>();
@@ -33,10 +36,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TimeSpan elapsedTime = DateTime.Now - startTime;
+        elapsedTime = DateTime.Now - startTime;
         uiManager.UpdateElapsedTime(elapsedTime.ToString(@"mm\:ss\:ff"));
     }
-
     
     public void StartGame()
     {   
