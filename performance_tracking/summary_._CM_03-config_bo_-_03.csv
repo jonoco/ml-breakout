@@ -1,0 +1,4 @@
+ModelName,NumGamesPlayed,ID_RunTime,Statistic,Score,BlockHits,PaddleHits,TimePlayed,WinPercentage
+CM_03-config_bo,2000,2/18/2021 4:17:27 PM,Minimum,0,0,0,0.12,0
+CM_03-config_bo,2000,2/18/2021 4:17:27 PM,Average,19.66,1.97,0.07,2.32,0
+CM_03-config_bo,2000,2/18/2021 4:17:27 PM,Maximum,200,20,3,90.49,0
