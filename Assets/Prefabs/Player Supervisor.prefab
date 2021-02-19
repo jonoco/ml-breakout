@@ -115,18 +115,7 @@ MonoBehaviour:
   boundaryReboundLimit: 10
   detectionFreq: 1
   ceilingReboundAngle: 1.5
-  blocksPlacedRandomlyTF: 1
-  numBlocksChosenRandomlyTF: 0
-  numBlocksChoiceIfNotRandom: 5
-  minLeftBorderForBlockPlacement: 0
-  maxRightBorderForBlockPlacement: 0
-  minBottomBorderForBlockPlacement: 0
-  maxTopBorderForBlockPlacement: 0
-  randomBlockLengthTF: 0
-  maxBlockLength: 20
-  minBlockLength: 0
-  randomBlockHeightTF: 0
-  maxBlockHeight: 20
-  minBlockHeight: 0
   blockGameObject: {fileID: 0}
   trainingBlocksGroup: {fileID: 0}
+  multiBlockCreator: {fileID: 8072182191512691420, guid: d3a8c38544c900d4e930f9ba30f589dd,
+    type: 3}

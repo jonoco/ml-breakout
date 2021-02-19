@@ -121,6 +121,24 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &499769450 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 289237163517297374}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf4333c60c9c2f43a24075360ab86ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1537189498 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2626395564681293583, guid: e863cb15819a52b46a4983fad4a685b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 289237163517297374}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1827302411 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8908668329378533745, guid: e863cb15819a52b46a4983fad4a685b2,
@@ -230,9 +248,25 @@ PrefabInstance:
       objectReference: {fileID: 1827302411}
     - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
+      propertyPath: blockGameObject
+      value: 
+      objectReference: {fileID: 3913816967027211534, guid: 33a65d94e8608a044aaac080926314be,
+        type: 3}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: multiBlockCreator
+      value: 
+      objectReference: {fileID: 499769450}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
       propertyPath: ceilingReboundAngle
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: trainingBlocksGroup
+      value: 
+      objectReference: {fileID: 1537189498}
     - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
       propertyPath: boundaryReboundLimit
@@ -257,6 +291,21 @@ PrefabInstance:
         type: 3}
       propertyPath: numBlocksChoiceIfNotRandom
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: blocksPlacedRandomlyTF
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: numBlocksChosenRandomlyTF
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: numBlocksChoiceIfNotRandom
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 7726804809783930187, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}

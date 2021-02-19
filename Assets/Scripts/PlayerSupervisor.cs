@@ -62,64 +62,20 @@ public class PlayerSupervisor : MonoBehaviour
     public float ceilingReboundAngle = 0f;
 
 // ---------------------------------------------------------
-
-    private List<float> staticBlockXPos = new List<float>()
-    {
-        2f, 4f, 6f, 8f, 10f, 12f, 14f,
-        2f, 4f, 6f, 8f, 10f, 12f, 14f,
-        2f, 4f, 6f, 8f, 10f, 12f, 14f,
-    };
     
-    private List<float> staticBlockYPos = new List<float>()
-    {
-        5.5f, 5.5f, 5.5f, 5.5f, 5.5f, 5.5f, 5.5f,
-        7.5f, 7.5f, 7.5f, 7.5f, 7.5f, 7.5f, 7.5f,
-        9.5f, 9.5f, 9.5f, 9.5f, 9.5f, 9.5f, 9.5f,
-    };
-
-    private int numStaticBlocks = 21;
-
-    [Header("Training Block Settings")]
-
-    [SerializeField] bool blocksPlacedRandomlyTF;
-    
-    [SerializeField] bool numBlocksChosenRandomlyTF; 
-    
-    [Range(1, 100)]
-    [SerializeField] int numBlocksChoiceIfNotRandom = 20;
-
-    public int minLeftBorderForBlockPlacement;
-    public int maxRightBorderForBlockPlacement;
-    public int minBottomBorderForBlockPlacement;
-    public int maxTopBorderForBlockPlacement;
-
-    [SerializeField] bool randomBlockLengthTF; 
-    
-    [Range(1, 15)]
-    [SerializeField] int maxBlockLength = 20; 
-
-    [Range(1, 11)]
-    [SerializeField] int minBlockLength; 
-
-    [SerializeField] bool randomBlockHeightTF; 
-    
-    [Range(1, 15)]
-    [SerializeField] int maxBlockHeight = 20; 
-
-    [Range(1, 11)]
-    [SerializeField] int minBlockHeight; 
-
     [SerializeField] GameObject blockGameObject;
     [SerializeField] GameObject trainingBlocksGroup;
 
+    [SerializeField] MultiBlockCreator multiBlockCreator;
     // ---------------------------------------------------------
-
-
 
     // Start is called before the first frame update
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+
+        if(!multiBlockCreator)
+            multiBlockCreator = FindObjectOfType<MultiBlockCreator>();
         
         if (!playerAgent)
             playerAgent = FindObjectOfType<PlayerAgent>();
@@ -157,29 +113,13 @@ public class PlayerSupervisor : MonoBehaviour
     {
         activeBlocks = 0;
 
-        // TODO need to count only blocks in each player's environment to
-        //  work for general multiplayer use; Maybe keep all blocks in a
-        //  container for easier tracking
         if (gameManager.trainingMode)
         {
-
-            //if(blocksPlacedRandomlyTF)
-            //{
             foreach(Transform child in trainingBlocksGroup.transform)
             {
                 if (child.gameObject.GetComponent<Block>() && child.gameObject.activeSelf)
                     ++activeBlocks;
             }
-            //}
-            /*else
-            {
-                foreach(Transform child in trainingBlocksInstance.transform)
-                {
-                    if (child.gameObject.GetComponent<Block>() && child.gameObject.activeSelf)
-                        ++activeBlocks;
-                }
-            }*/
-
         }
         else
         {
@@ -334,12 +274,12 @@ public class PlayerSupervisor : MonoBehaviour
     */
     public void CreateTrainingBlocks()
     {
-        if(!blocksPlacedRandomlyTF)
+        if(multiBlockCreator.blocksPlacedRandomlyTF)
         {
-            CreateStaticTrainingBlocks();
+            CreateRandomTrainingBlocks();
         }
         else{
-            CreateRandomTrainingBlocks();
+            CreateStaticTrainingBlocks();
         }
     }
 
@@ -347,13 +287,13 @@ public class PlayerSupervisor : MonoBehaviour
     {
         int blockNum = 0;
 
-        if(numBlocksChosenRandomlyTF)
+        if(multiBlockCreator.numBlocksChosenRandomlyTF)
         {
             blockNum = (int)Random.Range(5f, 50f);
         }
         else
         {
-            blockNum = numBlocksChoiceIfNotRandom;
+            blockNum = multiBlockCreator.numBlocksChoiceIfNotRandom;
         }
                     
         for(int i = 0; i < blockNum; i++)
@@ -376,13 +316,13 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void CreateStaticTrainingBlocks()
     {
-        for(int i = 0; i < numStaticBlocks; i++)
+        for(int i = 0; i < multiBlockCreator.numStaticBlocks; i++)
         {
             GameObject block = Instantiate(
                 blockGameObject, 
                 new Vector2(
-                    staticBlockXPos[i] + this.transform.parent.transform.position.x,
-                    staticBlockYPos[i] + this.transform.parent.transform.position.y
+                    multiBlockCreator.staticBlockXPos[i] + this.transform.parent.transform.position.x,
+                    multiBlockCreator.staticBlockYPos[i] + this.transform.parent.transform.position.y
                 ), 
                 Quaternion.identity,
                 trainingBlocksGroup.transform
@@ -392,42 +332,14 @@ public class PlayerSupervisor : MonoBehaviour
             {
                 block.GetComponent<Block>().playerSupervisor = this;
                 block.GetComponent<Block>().gameManager = this.GetComponent<PlayerSupervisor>().gameManager;
-            }
-               
+            }               
         }      
     }
     
-    /*
-    public void CreateStaticTrainingBlocks()
-    {
-        // Create Blocks and Set block's supervisor
-        trainingBlocksInstance = Instantiate(trainingBlocks, transform);
-        foreach(Transform child in trainingBlocksInstance.transform)
-        {
-            Block block = child.gameObject.GetComponent<Block>();
-            if (block)
-                block.playerSupervisor = this;
-        }
-    }
-    */
-
     public void DestroyTrainingBlocks()
     {
-        /*
-        // Destroy training blocks, then the block holder
-        if (trainingBlocksInstance)
-        {
-            foreach(Transform child in trainingBlocksInstance.transform)
-            {
-                if (child.gameObject.GetComponent<Block>())
-                    child.gameObject.SetActive(false);
-                    Destroy(child.gameObject);
-            }
-            Destroy(trainingBlocksInstance);
-        }
-        */
-
-        // do not need to destroy this object as it stays in training window empty
+        // do not need to destroy the trainingBlocksGroup object 
+        // as it stays in training window empty
         if(trainingBlocksGroup)
         {
             foreach(Transform child in trainingBlocksGroup.transform)

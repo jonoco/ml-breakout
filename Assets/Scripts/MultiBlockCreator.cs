@@ -4,59 +4,51 @@ using UnityEngine;
 
 public class MultiBlockCreator : MonoBehaviour
 {
-
-    // ---------------------------------------------------------
-
-    private List<float> staticBlockXPos = new List<float>()
+    public List<float> staticBlockXPos = new List<float>()
     {
         2f, 4f, 6f, 8f, 10f, 12f, 14f,
         2f, 4f, 6f, 8f, 10f, 12f, 14f,
         2f, 4f, 6f, 8f, 10f, 12f, 14f,
     };
     
-    private List<float> staticBlockYPos = new List<float>()
+    public List<float> staticBlockYPos = new List<float>()
     {
         5.5f, 5.5f, 5.5f, 5.5f, 5.5f, 5.5f, 5.5f,
         7.5f, 7.5f, 7.5f, 7.5f, 7.5f, 7.5f, 7.5f,
         9.5f, 9.5f, 9.5f, 9.5f, 9.5f, 9.5f, 9.5f,
     };
 
-    private int numStaticBlocks = 21;
+    public int numStaticBlocks = 21;
 
     [Header("Training Block Settings")]
 
-    [SerializeField] bool blocksPlacedRandomlyTF;
+    [SerializeField] public bool blocksPlacedRandomlyTF;
     
-    [SerializeField] bool numBlocksChosenRandomlyTF; 
+    [SerializeField] public bool numBlocksChosenRandomlyTF; 
     
     [Range(1, 100)]
-    [SerializeField] int numBlocksChoiceIfNotRandom = 20;
+    [SerializeField] public int numBlocksChoiceIfNotRandom = 20;
 
     public int minLeftBorderForBlockPlacement;
     public int maxRightBorderForBlockPlacement;
     public int minBottomBorderForBlockPlacement;
     public int maxTopBorderForBlockPlacement;
 
-    [SerializeField] bool randomBlockLengthTF; 
+    [SerializeField] public bool randomBlockLengthTF; 
     
     [Range(1, 15)]
-    [SerializeField] int maxBlockLength = 20; 
+    [SerializeField] public int maxBlockLength = 1; 
 
     [Range(1, 11)]
-    [SerializeField] int minBlockLength; 
+    [SerializeField] public int minBlockLength; 
 
     [SerializeField] bool randomBlockHeightTF; 
     
     [Range(1, 15)]
-    [SerializeField] int maxBlockHeight = 20; 
+    [SerializeField] public int maxBlockHeight = 1; 
 
     [Range(1, 11)]
-    [SerializeField] int minBlockHeight; 
-
-    [SerializeField] GameObject blockGameObject;
-    [SerializeField] GameObject trainingBlocksGroup;
-
-    // ---------------------------------------------------------
+    [SerializeField] public int minBlockHeight; 
 
     // Start is called before the first frame update
     void Start()
