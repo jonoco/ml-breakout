@@ -184,7 +184,7 @@ PrefabInstance:
     - target: {fileID: 4778242522678230514, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
       propertyPath: m_BehaviorType
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4778242522678230515, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
@@ -213,6 +213,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
+      propertyPath: block
+      value: 
+      objectReference: {fileID: 3913816967027211534, guid: 33a65d94e8608a044aaac080926314be,
+        type: 3}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: blockGO
+      value: 
+      objectReference: {fileID: 3913816967027211534, guid: 33a65d94e8608a044aaac080926314be,
+        type: 3}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
       propertyPath: dataManager
       value: 
       objectReference: {fileID: 1827302411}
@@ -225,6 +237,31 @@ PrefabInstance:
         type: 3}
       propertyPath: boundaryReboundLimit
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: trainingBlocksEmptyGO
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: blocksPlacedRandomlyTF
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: numBlocksChosenRandomlyTF
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: numBlocksChoiceIfNotRandom
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7726804809783930187, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: m_Name
+      value: TrainingBlocksParent
       objectReference: {fileID: 0}
     - target: {fileID: 8908668329378533745, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}

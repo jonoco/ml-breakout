@@ -62,6 +62,23 @@ public class PlayerSupervisor : MonoBehaviour
     public float ceilingReboundAngle = 0f;
 
     // ---------------------------------------------------------
+
+    private List<float> staticBlockXPos = new List<float>()
+    {
+        2f, 4f, 6f, 8f, 10f, 12f, 14f,
+        2f, 4f, 6f, 8f, 10f, 12f, 14f,
+        2f, 4f, 6f, 8f, 10f, 12f, 14f,
+    };
+    
+    private List<float> staticBlockYPos = new List<float>()
+    {
+        5.5f, 5.5f, 5.5f, 5.5f, 5.5f, 5.5f, 5.5f,
+        7.5f, 7.5f, 7.5f, 7.5f, 7.5f, 7.5f, 7.5f,
+        9.5f, 9.5f, 9.5f, 9.5f, 9.5f, 9.5f, 9.5f,
+    };
+
+    private int numStaticBlocks = 21;
+
     [Header("Training Block Settings")]
 
     [SerializeField] bool blocksPlacedRandomlyTF;
@@ -84,7 +101,6 @@ public class PlayerSupervisor : MonoBehaviour
     [Range(1, 11)]
     [SerializeField] int minBlockLength; 
 
-
     [SerializeField] bool randomBlockHeightTF; 
     
     [Range(1, 15)]
@@ -92,6 +108,10 @@ public class PlayerSupervisor : MonoBehaviour
 
     [Range(1, 11)]
     [SerializeField] int minBlockHeight; 
+
+    [SerializeField] GameObject blockGameObject;
+    [SerializeField] GameObject trainingBlocksGroup;
+
     // ---------------------------------------------------------
 
     // Start is called before the first frame update
@@ -121,6 +141,9 @@ public class PlayerSupervisor : MonoBehaviour
             paddle = FindObjectOfType<Paddle>();
         paddleOffset = paddle.transform.localPosition;
 
+        if(!trainingBlocksGroup)
+            trainingBlocksGroup = GameObject.Find("TrainingBlocksGroup");
+
         // Check if scene is ready for training
         if (gameManager.trainingMode)
             ResetState();
@@ -137,11 +160,24 @@ public class PlayerSupervisor : MonoBehaviour
         //  container for easier tracking
         if (gameManager.trainingMode)
         {
-            foreach(Transform child in trainingBlocksInstance.transform)
+
+            //if(blocksPlacedRandomlyTF)
+            //{
+            foreach(Transform child in trainingBlocksGroup.transform)
             {
                 if (child.gameObject.GetComponent<Block>() && child.gameObject.activeSelf)
                     ++activeBlocks;
             }
+            //}
+            /*else
+            {
+                foreach(Transform child in trainingBlocksInstance.transform)
+                {
+                    if (child.gameObject.GetComponent<Block>() && child.gameObject.activeSelf)
+                        ++activeBlocks;
+                }
+            }*/
+
         }
         else
         {
@@ -294,20 +330,64 @@ public class PlayerSupervisor : MonoBehaviour
     3) random block lengths? true/false + min/max
     4) random block heights? true/false + min/max
     */
-
-    public void SetRandomTrainingBlocks()
-    {
-
-
-    }
-
-
     public void CreateTrainingBlocks()
     {
         if(!blocksPlacedRandomlyTF)
+        {
             CreateStaticTrainingBlocks();
+        }
+        else{
+            CreateRandomTrainingBlocks();
+        }
     }
 
+    public void CreateRandomTrainingBlocks()
+    {
+        int blockNum = 0;
+
+        if(numBlocksChosenRandomlyTF)
+        {
+            blockNum = (int)Random.Range(5f, 50f);
+        }
+        else
+        {
+            blockNum = numBlocksChoiceIfNotRandom;
+        }
+                    
+        for(int i = 0; i < blockNum; i++)
+        {
+            float randX = Random.Range(1f, 15f);
+            float randY = Random.Range(1f, 11f);
+
+            GameObject block = Instantiate(
+                blockGameObject, new Vector2(randX, randY),
+                Quaternion.identity, trainingBlocksGroup.transform
+            );
+            block.GetComponent<Block>().playerSupervisor = this;
+        }           
+    }
+
+    public void CreateStaticTrainingBlocks()
+    {
+        for(int i = 0; i < numStaticBlocks; i++)
+        {
+            GameObject block = Instantiate(
+                blockGameObject, 
+                new Vector2(
+                    staticBlockXPos[i],
+                    staticBlockYPos[i]
+                ), 
+                Quaternion.identity,
+                trainingBlocksGroup.transform
+            );
+
+            if(block)
+                block.GetComponent<Block>().playerSupervisor = this;
+            
+        }      
+    }
+    
+    /*
     public void CreateStaticTrainingBlocks()
     {
         // Create Blocks and Set block's supervisor
@@ -319,9 +399,11 @@ public class PlayerSupervisor : MonoBehaviour
                 block.playerSupervisor = this;
         }
     }
+    */
 
     public void DestroyTrainingBlocks()
     {
+        /*
         // Destroy training blocks, then the block holder
         if (trainingBlocksInstance)
         {
@@ -333,9 +415,19 @@ public class PlayerSupervisor : MonoBehaviour
             }
             Destroy(trainingBlocksInstance);
         }
+        */
+
+        // do not need to destroy this object as it stays in training window empty
+        if(trainingBlocksGroup)
+        {
+            foreach(Transform child in trainingBlocksGroup.transform)
+            {
+                if (child.gameObject.GetComponent<Block>())
+                    child.gameObject.SetActive(false);
+                    Destroy(child.gameObject);
+            }
+        }
     }
-
-
 
     /// <summary>
     /// Game environment reset for training.  
@@ -396,8 +488,6 @@ public class PlayerSupervisor : MonoBehaviour
         boundaryHits = 0;
         playerAgent.PaddleHit();
     }
-
-
 
     private IEnumerator DetectBallLockup()
     {
