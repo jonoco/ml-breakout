@@ -233,6 +233,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8795198208930728699, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
+      propertyPath: staticStartVelocity.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: staticStartVelocity.y
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: startWithRandomVelocityTF
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
       propertyPath: ballSpeedIncreasePctEachIncrement
       value: 10
       objectReference: {fileID: 0}

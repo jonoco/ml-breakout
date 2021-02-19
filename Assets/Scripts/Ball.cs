@@ -10,6 +10,9 @@ public class Ball : MonoBehaviour
 
     public bool hasStarted = false;
 
+    [SerializeField] bool startWithRandomVelocityTF = true;
+    [SerializeField] Vector2 staticStartVelocity = new Vector2(1f,7.5f);
+
     [SerializeField] Vector2 launchVelocityMin = new Vector2(-2f, 15f);
     [SerializeField] Vector2 launchVelocityMax = new Vector2(2f, 15f);
 
@@ -20,15 +23,15 @@ public class Ball : MonoBehaviour
     [Header("Ball Velocity Increase Settings")]
 
     [Tooltip("Include ball speed increase in game? True/False")]
-    [SerializeField] public bool increaseBallSpeedTF;
+    [SerializeField] public bool increaseBallSpeedTF = true;
         
     [Tooltip("How frequently the ball speed is increased, in seconds")]
     [Range(0.1f,15)]
-    [SerializeField] float ballSpeedIncreaseIncrementInSeconds = 5;
+    [SerializeField] float ballSpeedIncreaseIncrementInSeconds = 2.5f;
 
     [Tooltip("% the game speed increases from prior game speed, after each increment.")]
     [Range(0,25)]
-    [SerializeField] float ballSpeedIncreasePctEachIncrement = 1;
+    [SerializeField] float ballSpeedIncreasePctEachIncrement = 5f;
 
     // To keep track of when the last speed increase was to determine if a new speed incr. is needed
     private float previousIncreaseTimeInSeconds = 0;
@@ -60,10 +63,32 @@ public class Ball : MonoBehaviour
         if (!hasStarted)
         {
             hasStarted = true;
-            float launchVelocityX = UnityEngine.Random.Range(launchVelocityMin.x, launchVelocityMax.x);
-            float launchVelocityY = UnityEngine.Random.Range(launchVelocityMin.y, launchVelocityMax.y);
-            rigidbody.velocity = new Vector2(launchVelocityX, launchVelocityY);
+            SetStartingVelocity();
         }
+    }
+
+    public void SetStartingVelocity()
+    {
+        if(startWithRandomVelocityTF)
+        {
+            SetRandomStartingVelocity();
+        }
+        else 
+        {
+            SetStaticStartingVelocity();
+        }
+    }
+
+    public void SetRandomStartingVelocity()
+    {
+        float launchVelocityX = UnityEngine.Random.Range(launchVelocityMin.x, launchVelocityMax.x);
+        float launchVelocityY = UnityEngine.Random.Range(launchVelocityMin.y, launchVelocityMax.y);
+        rigidbody.velocity = new Vector2(launchVelocityX, launchVelocityY);
+    }
+
+    public void SetStaticStartingVelocity()
+    {
+        rigidbody.velocity = new Vector2(staticStartVelocity[0], staticStartVelocity[1]);
     }
 
     public bool IsNextSpeedIncreaseIncrement()
