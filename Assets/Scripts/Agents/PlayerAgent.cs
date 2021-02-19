@@ -33,6 +33,24 @@ public class PlayerAgent : Agent
             paddle = FindObjectOfType<Paddle>();
     }
 
+    private void Update() {
+        Vector2 ballLocation = new Vector2(ball.transform.localPosition.x, ball.transform.localPosition.y);
+        Vector2 offset = new Vector2(0.01f, 0.01f);
+        Vector2 paddleLocation = new Vector2(paddle.transform.localPosition.x, paddle.transform.localPosition.y);
+        Debug.DrawLine(ballLocation, ballLocation + offset, Color.yellow);
+        Debug.DrawLine(paddleLocation, paddleLocation + offset, Color.yellow);
+        Debug.DrawLine(paddleLocation, ballLocation, Color.green);
+
+
+        Vector2 observation1 = new Vector2(paddle.transform.localPosition.x / playerSupervisor.instanceWidth, 0);
+        Vector2 observation2 = new Vector2(ball.transform.localPosition.x / playerSupervisor.instanceWidth
+                                , ball.transform.localPosition.y / playerSupervisor.instanceHeight);
+        Debug.DrawLine(observation1, observation2, Color.red);
+
+
+        Debug.DrawLine(paddle.transform.position, ball.transform.position);
+    }
+
     public override void OnEpisodeBegin()
     {
         // Reset any Agent state
@@ -45,6 +63,7 @@ public class PlayerAgent : Agent
 
         // Paddle x-axis position [0-1]
         sensor.AddObservation(paddle.transform.localPosition.x / playerSupervisor.instanceWidth);
+
 
         // Ball x and y-axis positions [0-1]
         sensor.AddObservation(ball.transform.localPosition.x / playerSupervisor.instanceWidth);
