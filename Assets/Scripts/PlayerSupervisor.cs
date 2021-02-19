@@ -61,6 +61,39 @@ public class PlayerSupervisor : MonoBehaviour
     [Range(0f, 5f)]
     public float ceilingReboundAngle = 0f;
 
+    // ---------------------------------------------------------
+    [Header("Training Block Settings")]
+
+    [SerializeField] bool blocksPlacedRandomlyTF;
+    
+    [SerializeField] bool numBlocksChosenRandomlyTF; 
+    
+    [Range(1, 100)]
+    [SerializeField] int numBlocksChoiceIfNotRandom = 20;
+
+    public int minLeftBorderForBlockPlacement;
+    public int maxRightBorderForBlockPlacement;
+    public int minBottomBorderForBlockPlacement;
+    public int maxTopBorderForBlockPlacement;
+
+    [SerializeField] bool randomBlockLengthTF; 
+    
+    [Range(1, 15)]
+    [SerializeField] int maxBlockLength = 20; 
+
+    [Range(1, 11)]
+    [SerializeField] int minBlockLength; 
+
+
+    [SerializeField] bool randomBlockHeightTF; 
+    
+    [Range(1, 15)]
+    [SerializeField] int maxBlockHeight = 20; 
+
+    [Range(1, 11)]
+    [SerializeField] int minBlockHeight; 
+    // ---------------------------------------------------------
+
     // Start is called before the first frame update
     void Start()
     {
@@ -254,6 +287,56 @@ public class PlayerSupervisor : MonoBehaviour
         return points;
     }
 
+    /*
+    Variables:
+    1) # of blocks - either random # or set # you define above
+    2) min/max border values
+    3) random block lengths? true/false + min/max
+    4) random block heights? true/false + min/max
+    */
+
+    public void SetRandomTrainingBlocks()
+    {
+
+
+    }
+
+
+    public void CreateTrainingBlocks()
+    {
+        if(!blocksPlacedRandomlyTF)
+            CreateStaticTrainingBlocks();
+    }
+
+    public void CreateStaticTrainingBlocks()
+    {
+        // Create Blocks and Set block's supervisor
+        trainingBlocksInstance = Instantiate(trainingBlocks, transform);
+        foreach(Transform child in trainingBlocksInstance.transform)
+        {
+            Block block = child.gameObject.GetComponent<Block>();
+            if (block)
+                block.playerSupervisor = this;
+        }
+    }
+
+    public void DestroyTrainingBlocks()
+    {
+        // Destroy training blocks, then the block holder
+        if (trainingBlocksInstance)
+        {
+            foreach(Transform child in trainingBlocksInstance.transform)
+            {
+                if (child.gameObject.GetComponent<Block>())
+                    child.gameObject.SetActive(false);
+                    Destroy(child.gameObject);
+            }
+            Destroy(trainingBlocksInstance);
+        }
+    }
+
+
+
     /// <summary>
     /// Game environment reset for training.  
     /// </summary>
@@ -271,28 +354,8 @@ public class PlayerSupervisor : MonoBehaviour
         paddle.transform.localPosition = paddleOffset;
         paddle.smoothMovementChange = 0f;
         
-        // Destroy training blocks, then the block holder
-        if (trainingBlocksInstance)
-        {
-            foreach(Transform child in trainingBlocksInstance.transform)
-            {
-                if (child.gameObject.GetComponent<Block>())
-                    child.gameObject.SetActive(false);
-                    Destroy(child.gameObject);
-            }
-
-            Destroy(trainingBlocksInstance);
-        }
-
-        // Set block's supervisor
-        trainingBlocksInstance = Instantiate(trainingBlocks, transform);
-        foreach(Transform child in trainingBlocksInstance.transform)
-        {
-            Block block = child.gameObject.GetComponent<Block>();
-            if (block)
-                block.playerSupervisor = this;
-        }
-        
+        DestroyTrainingBlocks();
+        CreateTrainingBlocks();        
         CountBlocks();
     }
 
