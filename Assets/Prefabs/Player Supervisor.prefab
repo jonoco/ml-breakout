@@ -101,11 +101,32 @@ MonoBehaviour:
   paddle: {fileID: 0}
   gameManager: {fileID: 0}
   playerAgent: {fileID: 0}
-  activeBlocks: 0
   playerData: {fileID: 11400000, guid: c753f81020ac40b4e96c0a53d1e0d8e8, type: 2}
   trainingBlocks: {fileID: 567816811006681950, guid: 8b954e0001ef9df428ecad3d8f2f1b78,
     type: 3}
-  trainingBlocksInstance: {fileID: 0}
+  dataManager: {fileID: 0}
+  isMultiTraining: 0
+  minPaddlePosX: 1
+  maxPaddlePosX: 15
+  instanceWidth: 16
+  instanceHeight: 12
+  paddleMoveSpeed: 100
+  moveStep: 2
   boundaryReboundLimit: 10
   detectionFreq: 1
   ceilingReboundAngle: 1.5
+  blocksPlacedRandomlyTF: 1
+  numBlocksChosenRandomlyTF: 0
+  numBlocksChoiceIfNotRandom: 5
+  minLeftBorderForBlockPlacement: 0
+  maxRightBorderForBlockPlacement: 0
+  minBottomBorderForBlockPlacement: 0
+  maxTopBorderForBlockPlacement: 0
+  randomBlockLengthTF: 0
+  maxBlockLength: 20
+  minBlockLength: 0
+  randomBlockHeightTF: 0
+  maxBlockHeight: 20
+  minBlockHeight: 0
+  blockGameObject: {fileID: 0}
+  trainingBlocksGroup: {fileID: 0}

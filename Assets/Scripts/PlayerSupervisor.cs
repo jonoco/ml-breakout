@@ -61,7 +61,7 @@ public class PlayerSupervisor : MonoBehaviour
     [Range(0f, 5f)]
     public float ceilingReboundAngle = 0f;
 
-    // ---------------------------------------------------------
+// ---------------------------------------------------------
 
     private List<float> staticBlockXPos = new List<float>()
     {
@@ -113,6 +113,8 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] GameObject trainingBlocksGroup;
 
     // ---------------------------------------------------------
+
+
 
     // Start is called before the first frame update
     void Start()
@@ -356,14 +358,19 @@ public class PlayerSupervisor : MonoBehaviour
                     
         for(int i = 0; i < blockNum; i++)
         {
-            float randX = Random.Range(1f, 15f);
-            float randY = Random.Range(1f, 11f);
+            float randX = Random.Range(1f, 15f) + this.transform.parent.transform.position.x;
+            float randY = Random.Range(1f, 11f) + this.transform.parent.transform.position.y;
 
             GameObject block = Instantiate(
                 blockGameObject, new Vector2(randX, randY),
                 Quaternion.identity, trainingBlocksGroup.transform
             );
-            block.GetComponent<Block>().playerSupervisor = this;
+            if(block)
+            {
+                block.GetComponent<Block>().playerSupervisor = this;
+                block.GetComponent<Block>().gameManager = this.GetComponent<PlayerSupervisor>().gameManager;
+            }
+                
         }           
     }
 
@@ -374,16 +381,19 @@ public class PlayerSupervisor : MonoBehaviour
             GameObject block = Instantiate(
                 blockGameObject, 
                 new Vector2(
-                    staticBlockXPos[i],
-                    staticBlockYPos[i]
+                    staticBlockXPos[i] + this.transform.parent.transform.position.x,
+                    staticBlockYPos[i] + this.transform.parent.transform.position.y
                 ), 
                 Quaternion.identity,
                 trainingBlocksGroup.transform
             );
 
             if(block)
+            {
                 block.GetComponent<Block>().playerSupervisor = this;
-            
+                block.GetComponent<Block>().gameManager = this.GetComponent<PlayerSupervisor>().gameManager;
+            }
+               
         }      
     }
     
