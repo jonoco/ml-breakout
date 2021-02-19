@@ -29,6 +29,8 @@ public class MultiBlockCreator : MonoBehaviour
     [Range(1, 100)]
     [SerializeField] public int numBlocksChoiceIfNotRandom = 20;
 
+    [Header("THESE SETTINGS ARE NOT FUNCTIONAL YET")]
+
     public int minLeftBorderForBlockPlacement;
     public int maxRightBorderForBlockPlacement;
     public int minBottomBorderForBlockPlacement;
