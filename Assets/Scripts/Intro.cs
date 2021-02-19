@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
 
-public class Director : MonoBehaviour
+public class Intro : MonoBehaviour
 {
     public SceneLoader sceneLoader;
     public string startScene;

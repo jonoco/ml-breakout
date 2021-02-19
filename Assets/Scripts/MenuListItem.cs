@@ -30,6 +30,12 @@ public class MenuListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
 	static public bool isHidingDescription = false;
 
+	private void Awake() 
+	{
+		descriptionPanel.gameObject.SetActive(false);
+		descriptionText.gameObject.SetActive(false);	
+	}
+
 	private void Start()
 	{
 		startingPosition = transform.position;
@@ -58,6 +64,12 @@ public class MenuListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
 	private void DisplayDescription(string message)
 	{
+		if (!descriptionPanel.gameObject.activeSelf)
+		{
+			descriptionPanel.gameObject.SetActive(true);
+			descriptionText.gameObject.SetActive(true);
+		}
+
 		if (LeanTween.isTweening(descriptionText))
 		{
 			LeanTween.cancel(descriptionText);
