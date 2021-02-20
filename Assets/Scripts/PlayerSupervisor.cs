@@ -21,8 +21,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     [SerializeField] GameObject blockGameObjectType;
     [SerializeField] GameObject trainingBlocksGroupType;
-
-    private GameObject trainingBlocksGroup;
+    GameObject trainingBlocksGroup;
 
     // Using this as a band-aid for now, until i get multi-agent
     // performance implemented
@@ -108,22 +107,10 @@ public class PlayerSupervisor : MonoBehaviour
     void CountBlocks()
     {
         activeBlocks = 0;
-
-        if (gameManager.trainingMode)
+        foreach (Block block in FindObjectsOfType<Block>())
         {
-            foreach(Transform child in trainingBlocksGroup.transform)
-            {
-                if (child.gameObject.GetComponent<Block>() && child.gameObject.activeSelf)
-                    ++activeBlocks;
-            }
-        }
-        else
-        {
-            foreach (Block block in FindObjectsOfType<Block>())
-            {
-                if (block.gameObject.activeSelf)
-                    ++activeBlocks;
-            }
+            if (block.gameObject.activeSelf)
+                ++activeBlocks;
         }
     }
 
@@ -263,11 +250,17 @@ public class PlayerSupervisor : MonoBehaviour
     3) random block lengths? true/false + min/max
     4) random block heights? true/false + min/max
     */
-    public void CreateTrainingBlocks()
+
+    public void CreateTrainingGroupInstance()
     {
         GameObject trainingBlocksGroup = Instantiate(
             trainingBlocksGroupType, new Vector2(0, 0),
             Quaternion.identity, this.transform.parent.transform); 
+    }
+
+    public void CreateTrainingBlocks()
+    {
+        CreateTrainingGroupInstance();
 
         if(multiBlockCreator.blocksPlacedRandomlyTF)
         {
