@@ -17,9 +17,10 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] PlayerAgent playerAgent;
     [SerializeField] PlayerData playerData;
     [SerializeField] GameObject trainingBlocks;
-
-    // Player Data Performance Tracking
     [SerializeField] PerformanceDataManager dataManager;
+    [SerializeField] GameObject blockGameObject;
+    [SerializeField] GameObject trainingBlocksGroup;
+    [SerializeField] MultiBlockCreator multiBlockCreator;
 
     // Using this as a band-aid for now, until i get multi-agent
     // performance implemented
@@ -27,15 +28,16 @@ public class PlayerSupervisor : MonoBehaviour
 
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
+    
     private int points = 0;
+
     private Vector3 ballOffset;         // Starting position of ball
     private Vector3 paddleOffset;       // Starting position of paddle
+
     private int boundaryHits = 0;
-
     private int paddleHits = 0;
-
-    private GameObject trainingBlocksInstance;
     private int activeBlocks;
+
     private PlayerState playerState = PlayerState.Waiting;
 
     [Header("Game Environment Settings")]
@@ -60,14 +62,6 @@ public class PlayerSupervisor : MonoBehaviour
     [Tooltip("Angle that ball will ricochet off ceiling to prevent juggling")]
     [Range(0f, 5f)]
     public float ceilingReboundAngle = 0f;
-
-// ---------------------------------------------------------
-    
-    [SerializeField] GameObject blockGameObject;
-    [SerializeField] GameObject trainingBlocksGroup;
-
-    [SerializeField] MultiBlockCreator multiBlockCreator;
-    // ---------------------------------------------------------
 
     // Start is called before the first frame update
     void Start()
