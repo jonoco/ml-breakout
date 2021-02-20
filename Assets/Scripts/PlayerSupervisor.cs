@@ -34,6 +34,7 @@ public class PlayerSupervisor : MonoBehaviour
     public float maxPaddlePosX = 15f;
     public float instanceWidth = 16f;
     public float instanceHeight = 12f;
+    [HideInInspector] public float instanceDiagonalSize = 0;
    
     [Range(10f, 200f)]
     public float paddleMoveSpeed = 100f;
@@ -78,6 +79,9 @@ public class PlayerSupervisor : MonoBehaviour
             ResetState();
         else
             CountBlocks();
+
+        // Calculate diagonal width
+        instanceDiagonalSize = Mathf.Sqrt(Mathf.Pow(instanceHeight, 2) + Mathf.Pow(instanceWidth, 2)); 
     }
 
     void CountBlocks()
