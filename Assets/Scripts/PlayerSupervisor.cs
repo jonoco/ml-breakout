@@ -296,7 +296,6 @@ public class PlayerSupervisor : MonoBehaviour
             if(block)
             {
                 block.GetComponent<Block>().playerSupervisor = this;
-                block.GetComponent<Block>().gameManager = this.GetComponent<PlayerSupervisor>().gameManager;
             }
                 
         }           
@@ -319,7 +318,6 @@ public class PlayerSupervisor : MonoBehaviour
             if(block)
             {
                 block.GetComponent<Block>().playerSupervisor = this;
-                block.GetComponent<Block>().gameManager = this.GetComponent<PlayerSupervisor>().gameManager;
             }               
         }      
     }

@@ -294,8 +294,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
-      propertyPath: blocksPlacedRandomlyTF
+      propertyPath: numStaticBlocks
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: blocksPlacedRandomlyTF
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
