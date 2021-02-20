@@ -31,12 +31,22 @@ public class MultiBlockCreator : MonoBehaviour
     [Range(1, 21)]
     public int numStaticBlocks = 21;
 
-    [Header("THESE SETTINGS ARE NOT FUNCTIONAL YET")]
+    // these min/max X/Y coords will be converted to float in PlayerSupervisor.
+    // screen is 16 (x) by 12 (y) , or 4x3.
 
-    public int minLeftBorderForBlockPlacement;
-    public int maxRightBorderForBlockPlacement;
-    public int minBottomBorderForBlockPlacement;
-    public int maxTopBorderForBlockPlacement;
+    [Range(2, 11)]
+    [SerializeField] public int minBlockYPosition = 2;
+
+    [Range(2, 11)]
+    [SerializeField] public int maxBlockYPosition = 11;
+
+    [Range(0, 15)]
+    [SerializeField] public int minBlockXPosition = 0;
+
+    [Range(0, 15)]
+    [SerializeField] public int maxBlockXPosition = 15;
+
+    [Header("THESE SETTINGS ARE NOT FUNCTIONAL YET")]
 
     [SerializeField] public bool randomBlockLengthTF; 
     

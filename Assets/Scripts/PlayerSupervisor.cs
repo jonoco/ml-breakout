@@ -41,6 +41,8 @@ public class PlayerSupervisor : MonoBehaviour
 
     private PlayerState playerState = PlayerState.Waiting;
 
+    private List<Transform> blockTransformsList = new List<Transform>();
+
     [Header("Game Environment Settings")]
 
     public float minPaddlePosX = 1f;
@@ -286,11 +288,11 @@ public class PlayerSupervisor : MonoBehaviour
                     
         for(int i = 0; i < blockNum; i++)
         {
-            float randX = Random.Range(1f, 15f) + this.transform.parent.transform.position.x;
-            float randY = Random.Range(1f, 11f) + this.transform.parent.transform.position.y;
-
-            GameObject block = Instantiate(blockGameObjectType, new Vector2(randX, randY),
-                Quaternion.identity, trainingBlocksGroup.transform);
+            GameObject block = Instantiate(
+                blockGameObjectType,
+                GetNonOverlapping2DVectorPosition(),
+                Quaternion.identity,
+                trainingBlocksGroup.transform);
             
             if(block == null)
             {
@@ -298,8 +300,61 @@ public class PlayerSupervisor : MonoBehaviour
             }
 
             if(block)
-                block.GetComponent<Block>().playerSupervisor = this;                
+                block.GetComponent<Block>().playerSupervisor = this; 
+                blockTransformsList.Add(block.transform); 
         }           
+    }
+
+    public Vector2 GetNonOverlapping2DVectorPosition()
+    {   
+        Vector2 currPos = GetRandom2DVectorPosition();
+        while(IsOverlapping(currPos)){
+            currPos = GetRandom2DVectorPosition();
+        }
+        return currPos;
+    }
+
+    public bool IsOverlapping(Vector2 newBlockPos)
+    {
+        foreach(Transform block in blockTransformsList)
+        {
+            Vector2 existingBlockPos = block.position;
+            float distanceBetweenBlocks = Vector2.Distance(newBlockPos, existingBlockPos);
+            // overlapping in a world where the blocks are all size 1 means
+            // that the blocks have same position.
+            // no overlap means the distance is 1 or greater. 
+            if(distanceBetweenBlocks < 1){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Vector2 GetRandom2DVectorPosition()
+    {
+        /* ASSUMPTIONS for now:
+        Each block is 1x1 (world size) so their midpoints (i.e. their positions)
+        will be on the 0.5 lines. Thus, below, adding 0.5 to the 
+        randomly chosen x and y values below, 
+        so their ranges are really 0.5 - 15.5 (X) and 2.5 - 11.5 (Y) by increments of 0.5.
+        In the Y direction, it starts at 2 as we need to allow room for the paddle
+        and ball to move and not hit a ball before launch. Get an error in these cases, 
+        so avoiding them altogether.
+        This logic will ALL have to be adjusted if we allow random block sizes or
+        sizes other than unit 1. This is the easiest way to keep track of their positions
+        to loop through to make sure they aren't all overlapping when randomly placed.
+        */
+        float randX = (int)(Random.Range((float)multiBlockCreator.minBlockXPosition, 
+                                         (float)multiBlockCreator.maxBlockXPosition)) +
+                        0.5f + 
+                        this.transform.parent.transform.position.x;
+
+        float randY = (int)(Random.Range((float)multiBlockCreator.minBlockYPosition,
+                                         (float)multiBlockCreator.maxBlockYPosition)) + 
+                        0.5f +
+                        this.transform.parent.transform.position.y;
+
+        return new Vector2(randX, randY);
     }
 
     public void CreateStaticTrainingBlocks()
@@ -315,7 +370,8 @@ public class PlayerSupervisor : MonoBehaviour
                 trainingBlocksGroup.transform
             );
             if(block)
-                block.GetComponent<Block>().playerSupervisor = this;          
+                block.GetComponent<Block>().playerSupervisor = this; 
+                blockTransformsList.Add(block.transform);          
         }      
     }
     
@@ -330,6 +386,12 @@ public class PlayerSupervisor : MonoBehaviour
                     Destroy(child.gameObject);
             }
         }
+    }
+
+    public void EmptyBlockTransformList()
+    {
+        if(blockTransformsList.Count > 0)
+            blockTransformsList.Clear();
     }
 
     /// <summary>
@@ -348,8 +410,9 @@ public class PlayerSupervisor : MonoBehaviour
         ball.transform.localPosition = ballOffset;        
         paddle.transform.localPosition = paddleOffset;
         paddle.smoothMovementChange = 0f;
-        
+    
         DestroyTrainingBlocks();
+        EmptyBlockTransformList();
         CreateTrainingBlocks();        
         CountBlocks();
     }

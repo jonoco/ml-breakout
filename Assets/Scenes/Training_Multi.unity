@@ -3539,8 +3539,33 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8072182191512691420, guid: d3a8c38544c900d4e930f9ba30f589dd,
         type: 3}
-      propertyPath: blocksPlacedRandomlyTF
+      propertyPath: maxBlockXPosition
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072182191512691420, guid: d3a8c38544c900d4e930f9ba30f589dd,
+        type: 3}
+      propertyPath: maxBlockYPosition
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072182191512691420, guid: d3a8c38544c900d4e930f9ba30f589dd,
+        type: 3}
+      propertyPath: minBlockXPosition
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072182191512691420, guid: d3a8c38544c900d4e930f9ba30f589dd,
+        type: 3}
+      propertyPath: minBlockYPosition
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072182191512691420, guid: d3a8c38544c900d4e930f9ba30f589dd,
+        type: 3}
+      propertyPath: blocksPlacedRandomlyTF
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072182191512691420, guid: d3a8c38544c900d4e930f9ba30f589dd,
+        type: 3}
+      propertyPath: numBlocksChoiceIfNotRandom
+      value: 21
       objectReference: {fileID: 0}
     - target: {fileID: 8072182191512691421, guid: d3a8c38544c900d4e930f9ba30f589dd,
         type: 3}

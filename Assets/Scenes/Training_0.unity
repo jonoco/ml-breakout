@@ -301,7 +301,27 @@ PrefabInstance:
     - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
       propertyPath: numStaticBlocks
-      value: 1
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: maxBlockXPosition
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: maxBlockYPosition
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: minBlockXPosition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: minBlockYPosition
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
@@ -316,7 +336,7 @@ PrefabInstance:
     - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
       propertyPath: numBlocksChoiceIfNotRandom
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7726804809783930187, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
