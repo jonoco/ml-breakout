@@ -4,6 +4,16 @@ using UnityEngine;
 
 public class MultiBlockCreator : MonoBehaviour
 {
+
+    [Header("Training Block Settings")]
+
+    [SerializeField] public bool blocksPlacedRandomlyTF;
+    
+    [SerializeField] public bool numBlocksChosenRandomlyTF; 
+    
+    [Range(1, 100)]
+    [SerializeField] public int numBlocksChoiceIfNotRandom = 20;
+
     public List<float> staticBlockXPos = new List<float>()
     {
         2f, 4f, 6f, 8f, 10f, 12f, 14f,
@@ -18,16 +28,8 @@ public class MultiBlockCreator : MonoBehaviour
         9.5f, 9.5f, 9.5f, 9.5f, 9.5f, 9.5f, 9.5f,
     };
 
+    [Range(1, 21)]
     public int numStaticBlocks = 21;
-
-    [Header("Training Block Settings")]
-
-    [SerializeField] public bool blocksPlacedRandomlyTF;
-    
-    [SerializeField] public bool numBlocksChosenRandomlyTF; 
-    
-    [Range(1, 100)]
-    [SerializeField] public int numBlocksChoiceIfNotRandom = 20;
 
     [Header("THESE SETTINGS ARE NOT FUNCTIONAL YET")]
 

@@ -16,7 +16,6 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
     [SerializeField] PlayerData playerData;
-    [SerializeField] GameObject trainingBlocks;
     [SerializeField] PerformanceDataManager dataManager;
     [SerializeField] GameObject blockGameObject;
     [SerializeField] GameObject trainingBlocksGroup;
@@ -136,11 +135,6 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void StartGame()
     {
-        if (gameManager.trainingMode && !trainingBlocks)
-        {
-            Debug.LogError("trainingBlocks reference missing");
-            return;
-        }
 
         if(!isMultiTraining && dataManager.trackingPerformanceTF)
             dataManager.SetStartingNumBlocks(activeBlocks);
