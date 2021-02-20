@@ -21,7 +21,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     [SerializeField] GameObject blockGameObjectType;
     [SerializeField] GameObject trainingBlocksGroupType;
-    GameObject trainingBlocksGroup;
+    private GameObject trainingBlocksGroup;
 
     // Using this as a band-aid for now, until i get multi-agent
     // performance implemented
@@ -94,8 +94,8 @@ public class PlayerSupervisor : MonoBehaviour
             paddle = FindObjectOfType<Paddle>();
         paddleOffset = paddle.transform.localPosition;
 
-        /*if(!trainingBlocksGroup)
-            trainingBlocksGroup = GameObject.Find("TrainingBlocksGroup");*/
+        if(!trainingBlocksGroup && gameManager.trainingMode)
+            trainingBlocksGroup = GetTrainingBlocksGroupInstance();
 
         // Check if scene is ready for training
         if (gameManager.trainingMode)
@@ -251,17 +251,16 @@ public class PlayerSupervisor : MonoBehaviour
     4) random block heights? true/false + min/max
     */
 
-    public void CreateTrainingGroupInstance()
+    public GameObject GetTrainingBlocksGroupInstance()
     {
         GameObject trainingBlocksGroup = Instantiate(
             trainingBlocksGroupType, new Vector2(0, 0),
             Quaternion.identity, this.transform.parent.transform); 
+        return trainingBlocksGroup;
     }
 
     public void CreateTrainingBlocks()
     {
-        CreateTrainingGroupInstance();
-
         if(multiBlockCreator.blocksPlacedRandomlyTF)
         {
             CreateRandomTrainingBlocks();
@@ -322,8 +321,6 @@ public class PlayerSupervisor : MonoBehaviour
     
     public void DestroyTrainingBlocks()
     {
-        // do not need to destroy the trainingBlocksGroup object 
-        // as it stays in training window empty
         if(trainingBlocksGroup)
         {
             foreach(Transform child in trainingBlocksGroup.transform)
@@ -332,7 +329,6 @@ public class PlayerSupervisor : MonoBehaviour
                     child.gameObject.SetActive(false);
                     Destroy(child.gameObject);
             }
-            Destroy(trainingBlocksGroup.gameObject);
         }
     }
 

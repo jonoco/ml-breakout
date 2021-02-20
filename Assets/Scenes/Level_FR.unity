@@ -244,6 +244,18 @@ PrefabInstance:
       propertyPath: detectionFreq
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
+        type: 3}
+      propertyPath: blockGameObjectType
+      value: 
+      objectReference: {fileID: 2864685850017879389, guid: 17d290a73b9844342a08682ba8d5ce3e,
+        type: 3}
+    - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
+        type: 3}
+      propertyPath: trainingBlocksGroupType
+      value: 
+      objectReference: {fileID: 3913816967027211534, guid: 33a65d94e8608a044aaac080926314be,
+        type: 3}
     - target: {fileID: 6902707035986185609, guid: d8b0fe998368cbf45a1e859ac21418b4,
         type: 3}
       propertyPath: m_Name
