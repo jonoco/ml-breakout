@@ -17,9 +17,12 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] PlayerAgent playerAgent;
     [SerializeField] PlayerData playerData;
     [SerializeField] PerformanceDataManager dataManager;
-    [SerializeField] GameObject blockGameObject;
-    [SerializeField] GameObject trainingBlocksGroup;
     [SerializeField] MultiBlockCreator multiBlockCreator;
+
+    [SerializeField] GameObject blockGameObjectType;
+    [SerializeField] GameObject trainingBlocksGroupType;
+
+    private GameObject trainingBlocksGroup;
 
     // Using this as a band-aid for now, until i get multi-agent
     // performance implemented
@@ -92,8 +95,8 @@ public class PlayerSupervisor : MonoBehaviour
             paddle = FindObjectOfType<Paddle>();
         paddleOffset = paddle.transform.localPosition;
 
-        if(!trainingBlocksGroup)
-            trainingBlocksGroup = GameObject.Find("TrainingBlocksGroup");
+        /*if(!trainingBlocksGroup)
+            trainingBlocksGroup = GameObject.Find("TrainingBlocksGroup");*/
 
         // Check if scene is ready for training
         if (gameManager.trainingMode)
@@ -262,11 +265,16 @@ public class PlayerSupervisor : MonoBehaviour
     */
     public void CreateTrainingBlocks()
     {
+        GameObject trainingBlocksGroup = Instantiate(
+            trainingBlocksGroupType, new Vector2(0, 0),
+            Quaternion.identity, this.transform.parent.transform); 
+
         if(multiBlockCreator.blocksPlacedRandomlyTF)
         {
             CreateRandomTrainingBlocks();
         }
-        else{
+        else
+        {
             CreateStaticTrainingBlocks();
         }
     }
@@ -289,15 +297,16 @@ public class PlayerSupervisor : MonoBehaviour
             float randX = Random.Range(1f, 15f) + this.transform.parent.transform.position.x;
             float randY = Random.Range(1f, 11f) + this.transform.parent.transform.position.y;
 
-            GameObject block = Instantiate(
-                blockGameObject, new Vector2(randX, randY),
-                Quaternion.identity, trainingBlocksGroup.transform
-            );
-            if(block)
+            GameObject block = Instantiate(blockGameObjectType, new Vector2(randX, randY),
+                Quaternion.identity, trainingBlocksGroup.transform);
+            
+            if(block == null)
             {
-                block.GetComponent<Block>().playerSupervisor = this;
+                Debug.Log("null block");
             }
-                
+
+            if(block)
+                block.GetComponent<Block>().playerSupervisor = this;                
         }           
     }
 
@@ -305,8 +314,7 @@ public class PlayerSupervisor : MonoBehaviour
     {
         for(int i = 0; i < multiBlockCreator.numStaticBlocks; i++)
         {
-            GameObject block = Instantiate(
-                blockGameObject, 
+            GameObject block = Instantiate(blockGameObjectType, 
                 new Vector2(
                     multiBlockCreator.staticBlockXPos[i] + this.transform.parent.transform.position.x,
                     multiBlockCreator.staticBlockYPos[i] + this.transform.parent.transform.position.y
@@ -314,11 +322,8 @@ public class PlayerSupervisor : MonoBehaviour
                 Quaternion.identity,
                 trainingBlocksGroup.transform
             );
-
             if(block)
-            {
-                block.GetComponent<Block>().playerSupervisor = this;
-            }               
+                block.GetComponent<Block>().playerSupervisor = this;          
         }      
     }
     
@@ -334,6 +339,7 @@ public class PlayerSupervisor : MonoBehaviour
                     child.gameObject.SetActive(false);
                     Destroy(child.gameObject);
             }
+            Destroy(trainingBlocksGroup.gameObject);
         }
     }
 
