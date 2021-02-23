@@ -105,7 +105,10 @@ public class GameManager : MonoBehaviour
         switch(gameMode)
         {
             case GameMode.UntilWin:
-                RestartGame(supervisor);
+                // Not yet implemented. It seems like high scores here would be
+                // elapsed time instead of points - since playing until win always
+                // ends with breaking every block. But the PerformanceDataManager
+                // currently relies on elapsed time being reset each time a ball is lost.
                 break;
             case GameMode.UntilLose:
                 supervisor.Active = false;
@@ -170,6 +173,7 @@ public class GameManager : MonoBehaviour
     public void RestartGame(PlayerSupervisor supervisor)
     {
         // Reset any game state then let the player start again
+        startTime = DateTime.Now;
         supervisor.ResetState();
     }
 
