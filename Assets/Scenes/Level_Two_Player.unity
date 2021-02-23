@@ -248,7 +248,7 @@ PrefabInstance:
     - target: {fileID: 941496196091560440, guid: 7585f89fea05f6d49937b6436b06fc36,
         type: 3}
       propertyPath: m_Name
-      value: TwoPlayerEnvironment
+      value: Human Play Area
       objectReference: {fileID: 0}
     - target: {fileID: 3836923425991617148, guid: 7585f89fea05f6d49937b6436b06fc36,
         type: 3}
@@ -776,7 +776,7 @@ PrefabInstance:
     - target: {fileID: 941496196091560440, guid: 7585f89fea05f6d49937b6436b06fc36,
         type: 3}
       propertyPath: m_Name
-      value: TwoPlayerEnvironment (1)
+      value: AI Play Area
       objectReference: {fileID: 0}
     - target: {fileID: 941496196091560440, guid: 7585f89fea05f6d49937b6436b06fc36,
         type: 3}
@@ -806,7 +806,7 @@ PrefabInstance:
     - target: {fileID: 2774562446755734891, guid: 7585f89fea05f6d49937b6436b06fc36,
         type: 3}
       propertyPath: m_BehaviorType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6613752453291182729, guid: 7585f89fea05f6d49937b6436b06fc36,
         type: 3}
