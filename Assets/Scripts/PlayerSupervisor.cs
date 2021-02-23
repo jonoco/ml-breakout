@@ -35,8 +35,6 @@ public class PlayerSupervisor : MonoBehaviour
     // performance implemented
     [SerializeField] bool isMultiTraining = false;
 
-    [SerializeField] public bool Active = true;
-
     // Frannie's Level Items
     public RandomBlockCreator randomBlockCreator;
 

@@ -111,9 +111,9 @@ public class GameManager : MonoBehaviour
                 // currently relies on elapsed time being reset each time a ball is lost.
                 break;
             case GameMode.UntilLose:
-                supervisor.Active = false;
-
-                if (ActivePlayerCount() == 0)
+                supervisor.LostBall = true;
+                // If all players have lost their ball, transition to the End Screen.
+                if (GameObject.FindObjectsOfType<Ball>().Length == 0)
                 {
                     foreach (PlayerSupervisor ps in playerSupervisors)
                     {
@@ -124,21 +124,6 @@ public class GameManager : MonoBehaviour
                 }
                 break;
         }
-    }
-
-
-    private int ActivePlayerCount()
-    {
-        int activePlayerCount = 0;
-        foreach (PlayerSupervisor ps in playerSupervisors)
-        {
-            if (ps.Active)
-            {
-                activePlayerCount++;
-            }
-        }
-
-        return activePlayerCount;
     }
 
     private void SaveHighestScoreToGameResult()
