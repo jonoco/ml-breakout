@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using static GameData;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] PlayerSupervisor[] playerSupervisors;
     [SerializeField] AudioClip loseSound;
     [SerializeField] AudioClip winSound;
+    [SerializeField] GameData gameData;
 
     [SerializeField] GameMode gameMode = GameMode.UntilLose;
 
@@ -35,6 +37,17 @@ public class GameManager : MonoBehaviour
    
         // Still need this for training_0 agent performance tracking
         playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+
+        gameData.PlayerList = new List<PlayerData>();
+        foreach (PlayerSupervisor ps in playerSupervisors)
+        {
+            gameData.PlayerList.Add(new PlayerData() {
+                Name = ps.PlayerName,
+                Points = ps.GetPoints(),
+                playerType = ps.playerType
+            });
+            Debug.Log($"Adding {ps.PlayerName} to data.");
+        }
 
         sceneLoader = FindObjectOfType<SceneLoader>();
         uiManager = FindObjectOfType<UIManager>();
@@ -95,12 +108,55 @@ public class GameManager : MonoBehaviour
                 RestartGame(supervisor);
                 break;
             case GameMode.UntilLose:
-                foreach (PlayerSupervisor ps in playerSupervisors)
+                supervisor.Active = false;
+
+                if (ActivePlayerCount() == 0)
                 {
-                    ps.PauseGame();
+                    foreach (PlayerSupervisor ps in playerSupervisors)
+                    {
+                        ps.PauseGame();
+                    }
+                    SaveHighestScoreToGameResult();
+                    sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
                 }
-                sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
                 break;
+        }
+    }
+
+
+    private int ActivePlayerCount()
+    {
+        int activePlayerCount = 0;
+        foreach (PlayerSupervisor ps in playerSupervisors)
+        {
+            if (ps.Active)
+            {
+                activePlayerCount++;
+            }
+        }
+
+        return activePlayerCount;
+    }
+
+    private void SaveHighestScoreToGameResult()
+    {
+        // If all of the PlayerSupervisors have equal points, report a tie.
+        if (Array.TrueForAll(playerSupervisors, ps => ps.GetPoints() == playerSupervisors[0].GetPoints()))
+        {
+            gameData.gameResult = $"It's a tie!";
+        }
+        // Otherwise, report the highest scoring player's name.
+        else
+        {
+            PlayerSupervisor winner = playerSupervisors[0];
+            for (int i = 1; i < playerSupervisors.Length; i++)
+            {
+                if (playerSupervisors[i].GetPoints() > winner.GetPoints())
+                {
+                    winner = playerSupervisors[i];
+                }
+            }
+            gameData.gameResult = $"{winner.PlayerName} Wins!";
         }
     }
 
@@ -113,5 +169,6 @@ public class GameManager : MonoBehaviour
     public void UpdatePoints(int points, PlayerSupervisor supervisor)
     {
         uiManager.UpdatePoints(points, supervisor.PlayerNumber);
+        gameData.UpdatePoints(supervisor.PlayerName, points);
     }
 }

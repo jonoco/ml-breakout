@@ -3,10 +3,11 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.UI;
+using static GameData;
 
 public class LeaderBoard : MonoBehaviour
 {
-    [SerializeField] PlayerData playerData;
+    [SerializeField] GameData gameData;
     const string PREFS_KEY = "LeaderBoard";
     const int SCORES_DISPLAY_LIMIT = 3;
     private List<Score> scores;
@@ -105,11 +106,16 @@ public class LeaderBoard : MonoBehaviour
     {
         // Check if the player's score places within the SCORES_DISPLAY_LIMIT
         // of existing high scores.
-        int playerPoints = playerData.points;
-        int index = scores.FindIndex((score) => score.points < playerPoints);
+        PlayerData humanPlayerData = gameData.PlayerList.Find(ps => ps.playerType == PlayerType.Human);
+        if (humanPlayerData == null)
+        {
+            return;
+        }
+
+        int index = scores.FindIndex((score) => score.points < humanPlayerData.Points);
         if (index != -1)
         {
-            scores.Insert(index, new Score { initials = "", points = playerPoints, newScore = true });
+            scores.Insert(index, new Score { initials = "", points = humanPlayerData.Points, newScore = true });
 
             // If a high score was added to the list, reduce the lowest scores until the
             // list's size to matches the SCORES_DISPLAY_LIMIT.
@@ -124,7 +130,7 @@ public class LeaderBoard : MonoBehaviour
     // with Saving and Loading": https://youtu.be/iAbaqGYdnyI.
     private void SetupLeaderboardUI()
     {
-        transform.Find("Game Result").GetComponent<Text>().text = playerData.gameResult;
+        transform.Find("Game Result").GetComponent<Text>().text = gameData.gameResult;
         Transform scoresContainer = transform.Find("Scores");
 
         // Get templates for score display and score input rows then hide them.

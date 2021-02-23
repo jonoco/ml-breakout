@@ -9,13 +9,21 @@ public enum PlayerState
     Playing,
 }
 
+public enum PlayerType
+{
+    Human,
+    AI
+}
+
 public class PlayerSupervisor : MonoBehaviour
 {
     [SerializeField] Ball ball;
     [SerializeField] Paddle paddle;
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
-    [SerializeField] PlayerData playerData;
+
+    [SerializeField] public string PlayerName;
+    [SerializeField] public PlayerType playerType;
     [SerializeField] GameObject trainingBlocks;
 
     [SerializeField] public int PlayerNumber = 1;
@@ -26,6 +34,8 @@ public class PlayerSupervisor : MonoBehaviour
     // Using this as a band-aid for now, until i get multi-agent
     // performance implemented
     [SerializeField] bool isMultiTraining = false;
+
+    [SerializeField] public bool Active = true;
 
     // Frannie's Level Items
     public RandomBlockCreator randomBlockCreator;
@@ -218,7 +228,6 @@ public class PlayerSupervisor : MonoBehaviour
         
         playerState = PlayerState.Waiting;
 
-        playerData.gameResult = "Game Over!";
         ball.gameObject.SetActive(false);
         
         if (playerAgent)
@@ -236,7 +245,6 @@ public class PlayerSupervisor : MonoBehaviour
         if(!isMultiTraining && dataManager.trackingPerformanceTF)
             UpdatePlayerPerformanceData(true);
 
-        playerData.gameResult = "You Win!";
         ball.gameObject.SetActive(false);
 
          if (playerAgent)
@@ -256,7 +264,6 @@ public class PlayerSupervisor : MonoBehaviour
 
         points += pointValue;
         gameManager.UpdatePoints(points, this);
-        playerData.points = points;
 
         --activeBlocks;
         if (activeBlocks <= 0)

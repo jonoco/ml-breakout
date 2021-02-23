@@ -140,8 +140,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2982270214271497417, guid: 533ab924c77096d43bc300d8fe35e9a3,
         type: 3}
+      propertyPath: gameData
+      value: 
+      objectReference: {fileID: 11400000, guid: c753f81020ac40b4e96c0a53d1e0d8e8,
+        type: 2}
+    - target: {fileID: 2982270214271497417, guid: 533ab924c77096d43bc300d8fe35e9a3,
+        type: 3}
       propertyPath: gameMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2982270214271497417, guid: 533ab924c77096d43bc300d8fe35e9a3,
         type: 3}
@@ -248,6 +254,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: Active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: PlayerName
+      value: You
       objectReference: {fileID: 0}
     - target: {fileID: 9146408817681791003, guid: 7585f89fea05f6d49937b6436b06fc36,
         type: 3}
@@ -765,6 +781,21 @@ PrefabInstance:
     - target: {fileID: 2774562446755734891, guid: 7585f89fea05f6d49937b6436b06fc36,
         type: 3}
       propertyPath: m_BehaviorType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: Active
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: PlayerName
+      value: Neural Net
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: playerType
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6613752453291182729, guid: 7585f89fea05f6d49937b6436b06fc36,
