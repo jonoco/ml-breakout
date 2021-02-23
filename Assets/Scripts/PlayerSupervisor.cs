@@ -173,6 +173,7 @@ public class PlayerSupervisor : MonoBehaviour
         LoseGame();
     }
 
+
     public bool IsMultiAgent()
     {
         return isMultiTraining;

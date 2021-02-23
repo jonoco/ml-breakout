@@ -56,17 +56,6 @@ public class GameManager : MonoBehaviour
         supervisor.StartGame();   
     }
 
-    public void WinGame()
-    {
-        if (!playerSupervisor)
-        {
-            Debug.LogError("No player supervisor found to manage game");
-            return;
-        }
-
-        WinGame(playerSupervisor);
-    }
-
     public void WinGame(PlayerSupervisor supervisor)
     {
         if (trainingMode)
@@ -81,17 +70,6 @@ public class GameManager : MonoBehaviour
         } 
     }
 
-    public void LoseGame()
-    {
-        if (!playerSupervisor)
-        {
-            Debug.LogError("No player supervisor found to manage game");
-            return;
-        }
-        
-        LoseGame(playerSupervisor);
-    }
-
     public void LoseGame(PlayerSupervisor supervisor)
     {
         if (trainingMode)
@@ -104,17 +82,6 @@ public class GameManager : MonoBehaviour
             supervisor.PauseGame();
             sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
         }
-    }
-
-    public void RestartGame()
-    {
-        if (!playerSupervisor)
-        {
-            Debug.LogError("No player supervisor found to manage game");
-            return;
-        }
-
-        RestartGame(playerSupervisor);
     }
 
     public void RestartGame(PlayerSupervisor supervisor)
