@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using Unity.MLAgents.Sensors;
 using UnityEngine;
 
-public class AgentRicky : PlayerAgent
+public class AgentLucy : PlayerAgent
 {
+
     public override void CollectObservations(VectorSensor sensor)
     {
          if (!paddle || !ball)
@@ -16,8 +17,8 @@ public class AgentRicky : PlayerAgent
         Vector2 ballDir = ball.GetComponent<Rigidbody2D>().velocity.normalized;
         sensor.AddObservation(ballDir);
         
-        // Distance of ball to the paddle; use the diagonal length as maximum distance
-        float distanceToBall = Vector2.Distance(paddle.transform.position, ball.transform.position) / playerSupervisor.instanceDiagonalSize;
-        sensor.AddObservation(distanceToBall);
+        // Direction of paddle
+        float paddleDir = paddle.smoothMovementChange;
+        sensor.AddObservation(paddleDir);
     }
 }

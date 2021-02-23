@@ -19,7 +19,9 @@ public class PlayerAgent : Agent
     public float loseBallPenalty = -10f;
     public float paddleReward = .1f;
     public float timeoutPenalty = 0f;
-
+    
+    [Tooltip("Reward per second for play duration")]
+    public float timeRewardFactor = 0f;
 
     private void Start() 
     {
@@ -111,5 +113,10 @@ public class PlayerAgent : Agent
     public virtual void Timeout()
     {
         AddReward(timeoutPenalty);
+    }
+
+    public virtual void TotalPlayTime(float playTime) 
+    {
+        AddReward(playTime * timeRewardFactor);
     }
 }

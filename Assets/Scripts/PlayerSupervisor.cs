@@ -27,6 +27,7 @@ public class PlayerSupervisor : MonoBehaviour
     private GameObject trainingBlocksInstance;
     private int activeBlocks;
     private PlayerState playerState = PlayerState.Waiting;
+    private float playStartTime;
 
     [Header("Game Environment Settings")]
 
@@ -132,6 +133,8 @@ public class PlayerSupervisor : MonoBehaviour
 
         playerState = PlayerState.Playing;
 
+        playStartTime = Time.time;
+
         LaunchBall();
 
         if (detectionFreq > 0)
@@ -167,7 +170,10 @@ public class PlayerSupervisor : MonoBehaviour
         ball.gameObject.SetActive(false);
         
         if (playerAgent)
+        {
+            playerAgent.TotalPlayTime(Time.time - playStartTime);
             playerAgent.LoseGame();
+        }
 
         gameManager.LoseGame(this);
 
@@ -182,7 +188,10 @@ public class PlayerSupervisor : MonoBehaviour
         ball.gameObject.SetActive(false);
 
          if (playerAgent)
+         {
+            playerAgent.TotalPlayTime(Time.time - playStartTime);
             playerAgent.WinGame();
+         }
 
         gameManager.WinGame(this);
 
