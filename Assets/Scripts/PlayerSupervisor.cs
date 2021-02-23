@@ -9,6 +9,12 @@ public enum PlayerState
     Playing,
 }
 
+public enum PlayerType
+{
+    Human,
+    Bot
+}
+
 public class PlayerSupervisor : MonoBehaviour
 {
     [SerializeField] Ball ball;
@@ -18,6 +24,10 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] PlayerData playerData;
     [SerializeField] GameObject trainingBlocks;
 
+    [SerializeField] PlayerType playerType;
+
+    [SerializeField] public int PlayerNumber;
+
     // Player Data Performance Tracking
     [SerializeField] PerformanceDataManager dataManager;
 
@@ -26,7 +36,7 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] bool isMultiTraining = false;
 
     // Frannie's Level Items
-    private RandomBlockCreator randomBlockCreator;
+    [SerializeField] private RandomBlockCreator randomBlockCreator;
     private int points = 0;
     private Vector3 ballOffset;         // Starting position of ball
     private Vector3 paddleOffset;       // Starting position of paddle
@@ -72,7 +82,8 @@ public class PlayerSupervisor : MonoBehaviour
         // the code will check whether or not to execute
         // based on the block.name assigned in the Inspector Window
         // in the RandomBlockCreator empty child object
-        randomBlockCreator = FindObjectOfType<RandomBlockCreator>();
+        if (!randomBlockCreator)
+            randomBlockCreator = gameObject.GetComponentInChildren<RandomBlockCreator>();
         if (randomBlockCreator)
             randomBlockCreator.setupBlocks();
         
@@ -239,7 +250,7 @@ public class PlayerSupervisor : MonoBehaviour
             playerAgent.BlockHit();
 
         points += pointValue;
-        gameManager.UpdatePoints(points);
+        gameManager.UpdatePoints(points, this);
         playerData.points = points;
 
         --activeBlocks;
@@ -262,7 +273,7 @@ public class PlayerSupervisor : MonoBehaviour
         boundaryHits = 0;
         paddleHits = 0;
         points = 0;
-        gameManager.UpdatePoints(points);
+        gameManager.UpdatePoints(points, this);
 
         ball.gameObject.SetActive(true);
         ball.ResetBall();

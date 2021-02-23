@@ -10,7 +10,7 @@ public class RandomBlockCreator : MonoBehaviour
     [SerializeField] GameObject parentBlock;
 
     // our project uses fixed 4-3 ratio, so these world units will not be changing
-    float screenWidthWorld = 16f;
+    float screenWidthWorld = 7.5f;
     // float screenHeightWorld = 12f; // not used, but keeping just in case
 
     // for random block settings - max and min widths
@@ -37,7 +37,10 @@ public class RandomBlockCreator : MonoBehaviour
         {
             // Used below when creating blocks to create them under the "Blocks"
             // empty game object for optimal organization
-            parentBlock = GameObject.Find("Blocks");
+            if (!parentBlock)
+            {
+                parentBlock = GameObject.Find("Blocks");
+            }
             // destroy all blocks that are initially on the board (i.e., testing blocks)
             DestroyExistingBlocks();
             // re-populate the board with blocks in a predetermined way
@@ -49,11 +52,21 @@ public class RandomBlockCreator : MonoBehaviour
     // Frannie's Level - others can use if it's helpful
     private void DestroyExistingBlocks()
     {
-        Block[] allBlocks = GameObject.FindObjectsOfType<Block>();
-        foreach(Block block in allBlocks)
+        Block[] allBlocks;
+
+        if (parentBlock)
+        {
+            allBlocks = parentBlock.GetComponentsInChildren<Block>();
+        }
+        else
+        {
+            allBlocks = GameObject.FindObjectsOfType<Block>();
+        }
+
+        foreach (Block block in allBlocks)
         {
             // if use just Destroy, object hangs around for awhile. do not use.
-            DestroyImmediate(block.gameObject);  
+            DestroyImmediate(block.gameObject);
         }
     }
 
@@ -152,7 +165,7 @@ public class RandomBlockCreator : MonoBehaviour
                                                        priorBlockWidth, priorBlockMidpoint);
                 priorBlockWidth = blockWidth;
                 priorBlockMidpoint = blockMidpoint;
-                var newBlock = createBlock(blockMidpoint, blockRow);
+                var newBlock = createBlock(blockMidpoint + parentBlock.transform.position.x, blockRow);
                 
                 // update block scale based on block width, note scale is a PERCENTAGE
                 scaleChange = new Vector2(blockWidth/prefabBlockWidthWorld, blockHeightScale);

@@ -124,8 +124,9 @@ public class GameManager : MonoBehaviour
         supervisor.ResetState();
     }
 
-    public void UpdatePoints(int points)
+    public void UpdatePoints(int points, PlayerSupervisor supervisor)
     {
-        uiManager.UpdatePoints(points);
+        Debug.Log($"PlayerNumber: {supervisor.PlayerNumber}");
+        uiManager.UpdatePoints(points, supervisor.PlayerNumber);
     }
 }
