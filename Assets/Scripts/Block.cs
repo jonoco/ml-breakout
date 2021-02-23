@@ -17,8 +17,8 @@ public class Block : MonoBehaviour
     {
         gameManager = FindObjectOfType<GameManager>();
 
-        if (!playerSupervisor)
-            playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+        // if (!playerSupervisor)
+        //     playerSupervisor = FindObjectOfType<PlayerSupervisor>();
     }
 
     private void OnCollisionEnter2D(Collision2D other) 

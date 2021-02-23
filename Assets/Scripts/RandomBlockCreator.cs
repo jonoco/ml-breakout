@@ -66,7 +66,8 @@ public class RandomBlockCreator : MonoBehaviour
         foreach (Block block in allBlocks)
         {
             // if use just Destroy, object hangs around for awhile. do not use.
-            DestroyImmediate(block.gameObject);
+            Debug.Log(block.playerSupervisor.name);
+            block.gameObject.SetActive(false);
         }
     }
 
@@ -122,6 +123,8 @@ public class RandomBlockCreator : MonoBehaviour
                     Quaternion.identity,
                     parentBlock.transform // need this to it groups under "Blocks"
         );
+        newBlock.SetActive(true);
+        Debug.Log(blockObjType);
         return newBlock;
     }
 

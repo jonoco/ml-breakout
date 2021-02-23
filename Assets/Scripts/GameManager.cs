@@ -101,7 +101,10 @@ public class GameManager : MonoBehaviour
         else
         {
             AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
-            supervisor.PauseGame();
+            foreach (PlayerSupervisor ps in playerSupervisors)
+            {
+                ps.PauseGame();
+            }
             sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
         }
     }
