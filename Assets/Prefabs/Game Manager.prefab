@@ -46,5 +46,9 @@ MonoBehaviour:
   sceneLoader: {fileID: 0}
   uiManager: {fileID: 0}
   playerSupervisor: {fileID: 0}
+  playerSupervisors: []
   loseSound: {fileID: 8300000, guid: 699a21ca60012784c9805c6473120785, type: 3}
   winSound: {fileID: 8300000, guid: bf7c660e4b34144d1a60a5063a3b1f4a, type: 3}
+  gameData: {fileID: 11400000, guid: c753f81020ac40b4e96c0a53d1e0d8e8, type: 2}
+  gameMode: 0
+  trainingMode: 0
