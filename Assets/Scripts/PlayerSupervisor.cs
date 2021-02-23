@@ -114,27 +114,6 @@ public class PlayerSupervisor : MonoBehaviour
         activeBlocks = 0;
 
         CountChildBlocks(transform);
-
-        // TODO need to count only blocks in each player's environment to
-        //  work for general multiplayer use; Maybe keep all blocks in a
-        //  container for easier tracking
-        // if (gameManager.trainingMode)
-        // {
-            
-        //     foreach(Transform child in trainingBlocksInstance.transform)
-        //     {
-        //         if (child.gameObject.GetComponent<Block>() && child.gameObject.activeSelf)
-        //             ++activeBlocks;
-        //     }
-        // }
-        // else
-        // {
-        //     foreach (Block block in FindObjectsOfType<Block>())
-        //     {
-        //         if (block.gameObject.activeSelf)
-        //             ++activeBlocks;
-        //     }
-        // }
     }
 
     /// <summary>
