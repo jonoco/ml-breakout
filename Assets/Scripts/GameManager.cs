@@ -13,6 +13,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip loseSound;
     [SerializeField] AudioClip winSound;
 
+    [SerializeField] GameMode gameMode = GameMode.UntilLose;
+
+    public enum GameMode
+    {
+        UntilLose,
+        UntilWin
+    }
     public bool trainingMode = false;
 
     DateTime startTime = DateTime.Now;
@@ -75,12 +82,19 @@ public class GameManager : MonoBehaviour
         if (trainingMode)
         {
             RestartGame(supervisor);
+            return;
         }
-        else
+        switch(gameMode)
         {
-            AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
-            supervisor.PauseGame();
-            sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
+            case GameMode.UntilWin:
+                AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
+                RestartGame(supervisor);
+                break;
+            case GameMode.UntilLose:
+                AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
+                supervisor.PauseGame();
+                sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
+                break;
         }
     }
 

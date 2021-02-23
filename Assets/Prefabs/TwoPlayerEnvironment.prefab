@@ -93,6 +93,11 @@ PrefabInstance:
     m_TransformParent: {fileID: 9146408817681791003}
     m_Modifications:
     - target: {fileID: 531840240, guid: d8b0fe998368cbf45a1e859ac21418b4, type: 3}
+      propertyPath: blockObjType
+      value: 
+      objectReference: {fileID: 4157657572619490781, guid: ceb666dc25b1056479517f905defd931,
+        type: 3}
+    - target: {fileID: 531840240, guid: d8b0fe998368cbf45a1e859ac21418b4, type: 3}
       propertyPath: screenWidthWorld
       value: 7.5
       objectReference: {fileID: 0}
@@ -364,10 +369,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Game Environment
       objectReference: {fileID: 0}
+    - target: {fileID: 3547972481022571072, guid: 1f13b09a4b8b03c45a2aa138ea32f417,
+        type: 3}
+      propertyPath: playerSupervisor
+      value: 
+      objectReference: {fileID: 6613752453291182729}
     - target: {fileID: 3547972481022571073, guid: 1f13b09a4b8b03c45a2aa138ea32f417,
         type: 3}
       propertyPath: m_Size.x
-      value: 9.5
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 3547972481022571078, guid: 1f13b09a4b8b03c45a2aa138ea32f417,
         type: 3}
