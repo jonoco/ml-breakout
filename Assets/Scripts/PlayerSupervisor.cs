@@ -348,6 +348,8 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void DestroyTrainingBlocks()
     {
+        multiBlockCreator.EmptyRandomLists();
+        
         if(trainingBlocksGroup)
         {
             foreach(Transform child in trainingBlocksGroup.transform)
