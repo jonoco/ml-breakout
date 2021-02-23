@@ -17,7 +17,14 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] PlayerAgent playerAgent;
     [SerializeField] PlayerData playerData;
     [SerializeField] GameObject trainingBlocks;
-    
+
+    // Player Data Performance Tracking
+    [SerializeField] PerformanceDataManager dataManager;
+
+    // Using this as a band-aid for now, until i get multi-agent
+    // performance implemented
+    [SerializeField] bool isMultiTraining = false;
+
     // Frannie's Level Items
     public RandomBlockCreator randomBlockCreator;
 
@@ -25,6 +32,9 @@ public class PlayerSupervisor : MonoBehaviour
     private Vector3 ballOffset;         // Starting position of ball
     private Vector3 paddleOffset;       // Starting position of paddle
     private int boundaryHits = 0;
+
+    private int paddleHits = 0;
+
     private GameObject trainingBlocksInstance;
     private int activeBlocks;
     private PlayerState playerState = PlayerState.Waiting;
@@ -44,6 +54,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     [Range(.1f, 10f)]
     public float moveStep = 2f;
+
     public int boundaryReboundLimit = 10;
 
     [Tooltip("How often to check for anomalies (0 eliminates check)")]
@@ -72,6 +83,10 @@ public class PlayerSupervisor : MonoBehaviour
             ball = FindObjectOfType<Ball>();
         ballOffset = ball.transform.localPosition;
 
+        // Performance tracking - has to come before countblocks
+        if(!isMultiTraining)
+            dataManager = FindObjectOfType<PerformanceDataManager>();
+        
         if (!paddle)
             paddle = FindObjectOfType<Paddle>();
         paddleOffset = paddle.transform.localPosition;
@@ -155,6 +170,9 @@ public class PlayerSupervisor : MonoBehaviour
             return;
         }
 
+        if(!isMultiTraining && dataManager.trackingPerformanceTF)
+            dataManager.SetStartingNumBlocks(activeBlocks);
+        
         // Only start if the player is ready
         if (playerState != PlayerState.Ready)
             return;
@@ -188,8 +206,34 @@ public class PlayerSupervisor : MonoBehaviour
         LoseGame();
     }
 
+
+    public bool IsMultiAgent()
+    {
+        return isMultiTraining;
+    }
+
+    public void UpdatePlayerPerformanceData(bool gameWinTF)
+    {
+        // in our current code logic, this if stmt needs to happen
+        // BEFORE game manager calls lose game below b/c GM has an if(Trainingmode)
+        // in the losegame method and training mode is technically all of the time.
+        // and if trainingmode is true, resetstate is called
+        // which resets the paddleHits prematurely for this data set.
+        dataManager.EndOfGameDataUpdate( 
+                gameWinTF,
+                // multiplying by timeScale here as ccan increase this in Project Settings
+                // in the editor for faster performance runs
+                (int)(gameManager.elapsedTime.TotalSeconds * Time.timeScale),
+                (int)(gameManager.elapsedTime.TotalMilliseconds * Time.timeScale),
+                paddleHits,
+                activeBlocks);
+    }
+
     public void LoseGame()
     {
+        if(!isMultiTraining && dataManager.trackingPerformanceTF)
+            UpdatePlayerPerformanceData(false);
+        
         playerState = PlayerState.Waiting;
 
         playerData.gameResult = "Game Over!";
@@ -206,6 +250,9 @@ public class PlayerSupervisor : MonoBehaviour
     public void WinGame()
     {
         playerState = PlayerState.Waiting;
+        
+        if(!isMultiTraining && dataManager.trackingPerformanceTF)
+            UpdatePlayerPerformanceData(true);
 
         playerData.gameResult = "You Win!";
         ball.gameObject.SetActive(false);
@@ -247,13 +294,14 @@ public class PlayerSupervisor : MonoBehaviour
     public void ResetState()
     {
         boundaryHits = 0;
+        paddleHits = 0;
         points = 0;
         gameManager.UpdatePoints(points);
 
         ball.gameObject.SetActive(true);
         ball.ResetBall();
-        ball.transform.localPosition = ballOffset;
-        
+
+        ball.transform.localPosition = ballOffset;        
         paddle.transform.localPosition = paddleOffset;
         paddle.smoothMovementChange = 0f;
         
@@ -304,9 +352,12 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void PaddleHit()
     {
+        paddleHits++;
         boundaryHits = 0;
         playerAgent.PaddleHit();
     }
+
+
 
     private IEnumerator DetectBallLockup()
     {
