@@ -38,15 +38,11 @@ public class GameManager : MonoBehaviour
         // Still need this for training_0 agent performance tracking
         playerSupervisor = FindObjectOfType<PlayerSupervisor>();
 
+        // Update the GameData to include a list of players in this game.
         gameData.PlayerList = new List<PlayerData>();
         foreach (PlayerSupervisor ps in playerSupervisors)
         {
-            gameData.PlayerList.Add(new PlayerData() {
-                Name = ps.PlayerName,
-                Points = ps.GetPoints(),
-                playerType = ps.playerType
-            });
-            Debug.Log($"Adding {ps.PlayerName} to data.");
+            gameData.PlayerList.Add(ps.GetPlayerData());
         }
 
         sceneLoader = FindObjectOfType<SceneLoader>();
@@ -111,7 +107,6 @@ public class GameManager : MonoBehaviour
                 // currently relies on elapsed time being reset each time a ball is lost.
                 break;
             case GameMode.UntilLose:
-                supervisor.LostBall = true;
                 // If all players have lost their ball, transition to the End Screen.
                 if (GameObject.FindObjectsOfType<Ball>().Length == 0)
                 {
@@ -144,7 +139,7 @@ public class GameManager : MonoBehaviour
                     winner = playerSupervisors[i];
                 }
             }
-            if (winner.playerType == PlayerType.Human)
+            if (winner.PlayerType == PlayerType.Human)
             {
                 gameData.gameResult = $"You Win!";
             }

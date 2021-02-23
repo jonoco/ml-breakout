@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Unity.MLAgents.Policies;
 using UnityEngine;
+using static GameData;
 
 public enum PlayerState
 {
@@ -9,21 +11,13 @@ public enum PlayerState
     Playing,
 }
 
-public enum PlayerType
-{
-    Human,
-    AI
-}
-
 public class PlayerSupervisor : MonoBehaviour
 {
     [SerializeField] Ball ball;
     [SerializeField] Paddle paddle;
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
-
     [SerializeField] public string PlayerName;
-    [SerializeField] public PlayerType playerType;
     [SerializeField] GameObject trainingBlocks;
 
     [SerializeField] public int PlayerNumber = 1;
@@ -57,6 +51,7 @@ public class PlayerSupervisor : MonoBehaviour
     public float maxPaddlePosX = 15f;
     public float instanceWidth = 16f;
     public float instanceHeight = 12f;
+    public PlayerType PlayerType { get; private set; }
     [HideInInspector] public float instanceDiagonalSize = 0;
    
     [Range(10f, 200f)]
@@ -114,7 +109,11 @@ public class PlayerSupervisor : MonoBehaviour
         }
 
         // Calculate diagonal width
-        instanceDiagonalSize = Mathf.Sqrt(Mathf.Pow(instanceHeight, 2) + Mathf.Pow(instanceWidth, 2)); 
+        instanceDiagonalSize = Mathf.Sqrt(Mathf.Pow(instanceHeight, 2) + Mathf.Pow(instanceWidth, 2));
+
+        // Identify whether this is an AI or human player.
+        SetPlayerType();
+        Debug.Log($"{PlayerName}: {PlayerType}");
     }
 
     /// <summary>
@@ -404,5 +403,45 @@ public class PlayerSupervisor : MonoBehaviour
                 SetBlockSupervisor(child);
         } 
     }
+
+    public void SetPlayerType()
+    {
+        if (!playerAgent)
+        {
+            PlayerType = PlayerType.Human;
+            return;
+        }
+
+        BehaviorParameters behavior = playerAgent.GetComponent<BehaviorParameters>();
+        switch (behavior.BehaviorType)
+        {
+            case BehaviorType.HeuristicOnly:
+                PlayerType = PlayerType.Human;
+                break;
+            case BehaviorType.InferenceOnly:
+                PlayerType = PlayerType.AI;
+                break;
+            case BehaviorType.Default:
+                if (behavior.Model != null)
+                {
+                    PlayerType = PlayerType.AI;
+                }
+                else
+                {
+                    PlayerType = PlayerType.AI;
+                }
+                break;
+        }
+    }
+
+    public PlayerData GetPlayerData()
+    {
+        return new PlayerData()
+        {
+            Name = PlayerName,
+            Points = points,
+            playerType = PlayerType
+        };
+    } 
 }
 

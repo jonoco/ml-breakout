@@ -250,6 +250,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Human Play Area
       objectReference: {fileID: 0}
+    - target: {fileID: 2774562446755734891, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: m_Model
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774562446755734891, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: m_BehaviorType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3836923425991617148, guid: 7585f89fea05f6d49937b6436b06fc36,
         type: 3}
       propertyPath: m_LocalPosition.z

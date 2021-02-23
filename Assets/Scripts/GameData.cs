@@ -3,7 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Player Data", menuName = "Player Data")]
+public enum PlayerType
+{
+    Human,
+    AI
+}
+
+[CreateAssetMenu(fileName = "Game Data", menuName = "Game Data")]
 public class GameData : ScriptableObject
 {
     [SerializeField] public List<PlayerData> PlayerList = new List<PlayerData>();
