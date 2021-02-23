@@ -1871,7 +1871,8 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5022602860645237092, guid: a46b221627ac16f49b5ed31755449ef1,
+        type: 3}
     - target: {fileID: 3836923425659308893, guid: d478c6211db93bb4780e0690dddf5184,
         type: 3}
       propertyPath: playerSupervisor
@@ -3560,6 +3561,11 @@ PrefabInstance:
     - target: {fileID: 8072182191512691420, guid: d3a8c38544c900d4e930f9ba30f589dd,
         type: 3}
       propertyPath: blocksPlacedRandomlyTF
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8072182191512691420, guid: d3a8c38544c900d4e930f9ba30f589dd,
+        type: 3}
+      propertyPath: numBlocksChosenRandomlyTF
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8072182191512691420, guid: d3a8c38544c900d4e930f9ba30f589dd,

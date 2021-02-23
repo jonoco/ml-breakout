@@ -29,7 +29,22 @@ public class PlayerSupervisor : MonoBehaviour
 
     // Frannie's Level Items
     private RandomBlockCreator randomBlockCreator;
+
+    // --- Multi block creator
     
+    [Header("Multi Block Creator Settings")]
+
+    float screenWidthWorld = 16f;
+    float screenHeightWorld = 12f;
+    public int numPossibleBlocks = 0;    
+    public List<int> availableBlocksIndexList = new List<int>();
+    public List<int> chosenBlocksIndexList = new List<int>();
+    public List<float> randomBlockXPos = new List<float>();
+    public List<float> randomBlockYPos = new List<float>();
+    
+
+    [Header("Game Object Settings/States/Info")]
+
     private int points = 0;
 
     private Vector3 ballOffset;         // Starting position of ball
@@ -285,7 +300,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void CreateRandomTrainingBlocks()
     {
-        multiBlockCreator.FillRandomLists();
+        FillRandomLists();
 
         for(int i = 0; i < GetNumRandomTrainingBlocks(); i++)
         {
@@ -326,7 +341,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void InstantiateRandombBlockGameObject()
     {
-        Vector2 randPos = multiBlockCreator.GetRandomBlockVector();
+        Vector2 randPos = GetRandomBlockVector();
 
         GameObject block = Instantiate(
             blockGameObjectType,
@@ -346,9 +361,58 @@ public class PlayerSupervisor : MonoBehaviour
             block.GetComponent<Block>().playerSupervisor = this;
     }
 
+    public void FillRandomLists()
+    {
+        for(int x = 0; x < screenWidthWorld; x++)
+        {
+            // starting y at 2 so we don't interfere w/
+            // paddle and ball positions across bottom of screen
+            for(int y = 2; y < screenHeightWorld; y++)
+            {
+                randomBlockXPos.Add(x+0.5f);
+                randomBlockYPos.Add(y+0.5f);
+                numPossibleBlocks += 1;
+                availableBlocksIndexList.Add(numPossibleBlocks-1);
+            }
+        }
+    }
+
+    public Vector2 GetRandomBlockVector()
+    {
+        int randBlockIndex = GetRandomBlockIndex();
+        AddIndexToChosenBlockIndexList(randBlockIndex);
+        RemoveIndexFromAvailableBlockList(randBlockIndex);    
+
+        return new Vector2(randomBlockXPos[randBlockIndex], 
+                           randomBlockYPos[randBlockIndex]);
+    }
+
+    public void AddIndexToChosenBlockIndexList(int newBlockIndex)
+    {
+        chosenBlocksIndexList.Add(newBlockIndex);
+    }
+
+    public void RemoveIndexFromAvailableBlockList(int index)
+    {
+        availableBlocksIndexList.RemoveAt(index);
+    }
+
+    public int GetRandomBlockIndex()
+    {
+        int randIndex = Random.Range(0, availableBlocksIndexList.Count);
+        return randIndex;        
+    }
+
+    public void EmptyRandomLists()
+    {   
+        chosenBlocksIndexList.Clear();
+        availableBlocksIndexList.Clear();
+    }
+
     public void DestroyTrainingBlocks()
     {
-        multiBlockCreator.EmptyRandomLists();
+        EmptyRandomLists();
+        numPossibleBlocks = 0;
 
         if(trainingBlocksGroup)
         {
