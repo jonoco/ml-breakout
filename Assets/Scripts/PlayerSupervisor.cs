@@ -352,8 +352,10 @@ public class PlayerSupervisor : MonoBehaviour
             foreach(Transform child in trainingBlocksGroup.transform)
             {
                 if (child.gameObject.GetComponent<Block>())
+                {
                     child.gameObject.SetActive(false);
                     Destroy(child.gameObject);
+                }
             }
         }
     }
