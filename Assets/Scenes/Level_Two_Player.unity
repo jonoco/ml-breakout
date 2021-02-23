@@ -212,21 +212,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: TwoPlayerEnvironment
       objectReference: {fileID: 0}
-    - target: {fileID: 2774562446755734891, guid: 7585f89fea05f6d49937b6436b06fc36,
-        type: 3}
-      propertyPath: m_BehaviorType
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6613752453291182729, guid: 7585f89fea05f6d49937b6436b06fc36,
-        type: 3}
-      propertyPath: instanceWidth
-      value: 7.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6613752453291182729, guid: 7585f89fea05f6d49937b6436b06fc36,
-        type: 3}
-      propertyPath: maxPaddlePosX
-      value: 6.5
-      objectReference: {fileID: 0}
     - target: {fileID: 9146408817681791003, guid: 7585f89fea05f6d49937b6436b06fc36,
         type: 3}
       propertyPath: m_RootOrder
