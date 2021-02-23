@@ -9,7 +9,7 @@ public class RandomBlockCreator : MonoBehaviour
     [SerializeField] GameObject blockObjType;
 
     // our project uses fixed 4-3 ratio, so these world units will not be changing
-    float screenWidthWorld = 16f;
+    [SerializeField] float screenWidthWorld = 16f;
     // float screenHeightWorld = 12f; // not used, but keeping just in case
 
     // for random block settings - max and min widths

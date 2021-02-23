@@ -92,6 +92,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 9146408817681791003}
     m_Modifications:
+    - target: {fileID: 531840240, guid: d8b0fe998368cbf45a1e859ac21418b4, type: 3}
+      propertyPath: screenWidthWorld
+      value: 7.5
+      objectReference: {fileID: 0}
     - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
         type: 3}
       propertyPath: ball
@@ -126,6 +130,11 @@ PrefabInstance:
     - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
         type: 3}
       propertyPath: isMultiTraining
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
+        type: 3}
+      propertyPath: useRandomBlocks
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
