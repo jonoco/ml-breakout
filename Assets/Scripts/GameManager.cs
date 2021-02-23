@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
    
         // Still need this for training_0 agent performance tracking
         playerSupervisor = FindObjectOfType<PlayerSupervisor>();
-            
+
         sceneLoader = FindObjectOfType<SceneLoader>();
         uiManager = FindObjectOfType<UIManager>();
     }
@@ -60,7 +60,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame(PlayerSupervisor supervisor)
     {
-        supervisor.StartGame();   
+        supervisor.StartGame();
     }
 
     public void WinGame(PlayerSupervisor supervisor)
@@ -72,7 +72,10 @@ public class GameManager : MonoBehaviour
         if (!trainingMode)
         {
             AudioManager.Instance.PlaySoundBetweenScenes(winSound);
-            supervisor.PauseGame();
+            foreach (PlayerSupervisor ps in playerSupervisors)
+            {
+                ps.PauseGame();
+            }
             sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
         } 
     }
@@ -84,15 +87,18 @@ public class GameManager : MonoBehaviour
             RestartGame(supervisor);
             return;
         }
+
+        AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
         switch(gameMode)
         {
             case GameMode.UntilWin:
-                AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
                 RestartGame(supervisor);
                 break;
             case GameMode.UntilLose:
-                AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
-                supervisor.PauseGame();
+                foreach (PlayerSupervisor ps in playerSupervisors)
+                {
+                    ps.PauseGame();
+                }
                 sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
                 break;
         }
@@ -101,7 +107,6 @@ public class GameManager : MonoBehaviour
     public void RestartGame(PlayerSupervisor supervisor)
     {
         // Reset any game state then let the player start again
-        startTime = DateTime.Now;
         supervisor.ResetState();
     }
 
