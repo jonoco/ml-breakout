@@ -96,7 +96,7 @@ public class MultiBlockCreator : MonoBehaviour
     {
         int randBlockIndex = GetRandomBlockIndex();
         AddIndexToChosenBlockIndexList(randBlockIndex);
-        RemoveIndexFromList(randBlockIndex);    
+        RemoveIndexFromAvailableBlockList(randBlockIndex);    
 
         return new Vector2(randomBlockXPos[randBlockIndex], 
                            randomBlockYPos[randBlockIndex]);
@@ -107,7 +107,7 @@ public class MultiBlockCreator : MonoBehaviour
         chosenBlocksIndexList.Add(newBlockIndex);
     }
 
-    public void RemoveIndexFromList(int index)
+    public void RemoveIndexFromAvailableBlockList(int index)
     {
         availableBlocksIndexList.RemoveAt(index);
     }

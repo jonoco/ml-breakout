@@ -289,7 +289,7 @@ public class PlayerSupervisor : MonoBehaviour
 
         for(int i = 0; i < GetNumRandomTrainingBlocks(); i++)
         {
-            InstantiateBlockGameObject();
+            InstantiateRandombBlockGameObject();
         }           
     }
 
@@ -324,7 +324,7 @@ public class PlayerSupervisor : MonoBehaviour
         return blockNum;
     }
 
-    public void InstantiateBlockGameObject()
+    public void InstantiateRandombBlockGameObject()
     {
         Vector2 randPos = multiBlockCreator.GetRandomBlockVector();
 
@@ -349,7 +349,7 @@ public class PlayerSupervisor : MonoBehaviour
     public void DestroyTrainingBlocks()
     {
         multiBlockCreator.EmptyRandomLists();
-        
+
         if(trainingBlocksGroup)
         {
             foreach(Transform child in trainingBlocksGroup.transform)
