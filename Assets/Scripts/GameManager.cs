@@ -2,8 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-
+using UnityEditor;
 
 public class GameManager : MonoBehaviour
 {
@@ -17,14 +16,18 @@ public class GameManager : MonoBehaviour
     public bool trainingMode = false;
 
     DateTime startTime = DateTime.Now;
+    public TimeSpan elapsedTime;
     
     // Start is called before the first frame update
     void Awake()
     {
         if (trainingMode)
+        {
             playerSupervisors = FindObjectsOfType<PlayerSupervisor>();
-        else
-            playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+        }
+   
+        // Still need this for training_0 agent performance tracking
+        playerSupervisor = FindObjectOfType<PlayerSupervisor>();
             
         sceneLoader = FindObjectOfType<SceneLoader>();
         uiManager = FindObjectOfType<UIManager>();
@@ -33,10 +36,9 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        TimeSpan elapsedTime = DateTime.Now - startTime;
+        elapsedTime = DateTime.Now - startTime;
         uiManager.UpdateElapsedTime(elapsedTime.ToString(@"mm\:ss\:ff"));
     }
-
     
     public void StartGame()
     {   
@@ -54,17 +56,6 @@ public class GameManager : MonoBehaviour
         supervisor.StartGame();   
     }
 
-    public void WinGame()
-    {
-        if (!playerSupervisor)
-        {
-            Debug.LogError("No player supervisor found to manage game");
-            return;
-        }
-
-        WinGame(playerSupervisor);
-    }
-
     public void WinGame(PlayerSupervisor supervisor)
     {
         if (trainingMode)
@@ -79,17 +70,6 @@ public class GameManager : MonoBehaviour
         } 
     }
 
-    public void LoseGame()
-    {
-        if (!playerSupervisor)
-        {
-            Debug.LogError("No player supervisor found to manage game");
-            return;
-        }
-        
-        LoseGame(playerSupervisor);
-    }
-
     public void LoseGame(PlayerSupervisor supervisor)
     {
         if (trainingMode)
@@ -102,17 +82,6 @@ public class GameManager : MonoBehaviour
             supervisor.PauseGame();
             sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
         }
-    }
-
-    public void RestartGame()
-    {
-        if (!playerSupervisor)
-        {
-            Debug.LogError("No player supervisor found to manage game");
-            return;
-        }
-
-        RestartGame(playerSupervisor);
     }
 
     public void RestartGame(PlayerSupervisor supervisor)
