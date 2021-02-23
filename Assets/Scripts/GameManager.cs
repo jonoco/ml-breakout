@@ -156,7 +156,14 @@ public class GameManager : MonoBehaviour
                     winner = playerSupervisors[i];
                 }
             }
-            gameData.gameResult = $"{winner.PlayerName} Wins!";
+            if (winner.playerType == PlayerType.Human)
+            {
+                gameData.gameResult = $"You Win!";
+            }
+            else
+            {
+                gameData.gameResult = $"{winner.PlayerName} Wins!";
+            }
         }
     }
 

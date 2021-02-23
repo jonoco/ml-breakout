@@ -778,6 +778,31 @@ PrefabInstance:
       propertyPath: m_Name
       value: TwoPlayerEnvironment (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 941496196091560440, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1553750242394834440, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: m_Color.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1553750242394834440, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1553750242394834440, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1553750242394834440, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2774562446755734891, guid: 7585f89fea05f6d49937b6436b06fc36,
         type: 3}
       propertyPath: m_BehaviorType
