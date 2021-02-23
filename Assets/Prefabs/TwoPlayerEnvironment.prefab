@@ -109,6 +109,16 @@ PrefabInstance:
       objectReference: {fileID: 2774562446755734890}
     - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
         type: 3}
+      propertyPath: instanceWidth
+      value: 7.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
+        type: 3}
+      propertyPath: maxPaddlePosX
+      value: 6.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
+        type: 3}
       propertyPath: trainingBlocks
       value: 
       objectReference: {fileID: 567816811006681950, guid: 8b954e0001ef9df428ecad3d8f2f1b78,
@@ -619,6 +629,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5065469761566338098, guid: 8fc2089ce7b11fc49a0301ef9d21915e,
+        type: 3}
+      propertyPath: m_BehaviorType
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5065469761566338099, guid: 8fc2089ce7b11fc49a0301ef9d21915e,
         type: 3}
