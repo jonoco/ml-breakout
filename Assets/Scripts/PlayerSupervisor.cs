@@ -18,6 +18,8 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] PlayerData playerData;
     [SerializeField] GameObject trainingBlocks;
 
+    [SerializeField] public int PlayerNumber = 1;
+
     // Player Data Performance Tracking
     [SerializeField] PerformanceDataManager dataManager;
 
@@ -98,6 +100,7 @@ public class PlayerSupervisor : MonoBehaviour
         {
             if (useRandomBlocks && randomBlockCreator)
                 randomBlockCreator.setupBlocks();
+                SetBlockSupervisor(randomBlockCreator.transform);
 
             CountBlocks();
         }
@@ -252,7 +255,7 @@ public class PlayerSupervisor : MonoBehaviour
             playerAgent.BlockHit();
 
         points += pointValue;
-        gameManager.UpdatePoints(points);
+        gameManager.UpdatePoints(points, this);
         playerData.points = points;
 
         --activeBlocks;
@@ -275,7 +278,7 @@ public class PlayerSupervisor : MonoBehaviour
         boundaryHits = 0;
         paddleHits = 0;
         points = 0;
-        gameManager.UpdatePoints(points);
+        gameManager.UpdatePoints(points, this);
 
         ball.gameObject.SetActive(true);
         ball.ResetBall();

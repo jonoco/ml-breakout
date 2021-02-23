@@ -1,17 +1,20 @@
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
 
     [SerializeField] TextMeshProUGUI pointsDisplay;
+    [SerializeField] List<TextMeshProUGUI> pointsDisplays;
     [SerializeField] TextMeshProUGUI timeDisplay;
 
     private void Awake()
     {
         // Find the child elements for this prefab's points and timer locations.
-        pointsDisplay = gameObject.transform.Find("Points Display").gameObject.GetComponent<TextMeshProUGUI>();
         timeDisplay = gameObject.transform.Find("Time Display").gameObject.GetComponent<TextMeshProUGUI>();
+        gameObject.GetComponentsInChildren<TextMeshProUGUI>(false, pointsDisplays);
+        pointsDisplays.Remove(timeDisplay);
     }
 
     public void UpdateElapsedTime(string time)
@@ -19,8 +22,8 @@ public class UIManager : MonoBehaviour
         timeDisplay.text = time;
     }
 
-    public void UpdatePoints(int points)
+    public void UpdatePoints(int points, int playerNumber)
     {
-        pointsDisplay.text = $"Points: {points}";
+        pointsDisplays[playerNumber - 1].text = $"Points: {points}";
     }
 }
