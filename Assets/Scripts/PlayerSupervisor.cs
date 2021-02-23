@@ -107,13 +107,24 @@ public class PlayerSupervisor : MonoBehaviour
     }
 
     void CountBlocks()
-    {
+    { 
         activeBlocks = 0;
-        foreach (Block block in FindObjectsOfType<Block>())
-        {
-            if (block.gameObject.activeSelf)
-                ++activeBlocks;
+        if(multiBlockCreator && isMultiTraining){
+            foreach(Transform child in trainingBlocksGroup.transform)
+            {
+                if (child.gameObject.GetComponent<Block>() && child.gameObject.activeSelf)
+                    ++activeBlocks;
+            }
         }
+        else
+        {
+            foreach (Block block in FindObjectsOfType<Block>())
+            {
+                if (block.gameObject.activeSelf)
+                    ++activeBlocks;
+            }
+        }
+
     }
 
     public void PlayerReady()
