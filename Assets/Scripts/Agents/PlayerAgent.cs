@@ -23,6 +23,12 @@ public class PlayerAgent : Agent
     [Tooltip("Reward per second for play duration")]
     public float timeRewardFactor = 0f;
 
+    [Tooltip("Reward for winning round by any means")]
+    public float winGameReward = 0f;
+
+    [Tooltip("Reward for losing round, in addition to any other rewards")]
+    public float loseGameReward = 0f;
+
     private void Start() 
     {
         if (!playerSupervisor)
@@ -87,11 +93,15 @@ public class PlayerAgent : Agent
 
     public virtual void LoseGame()
     {
+        AddReward(loseGameReward);
+
         EndEpisode();
     }
 
     public virtual void WinGame()
     {
+        AddReward(winGameReward);
+
         EndEpisode();
     }
 
