@@ -7,7 +7,6 @@ public class RandomBlockCreator : MonoBehaviour
     // to indicate block in current scene (in Inspector)
     // and parent block, which will always be "Blocks" empty object
     [SerializeField] GameObject blockObjType;
-    [SerializeField] GameObject parentBlock;
 
     // our project uses fixed 4-3 ratio, so these world units will not be changing
     float screenWidthWorld = 16f;
@@ -33,27 +32,25 @@ public class RandomBlockCreator : MonoBehaviour
 
     public void setupBlocks()
     {
-        if(isBlockFR())
-        {
-            // Used below when creating blocks to create them under the "Blocks"
-            // empty game object for optimal organization
-            parentBlock = GameObject.Find("Blocks");
-            // destroy all blocks that are initially on the board (i.e., testing blocks)
-            DestroyExistingBlocks();
-            // re-populate the board with blocks in a predetermined way
-            placeBlocks();
-        }
+        // Used below when creating blocks to create them under the "Blocks"
+        // empty game object for optimal organization
 
+        // destroy all blocks that are initially on the board (i.e., testing blocks)
+        DestroyExistingBlocks();
+        // re-populate the board with blocks in a predetermined way
+        placeBlocks();
     }
 
     // Frannie's Level - others can use if it's helpful
     private void DestroyExistingBlocks()
     {
-        Block[] allBlocks = GameObject.FindObjectsOfType<Block>();
-        foreach(Block block in allBlocks)
+        foreach(Transform child in transform)
         {
-            // if use just Destroy, object hangs around for awhile. do not use.
-            DestroyImmediate(block.gameObject);  
+            if (child.gameObject.GetComponent<Block>())
+            {
+                child.gameObject.SetActive(false);
+                Destroy(child.gameObject);
+            }
         }
     }
 
@@ -105,10 +102,10 @@ public class RandomBlockCreator : MonoBehaviour
         // x = midpoint position of block in screen space
         // y = current row position
         GameObject newBlock = Instantiate(blockObjType, 
-                    new Vector2(blockMidPoint, blockRow), 
-                    Quaternion.identity,
-                    parentBlock.transform // need this to it groups under "Blocks"
+                    transform, // need this to it groups under "Blocks"
+                    false
         );
+        newBlock.transform.localPosition = new Vector2(blockMidPoint, blockRow);
         return newBlock;
     }
 

@@ -26,7 +26,8 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] bool isMultiTraining = false;
 
     // Frannie's Level Items
-    private RandomBlockCreator randomBlockCreator;
+    public RandomBlockCreator randomBlockCreator;
+
     private int points = 0;
     private Vector3 ballOffset;         // Starting position of ball
     private Vector3 paddleOffset;       // Starting position of paddle
@@ -40,10 +41,13 @@ public class PlayerSupervisor : MonoBehaviour
 
     [Header("Game Environment Settings")]
 
+    [Tooltip("Use the random block creator instead of scene or training blocks")]
+    public bool useRandomBlocks = false;
     public float minPaddlePosX = 1f;
     public float maxPaddlePosX = 15f;
     public float instanceWidth = 16f;
     public float instanceHeight = 12f;
+    [HideInInspector] public float instanceDiagonalSize = 0;
    
     [Range(10f, 200f)]
     public float paddleMoveSpeed = 100f;
@@ -72,9 +76,8 @@ public class PlayerSupervisor : MonoBehaviour
         // the code will check whether or not to execute
         // based on the block.name assigned in the Inspector Window
         // in the RandomBlockCreator empty child object
-        randomBlockCreator = FindObjectOfType<RandomBlockCreator>();
-        if (randomBlockCreator)
-            randomBlockCreator.setupBlocks();
+        if (!randomBlockCreator)
+            randomBlockCreator = FindObjectOfType<RandomBlockCreator>();
         
         if (!ball)
             ball = FindObjectOfType<Ball>();
@@ -92,31 +95,40 @@ public class PlayerSupervisor : MonoBehaviour
         if (gameManager.trainingMode)
             ResetState();
         else
+        {
+            if (useRandomBlocks && randomBlockCreator)
+                randomBlockCreator.setupBlocks();
+
             CountBlocks();
+        }
+
+        // Calculate diagonal width
+        instanceDiagonalSize = Mathf.Sqrt(Mathf.Pow(instanceHeight, 2) + Mathf.Pow(instanceWidth, 2)); 
     }
 
-    void CountBlocks()
+    /// <summary>
+    /// Counts all Block objects inside the supervisor's tree.
+    /// </summary>
+    private void CountBlocks()
     {
         activeBlocks = 0;
 
-        // TODO need to count only blocks in each player's environment to
-        //  work for general multiplayer use; Maybe keep all blocks in a
-        //  container for easier tracking
-        if (gameManager.trainingMode)
+        CountChildBlocks(transform);
+    }
+
+    /// <summary>
+    /// Recursive Block counter.
+    /// </summary>
+    /// <param name="transform"></param>
+    private void CountChildBlocks(Transform transform)
+    {
+        foreach(Transform child in transform)
         {
-            foreach(Transform child in trainingBlocksInstance.transform)
-            {
-                if (child.gameObject.GetComponent<Block>() && child.gameObject.activeSelf)
-                    ++activeBlocks;
-            }
-        }
-        else
-        {
-            foreach (Block block in FindObjectsOfType<Block>())
-            {
-                if (block.gameObject.activeSelf)
-                    ++activeBlocks;
-            }
+            if (child.gameObject.GetComponent<Block>() && child.gameObject.activeSelf)
+                ++activeBlocks;
+            
+            if (child.childCount > 0)
+                CountChildBlocks(child);
         }
     }
 
@@ -272,26 +284,15 @@ public class PlayerSupervisor : MonoBehaviour
         paddle.transform.localPosition = paddleOffset;
         paddle.smoothMovementChange = 0f;
         
-        // Destroy training blocks, then the block holder
-        if (trainingBlocksInstance)
+        if (useRandomBlocks && randomBlockCreator)
         {
-            foreach(Transform child in trainingBlocksInstance.transform)
-            {
-                if (child.gameObject.GetComponent<Block>())
-                    child.gameObject.SetActive(false);
-                    Destroy(child.gameObject);
-            }
-
-            Destroy(trainingBlocksInstance);
+            randomBlockCreator.setupBlocks();
+            SetBlockSupervisor(randomBlockCreator.transform);
         }
-
-        // Set block's supervisor
-        trainingBlocksInstance = Instantiate(trainingBlocks, transform);
-        foreach(Transform child in trainingBlocksInstance.transform)
+        else
         {
-            Block block = child.gameObject.GetComponent<Block>();
-            if (block)
-                block.playerSupervisor = this;
+            RespawnTrainingBlocks();
+            SetBlockSupervisor(trainingBlocksInstance.transform);
         }
         
         CountBlocks();
@@ -363,6 +364,37 @@ public class PlayerSupervisor : MonoBehaviour
 
         playerAgent.Timeout();
         LoseGame();
+    }
+
+    private void RespawnTrainingBlocks()
+    {
+        // Destroy training blocks, then the block holder
+        if (trainingBlocksInstance)
+        {
+            foreach(Transform child in trainingBlocksInstance.transform)
+            {
+                if (child.gameObject.GetComponent<Block>())
+                    child.gameObject.SetActive(false);
+                    Destroy(child.gameObject);
+            }
+
+            Destroy(trainingBlocksInstance);
+        }
+
+        trainingBlocksInstance = Instantiate(trainingBlocks, transform);
+    }
+
+    private void SetBlockSupervisor(Transform transform)
+    {
+        foreach(Transform child in transform)
+        {
+            Block block = child.gameObject.GetComponent<Block>();
+            if (block)
+                block.playerSupervisor = this;
+
+            if (child.childCount > 0)
+                SetBlockSupervisor(child);
+        } 
     }
 }
 
