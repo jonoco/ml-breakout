@@ -4,9 +4,10 @@ using UnityEngine;
 
 public enum PlayerState
 {
-    Waiting,
-    Ready,
-    Playing,
+    Preparation,   // environment is being prepared
+    Waiting,       // environment is ready, waiting for player to begin
+    Ready,         // player signaled ready to play
+    Playing,       // player is actively playing
 }
 
 public class PlayerSupervisor : MonoBehaviour
@@ -37,7 +38,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     private GameObject trainingBlocksInstance;
     private int activeBlocks;
-    private PlayerState playerState = PlayerState.Waiting;
+    private PlayerState playerState = PlayerState.Preparation;
     private float playStartTime;
 
     [Header("Game Environment Settings")]
@@ -144,30 +145,23 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void StartGame()
     {
-        if (gameManager.trainingMode && !trainingBlocks)
-        {
-            Debug.LogError("trainingBlocks reference missing");
-            return;
-        }
-
-        if(!isMultiTraining && dataManager.trackingPerformanceTF)
-            dataManager.SetStartingNumBlocks(activeBlocks);
-        
         // Only start if the player is ready
         if (playerState != PlayerState.Ready)
             return;
+        
+        if (gameManager.trainingMode && !trainingBlocks)
+            Debug.LogError("trainingBlocks reference missing");
+
+        if(!isMultiTraining && dataManager.trackingPerformanceTF)
+            dataManager.SetStartingNumBlocks(activeBlocks);
 
         playerState = PlayerState.Playing;
-
         playStartTime = Time.time;
 
         LaunchBall();
 
         if (detectionFreq > 0)
-            StartCoroutine(DetectBallLockup());
-
-        if (gameManager.trainingMode && playerAgent.timeLimit > 0)
-            StartCoroutine(Timeout());
+            StartCoroutine(DetectBallAnomaly());
     }
 
     public void PauseGame()
@@ -213,11 +207,11 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseGame()
     {
+        playerState = PlayerState.Preparation;
+
         if(!isMultiTraining && dataManager.trackingPerformanceTF)
             UpdatePlayerPerformanceData(false);
         
-        playerState = PlayerState.Waiting;
-
         playerData.gameResult = "Game Over!";
         ball.gameObject.SetActive(false);
         
@@ -234,7 +228,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void WinGame()
     {
-        playerState = PlayerState.Waiting;
+        playerState = PlayerState.Preparation;
         
         if(!isMultiTraining && dataManager.trackingPerformanceTF)
             UpdatePlayerPerformanceData(true);
@@ -305,6 +299,12 @@ public class PlayerSupervisor : MonoBehaviour
         }
         
         CountBlocks();
+
+        // Immediately begin the timeout
+        if (gameManager.trainingMode && playerAgent.timeLimit > 0)
+            StartCoroutine(Timeout());
+
+        playerState = PlayerState.Waiting;
     }
 
     public void BoundaryHit(BoundaryName boundaryName)
@@ -330,6 +330,15 @@ public class PlayerSupervisor : MonoBehaviour
 
             // Rebound ceilingReboundAngle degrees off the ceiling
             float originalMag = ballRB.velocity.magnitude;
+
+            if (originalMag < 0.5f)
+            {
+                Debug.Log("Ball halt check");
+
+                ResetBall();
+                return;
+            }
+
             Vector2 newVelocity = ballRB.velocity;
             newVelocity.x = ballRB.velocity.y * Mathf.Tan(ceilingReboundAngle);
             newVelocity *= originalMag / newVelocity.magnitude;
@@ -345,9 +354,14 @@ public class PlayerSupervisor : MonoBehaviour
         playerAgent.PaddleHit();
     }
 
+    void ResetBall()
+    {
+        ball.ResetBall();
+        ball.transform.localPosition = ballOffset;
+        ball.LaunchBall();
+    }
 
-
-    private IEnumerator DetectBallLockup()
+    private IEnumerator DetectBallAnomaly()
     {
         while (true)
         {
@@ -356,9 +370,17 @@ public class PlayerSupervisor : MonoBehaviour
             {
                 Debug.Log("Ball lockup check");
 
-                ball.ResetBall();
-                ball.transform.position = ballOffset;
-                ball.LaunchBall();
+                ResetBall();
+            }
+
+            if (ball.transform.localPosition.x > 50f || 
+                ball.transform.localPosition.x < -50f ||
+                ball.transform.localPosition.y > 50f ||
+                ball.transform.localPosition.y < -50f)
+            {
+                Debug.Log("Ball bounds check");
+
+                ResetBall();
             }
                 
             yield return new WaitForSeconds(detectionFreq);
