@@ -38,12 +38,9 @@ public class GameManager : MonoBehaviour
         // Still need this for training_0 agent performance tracking
         playerSupervisor = FindObjectOfType<PlayerSupervisor>();
 
-        // Update the GameData to include a list of players in this game.
+        // Clear the GameData of past games' player data
+        // and create a new list to store this game's player data.
         gameData.PlayerList = new List<PlayerData>();
-        foreach (PlayerSupervisor ps in playerSupervisors)
-        {
-            gameData.PlayerList.Add(ps.GetPlayerData());
-        }
 
         sceneLoader = FindObjectOfType<SceneLoader>();
         uiManager = FindObjectOfType<UIManager>();
@@ -193,9 +190,4 @@ public class GameManager : MonoBehaviour
         supervisor.ResetState();
     }
 
-    public void UpdatePoints(int points, PlayerSupervisor supervisor)
-    {
-        uiManager.UpdatePoints(points, supervisor.PlayerNumber);
-        gameData.UpdatePoints(supervisor.PlayerName, points);
-    }
 }

@@ -21,11 +21,12 @@ public class GameData : ScriptableObject
         public string Name;
         public int Points;
         public PlayerType playerType;
+
+        public void SetPoints(int points)
+        {
+            Points = points;
+        }
     }
 
-    internal void UpdatePoints(string name, int points)
-    {
-        PlayerList.Find(p => p.Name.Equals(name)).Points = points;
-    }
 }
 

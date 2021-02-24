@@ -18,10 +18,12 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] Paddle paddle;
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
+    [SerializeField] GameData gameData;
+    [SerializeField] public PlayerData playerData;
     [SerializeField] public string PlayerName;
     [SerializeField] GameObject trainingBlocks;
 
-    [SerializeField] TextMeshProUGUI pointsDisplays;
+    [SerializeField] TextMeshProUGUI pointsDisplay;
 
     [SerializeField] public int PlayerNumber = 1;
 
@@ -116,7 +118,11 @@ public class PlayerSupervisor : MonoBehaviour
 
         // Identify whether this supervisor is for an AI or human player.
         SetPlayerType();
+
+        playerData = CreatePlayerData();
+        gameData.PlayerList.Add(playerData);
     }
+
 
     /// <summary>
     /// Counts all Block objects inside the supervisor's tree.
@@ -262,7 +268,8 @@ public class PlayerSupervisor : MonoBehaviour
             playerAgent.BlockHit();
 
         points += pointValue;
-        gameManager.UpdatePoints(points, this);
+        UpdatePointsUI();
+        playerData.SetPoints(points);
 
         --activeBlocks;
         if (activeBlocks <= 0)
@@ -284,7 +291,7 @@ public class PlayerSupervisor : MonoBehaviour
         boundaryHits = 0;
         paddleHits = 0;
         points = 0;
-        gameManager.UpdatePoints(points, this);
+        UpdatePointsUI();
 
         ball.gameObject.SetActive(true);
         ball.ResetBall();
@@ -443,7 +450,7 @@ public class PlayerSupervisor : MonoBehaviour
         }
     }
 
-    public PlayerData GetPlayerData()
+    public PlayerData CreatePlayerData()
     {
         return new PlayerData()
         {
@@ -451,6 +458,11 @@ public class PlayerSupervisor : MonoBehaviour
             Points = points,
             playerType = PlayerType
         };
-    } 
+    }
+    public void UpdatePointsUI()
+    {
+        if (pointsDisplay)
+            pointsDisplay.text = $"Points: {points}";
+    }
 }
 

@@ -21,9 +21,4 @@ public class UIManager : MonoBehaviour
     {
         timeDisplay.text = time;
     }
-
-    public void UpdatePoints(int points, int playerNumber)
-    {
-        pointsDisplays[playerNumber - 1].text = $"Points: {points}";
-    }
 }
