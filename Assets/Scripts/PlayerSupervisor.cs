@@ -111,9 +111,8 @@ public class PlayerSupervisor : MonoBehaviour
         // Calculate diagonal width
         instanceDiagonalSize = Mathf.Sqrt(Mathf.Pow(instanceHeight, 2) + Mathf.Pow(instanceWidth, 2));
 
-        // Identify whether this is an AI or human player.
+        // Identify whether this supervisor is for an AI or human player.
         SetPlayerType();
-        Debug.Log($"{PlayerName}: {PlayerType}");
     }
 
     /// <summary>

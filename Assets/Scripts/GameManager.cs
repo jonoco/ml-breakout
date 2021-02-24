@@ -14,13 +14,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip loseSound;
     [SerializeField] AudioClip winSound;
     [SerializeField] GameData gameData;
+    [SerializeField] private GameEndCondition gameEndCondition = GameEndCondition.AllPlayersLoseBall;
 
-    [SerializeField] GameMode gameMode = GameMode.UntilLose;
-
-    public enum GameMode
+    public enum GameEndCondition
     {
-        UntilLose,
-        UntilWin
+        AllPlayersLoseBall,
+        OnePlayerLosesBall,
+        OnePlayerClearsAllBlocks
     }
     public bool trainingMode = false;
 
@@ -81,6 +81,8 @@ public class GameManager : MonoBehaviour
         if (!trainingMode)
         {
             AudioManager.Instance.PlaySoundBetweenScenes(winSound);
+            // Set the player who broke all the blocks as the winner.
+            SetWinner(supervisor);
             foreach (PlayerSupervisor ps in playerSupervisors)
             {
                 ps.PauseGame();
@@ -98,30 +100,48 @@ public class GameManager : MonoBehaviour
         }
 
         AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
-        switch(gameMode)
+        // If there are multiple players, check whether the conditions
+        // have been met to end the game.
+        if (playerSupervisors.Length > 1)
         {
-            case GameMode.UntilWin:
-                // Not yet implemented. It seems like high scores here would be
-                // elapsed time instead of points - since playing until win always
-                // ends with breaking every block. But the PerformanceDataManager
-                // currently relies on elapsed time being reset each time a ball is lost.
-                break;
-            case GameMode.UntilLose:
-                // If all players have lost their ball, transition to the End Screen.
-                if (GameObject.FindObjectsOfType<Ball>().Length == 0)
-                {
-                    foreach (PlayerSupervisor ps in playerSupervisors)
+            switch (gameEndCondition)
+            {
+                case GameEndCondition.OnePlayerClearsAllBlocks:
+                    RestartGame(supervisor);
+                    break;
+                case GameEndCondition.AllPlayersLoseBall:
+                    // If all players have lost their ball, transition to the End Screen.
+                    if (GameObject.FindObjectsOfType<Ball>().Length == 0)
                     {
-                        ps.PauseGame();
+                        SetWinnerToHighestPointEarner();
+                        TransitionToEndScreen();
                     }
-                    SaveHighestScoreToGameResult();
-                    sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
-                }
-                break;
+                    break;
+                case GameEndCondition.OnePlayerLosesBall:
+                    // Should the winner in this case be the one who broke the most blocks?
+                    // Or the one who kept the ball in play longer?
+                    SetWinnerToHighestPointEarner();
+                    TransitionToEndScreen();
+                    break;
+            }
+        }
+        else
+        {
+            gameData.gameResult = $"Game Over!";
+            TransitionToEndScreen();
         }
     }
 
-    private void SaveHighestScoreToGameResult()
+    private void TransitionToEndScreen()
+    {
+        foreach (PlayerSupervisor ps in playerSupervisors)
+        {
+            ps.PauseGame();
+        }
+        sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
+    }
+
+    private void SetWinnerToHighestPointEarner()
     {
         // If all of the PlayerSupervisors have equal points, report a tie.
         if (Array.TrueForAll(playerSupervisors, ps => ps.GetPoints() == playerSupervisors[0].GetPoints()))
@@ -147,6 +167,18 @@ public class GameManager : MonoBehaviour
             {
                 gameData.gameResult = $"{winner.PlayerName} Wins!";
             }
+        }
+    }
+
+    private void SetWinner(PlayerSupervisor winner)
+    {
+        if (winner.PlayerType == PlayerType.Human)
+        {
+            gameData.gameResult = $"You Win!";
+        }
+        else
+        {
+            gameData.gameResult = $"{winner.PlayerName} Wins!";
         }
     }
 
