@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.MLAgents.Policies;
@@ -18,7 +19,6 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] Paddle paddle;
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
-    [SerializeField] public string PlayerName;
     [SerializeField] GameObject trainingBlocks;
 
     [SerializeField] TextMeshProUGUI pointsDisplay;
@@ -55,7 +55,6 @@ public class PlayerSupervisor : MonoBehaviour
     public float maxPaddlePosX = 15f;
     public float instanceWidth = 16f;
     public float instanceHeight = 12f;
-    public PlayerType PlayerType { get; private set; }
     [HideInInspector] public float instanceDiagonalSize = 0;
    
     [Range(10f, 200f)]
@@ -118,7 +117,7 @@ public class PlayerSupervisor : MonoBehaviour
         // Identify whether this supervisor is for an AI or human player.
         SetPlayerType();
 
-        playerData = CreatePlayerData();
+        SetupPlayerData();
         gameData.PlayerList.Add(playerData);
     }
 
@@ -184,9 +183,19 @@ public class PlayerSupervisor : MonoBehaviour
             StartCoroutine(Timeout());
     }
 
+    internal PlayerType GetPlayerType()
+    {
+        return playerData.Type;
+    }
+
     public void PauseGame()
     {
         ball.gameObject.SetActive(false);
+    }
+
+    internal object GetName()
+    {
+        return playerData.playerName;
     }
 
     void LaunchBall()
@@ -422,7 +431,7 @@ public class PlayerSupervisor : MonoBehaviour
     {
         if (!playerAgent)
         {
-            PlayerType = PlayerType.Human;
+            playerData.Type = PlayerType.Human;
             return;
         }
 
@@ -430,32 +439,30 @@ public class PlayerSupervisor : MonoBehaviour
         switch (behavior.BehaviorType)
         {
             case BehaviorType.HeuristicOnly:
-                PlayerType = PlayerType.Human;
+                playerData.Type = PlayerType.Human;
                 break;
             case BehaviorType.InferenceOnly:
-                PlayerType = PlayerType.AI;
+                playerData.Type = PlayerType.AI;
                 break;
             case BehaviorType.Default:
                 if (behavior.Model != null)
                 {
-                    PlayerType = PlayerType.AI;
+                    playerData.Type = PlayerType.AI;
                 }
                 else
                 {
-                    PlayerType = PlayerType.AI;
+                    playerData.Type = PlayerType.AI;
                 }
                 break;
         }
     }
 
-    public PlayerData CreatePlayerData()
+    public void SetupPlayerData()
     {
-        return new PlayerData()
+        if (playerData.playerName.Equals(""))
         {
-            Name = PlayerName,
-            Points = 0,
-            playerType = PlayerType
-        };
+            playerData.playerName = "Missing Name";
+        }
     }
     public void UpdatePointsUI()
     {

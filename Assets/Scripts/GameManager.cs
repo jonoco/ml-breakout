@@ -160,26 +160,26 @@ public class GameManager : MonoBehaviour
                     winner = playerSupervisors[i];
                 }
             }
-            if (winner.PlayerType == PlayerType.Human)
+            if (winner.GetPlayerType() == PlayerType.Human)
             {
                 gameData.gameResult = $"You Win!";
             }
             else
             {
-                gameData.gameResult = $"{winner.PlayerName} Wins!";
+                gameData.gameResult = $"{winner.GetName()} Wins!";
             }
         }
     }
 
     private void SetWinner(PlayerSupervisor winner)
     {
-        if (winner.PlayerType == PlayerType.Human)
+        if (winner.GetPlayerType() == PlayerType.Human)
         {
             gameData.gameResult = $"You Win!";
         }
         else
         {
-            gameData.gameResult = $"{winner.PlayerName} Wins!";
+            gameData.gameResult = $"{winner.GetName()} Wins!";
         }
     }
 

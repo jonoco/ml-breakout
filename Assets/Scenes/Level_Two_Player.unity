@@ -290,6 +290,11 @@ PrefabInstance:
       propertyPath: pointsDisplays
       value: 
       objectReference: {fileID: 853358192}
+    - target: {fileID: 6613752453291182729, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: playerData.playerName
+      value: You
+      objectReference: {fileID: 0}
     - target: {fileID: 9146408817681791003, guid: 7585f89fea05f6d49937b6436b06fc36,
         type: 3}
       propertyPath: m_RootOrder
@@ -953,6 +958,11 @@ PrefabInstance:
       propertyPath: pointsDisplays
       value: 
       objectReference: {fileID: 1198869753}
+    - target: {fileID: 6613752453291182729, guid: 7585f89fea05f6d49937b6436b06fc36,
+        type: 3}
+      propertyPath: playerData.playerName
+      value: Neural Net
+      objectReference: {fileID: 0}
     - target: {fileID: 9146408817681791003, guid: 7585f89fea05f6d49937b6436b06fc36,
         type: 3}
       propertyPath: m_RootOrder

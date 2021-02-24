@@ -106,7 +106,7 @@ public class LeaderBoard : MonoBehaviour
     {
         // Check if the player's score places within the SCORES_DISPLAY_LIMIT
         // of existing high scores.
-        PlayerData humanPlayerData = gameData.PlayerList.Find(ps => ps.playerType == PlayerType.Human);
+        PlayerData humanPlayerData = gameData.PlayerList.Find(ps => ps.Type == PlayerType.Human);
         if (humanPlayerData == null)
         {
             return;

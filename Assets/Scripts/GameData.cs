@@ -18,9 +18,9 @@ public class GameData : ScriptableObject
     [System.Serializable]
     public class PlayerData
     {
-        public string Name;
+        public string playerName;
         public int Points;
-        public PlayerType playerType;
+        public PlayerType Type;
 
         public void SetPoints(int points)
         {
