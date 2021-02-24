@@ -114,10 +114,8 @@ public class PlayerSupervisor : MonoBehaviour
         // Calculate diagonal width
         instanceDiagonalSize = Mathf.Sqrt(Mathf.Pow(instanceHeight, 2) + Mathf.Pow(instanceWidth, 2));
 
-        // Identify whether this supervisor is for an AI or human player.
-        SetPlayerType();
-
-        SetupPlayerData();
+        // Set the playerData's type, name, and points.
+        InitializePlayerData();
         gameData.PlayerList.Add(playerData);
     }
 
@@ -210,7 +208,6 @@ public class PlayerSupervisor : MonoBehaviour
 
         LoseGame();
     }
-
 
     public bool IsMultiAgent()
     {
@@ -457,12 +454,14 @@ public class PlayerSupervisor : MonoBehaviour
         }
     }
 
-    public void SetupPlayerData()
+    public void InitializePlayerData()
     {
         if (playerData.playerName.Equals(""))
         {
             playerData.playerName = "Missing Name";
         }
+        playerData.Points = 0;
+        SetPlayerType();
     }
     public void UpdatePointsUI()
     {
