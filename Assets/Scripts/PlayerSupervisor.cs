@@ -18,14 +18,14 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] Paddle paddle;
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
-    [SerializeField] GameData gameData;
-    [SerializeField] public PlayerData playerData;
     [SerializeField] public string PlayerName;
     [SerializeField] GameObject trainingBlocks;
 
     [SerializeField] TextMeshProUGUI pointsDisplay;
 
-    [SerializeField] public int PlayerNumber = 1;
+    // Scriptable Object references
+    [SerializeField] private GameData gameData;
+    [SerializeField] private PlayerData playerData;
 
     // Player Data Performance Tracking
     [SerializeField] PerformanceDataManager dataManager;
@@ -37,7 +37,6 @@ public class PlayerSupervisor : MonoBehaviour
     // Frannie's Level Items
     public RandomBlockCreator randomBlockCreator;
 
-    private int points = 0;
     private Vector3 ballOffset;         // Starting position of ball
     private Vector3 paddleOffset;       // Starting position of paddle
     private int boundaryHits = 0;
@@ -267,9 +266,8 @@ public class PlayerSupervisor : MonoBehaviour
         if (playerAgent)
             playerAgent.BlockHit();
 
-        points += pointValue;
+        playerData.Points += pointValue;
         UpdatePointsUI();
-        playerData.SetPoints(points);
 
         --activeBlocks;
         if (activeBlocks <= 0)
@@ -280,7 +278,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     public int GetPoints()
     {
-        return points;
+        return playerData.Points;
     }
 
     /// <summary>
@@ -290,7 +288,7 @@ public class PlayerSupervisor : MonoBehaviour
     {
         boundaryHits = 0;
         paddleHits = 0;
-        points = 0;
+        playerData.Points = 0;
         UpdatePointsUI();
 
         ball.gameObject.SetActive(true);
@@ -455,14 +453,13 @@ public class PlayerSupervisor : MonoBehaviour
         return new PlayerData()
         {
             Name = PlayerName,
-            Points = points,
+            Points = 0,
             playerType = PlayerType
         };
     }
     public void UpdatePointsUI()
     {
         if (pointsDisplay)
-            pointsDisplay.text = $"Points: {points}";
+            pointsDisplay.text = $"Points: {GetPoints()}";
     }
 }
-
