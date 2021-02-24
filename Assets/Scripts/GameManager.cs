@@ -107,7 +107,11 @@ public class GameManager : MonoBehaviour
             switch (gameEndCondition)
             {
                 case GameEndCondition.OnePlayerClearsAllBlocks:
-                    RestartGame(supervisor);
+                    // This currently uses the same scoreboard as the
+                    // other play types. It should probably have a separate
+                    // one that evalutes users on how quickly they break all
+                    // the blocks instead of how many blocks they break.
+                    supervisor.ResetBall();
                     break;
                 case GameEndCondition.AllPlayersLoseBall:
                     // If all players have lost their ball, transition to the End Screen.

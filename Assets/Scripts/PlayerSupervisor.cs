@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.MLAgents.Policies;
 using UnityEngine;
 using static GameData;
@@ -13,12 +14,14 @@ public enum PlayerState
 
 public class PlayerSupervisor : MonoBehaviour
 {
-    [SerializeField] Ball ball;
+    [SerializeField] public Ball ball;
     [SerializeField] Paddle paddle;
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
     [SerializeField] public string PlayerName;
     [SerializeField] GameObject trainingBlocks;
+
+    [SerializeField] TextMeshProUGUI pointsDisplays;
 
     [SerializeField] public int PlayerNumber = 1;
 
@@ -286,7 +289,7 @@ public class PlayerSupervisor : MonoBehaviour
         ball.gameObject.SetActive(true);
         ball.ResetBall();
 
-        ball.transform.localPosition = ballOffset;        
+        ball.transform.localPosition = ballOffset;
         paddle.transform.localPosition = paddleOffset;
         paddle.smoothMovementChange = 0f;
         
@@ -302,6 +305,13 @@ public class PlayerSupervisor : MonoBehaviour
         }
         
         CountBlocks();
+    }
+
+    public void ResetBall()
+    {
+        ball.gameObject.SetActive(true);
+        ball.ResetBall();
+        ball.transform.localPosition = ballOffset;
     }
 
     public void BoundaryHit(BoundaryName boundaryName)
