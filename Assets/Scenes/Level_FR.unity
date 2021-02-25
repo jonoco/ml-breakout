@@ -246,6 +246,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
         type: 3}
+      propertyPath: useRandomBlocks
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
+        type: 3}
       propertyPath: multiBlockCreator
       value: 
       objectReference: {fileID: 0}
@@ -261,9 +266,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3913816967027211534, guid: 33a65d94e8608a044aaac080926314be,
         type: 3}
-      propertyPath: useRandomBlocks
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6902707035986185609, guid: d8b0fe998368cbf45a1e859ac21418b4,
         type: 3}
       propertyPath: m_Name
