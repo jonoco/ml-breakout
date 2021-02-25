@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneLoader: {fileID: 1914397883}
-  startScene: Start_Menu B
+  startScene: Start_Menu
 --- !u!328 &1291708358
 VideoPlayer:
   m_ObjectHideFlags: 0

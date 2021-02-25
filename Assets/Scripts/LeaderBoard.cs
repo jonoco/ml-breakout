@@ -124,7 +124,7 @@ public class LeaderBoard : MonoBehaviour
     // with Saving and Loading": https://youtu.be/iAbaqGYdnyI.
     private void SetupLeaderboardUI()
     {
-        transform.Find("Game Result").GetComponent<Text>().text = playerData.gameResult;
+        transform.Find("Game Result").GetComponent<TextMeshProUGUI>().text = playerData.gameResult;
         Transform scoresContainer = transform.Find("Scores");
 
         // Get templates for score display and score input rows then hide them.
