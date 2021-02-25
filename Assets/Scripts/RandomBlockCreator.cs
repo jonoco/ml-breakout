@@ -17,7 +17,7 @@ public class RandomBlockCreator : MonoBehaviour
     [SerializeField] int maxBlockWidthWorld = 4;
 
     // for random block settings - start row to place blocks
-    [Range(2,6)]
+    [Range(2,10)]
     [SerializeField] float blockStartRow = 5f;
 
     // starting block width

@@ -30,11 +30,8 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Awake()
     {
-        if (trainingMode)
-        {
-            playerSupervisors = FindObjectsOfType<PlayerSupervisor>();
-        }
-   
+        playerSupervisors = FindObjectsOfType<PlayerSupervisor>();
+
         // Still need this for training_0 agent performance tracking
         playerSupervisor = FindObjectOfType<PlayerSupervisor>();
 
