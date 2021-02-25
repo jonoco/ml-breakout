@@ -6,7 +6,7 @@ public class Block : MonoBehaviour
 {
 
     [SerializeField] public PlayerSupervisor playerSupervisor;
-    [SerializeField] GameManager gameManager;
+    [SerializeField] public GameManager gameManager;
     [SerializeField] GameObject particleVFX;
 
     // The number of points destroying this block is worth.

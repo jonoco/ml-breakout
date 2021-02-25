@@ -124,3 +124,7 @@ MonoBehaviour:
   boundaryReboundLimit: 10
   detectionFreq: 1
   ceilingReboundAngle: 1.5
+  blockGameObject: {fileID: 0}
+  trainingBlocksGroup: {fileID: 0}
+  multiBlockCreator: {fileID: 8072182191512691420, guid: d3a8c38544c900d4e930f9ba30f589dd,
+    type: 3}

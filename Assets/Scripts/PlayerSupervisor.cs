@@ -28,23 +28,42 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] private PlayerData playerData;
 
     // Player Data Performance Tracking
+
     [SerializeField] PerformanceDataManager dataManager;
+    [SerializeField] MultiBlockCreator multiBlockCreator;
+
+    [SerializeField] GameObject blockGameObjectType;
+    [SerializeField] GameObject trainingBlocksGroupType;
+    private GameObject trainingBlocksGroup;
 
     // Using this as a band-aid for now, until i get multi-agent
     // performance implemented
     [SerializeField] bool isMultiTraining = false;
 
     // Frannie's Level Items
-    public RandomBlockCreator randomBlockCreator;
+    private RandomBlockCreator randomBlockCreator;
+
+    // --- Multi block creator
+    
+    [Header("Multi Block Creator Settings")]
+
+    float screenWidthWorld = 16f;
+    float screenHeightWorld = 12f;
+    public int numPossibleBlocks = 0;    
+    public List<int> availableBlocksIndexList = new List<int>();
+    public List<int> chosenBlocksIndexList = new List<int>();
+    public List<float> randomBlockXPos = new List<float>();
+    public List<float> randomBlockYPos = new List<float>();
+
+    [Header("Game Object Settings/States/Info")]
 
     private Vector3 ballOffset;         // Starting position of ball
     private Vector3 paddleOffset;       // Starting position of paddle
+
     private int boundaryHits = 0;
-
     private int paddleHits = 0;
-
-    private GameObject trainingBlocksInstance;
     private int activeBlocks;
+
     private PlayerState playerState = PlayerState.Waiting;
 
     [Header("Game Environment Settings")]
@@ -77,6 +96,9 @@ public class PlayerSupervisor : MonoBehaviour
     void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
+
+        if(!multiBlockCreator)
+            multiBlockCreator = FindObjectOfType<MultiBlockCreator>();
         
         if (!playerAgent)
             playerAgent = FindObjectOfType<PlayerAgent>();
@@ -98,6 +120,9 @@ public class PlayerSupervisor : MonoBehaviour
         if (!paddle)
             paddle = FindObjectOfType<Paddle>();
         paddleOffset = paddle.transform.localPosition;
+
+        if(!trainingBlocksGroup && gameManager.trainingMode)
+            trainingBlocksGroup = GetTrainingBlocksGroupInstance();
 
         // Check if scene is ready for training
         if (gameManager.trainingMode)
@@ -144,6 +169,7 @@ public class PlayerSupervisor : MonoBehaviour
             if (child.childCount > 0)
                 CountChildBlocks(child);
         }
+
     }
 
     public void PlayerReady()
@@ -157,11 +183,6 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void StartGame()
     {
-        if (gameManager.trainingMode && !trainingBlocks)
-        {
-            Debug.LogError("trainingBlocks reference missing");
-            return;
-        }
 
         if(!isMultiTraining && dataManager.trackingPerformanceTF)
             dataManager.SetStartingNumBlocks(activeBlocks);
@@ -287,6 +308,163 @@ public class PlayerSupervisor : MonoBehaviour
         return playerData.Points;
     }
 
+    /*
+    Variables:
+    1) # of blocks - either random # or set # you define above
+    2) min/max border values
+    3) random block lengths? true/false + min/max
+    4) random block heights? true/false + min/max
+    */
+
+    public GameObject GetTrainingBlocksGroupInstance()
+    {
+        GameObject trainingBlocksGroup = Instantiate(
+            trainingBlocksGroupType, new Vector2(0, 0),
+            Quaternion.identity, transform); 
+        return trainingBlocksGroup;
+    }
+
+    public void CreateTrainingBlocks()
+    {
+        if(multiBlockCreator.blocksPlacedRandomlyTF)
+        {
+            CreateRandomTrainingBlocks();
+        }
+        else
+        {
+            CreateStaticTrainingBlocks();
+        }
+    }
+
+    public void CreateRandomTrainingBlocks()
+    {
+        FillRandomLists();
+
+        for(int i = 0; i < GetNumRandomTrainingBlocks(); i++)
+        {
+            InstantiateRandombBlockGameObject();
+        }           
+    }
+
+    public void CreateStaticTrainingBlocks()
+    {
+        for(int i = 0; i < multiBlockCreator.numStaticBlocks; i++)
+        {
+            GameObject block = Instantiate(blockGameObjectType, 
+                new Vector2(
+                    multiBlockCreator.staticBlockXPos[i] + this.transform.parent.transform.position.x,
+                    multiBlockCreator.staticBlockYPos[i] + this.transform.parent.transform.position.y
+                ), 
+                Quaternion.identity,
+                trainingBlocksGroup.transform
+            );
+            if(block)
+                block.GetComponent<Block>().playerSupervisor = this;    
+        }      
+    }
+    
+    public int GetNumRandomTrainingBlocks()
+    {
+        int blockNum = 0;
+        if(multiBlockCreator.numBlocksChosenRandomlyTF)
+        {
+            blockNum = (int)Random.Range(5f, 100f);
+        }
+        else
+        {
+            blockNum = multiBlockCreator.numBlocksChoiceIfNotRandom;
+        }
+        return blockNum;
+    }
+
+    public void InstantiateRandombBlockGameObject()
+    {
+        Vector2 randPos = GetRandomBlockVector();
+
+        GameObject block = Instantiate(
+            blockGameObjectType,
+            new Vector2(
+                randPos[0] + this.transform.parent.transform.position.x,
+                randPos[1] + this.transform.parent.transform.position.y
+            ),
+            Quaternion.identity,
+            trainingBlocksGroup.transform);
+        
+        if(block == null)
+        {
+            Debug.Log("null block");
+        }
+
+        if(block)
+            block.GetComponent<Block>().playerSupervisor = this;
+    }
+
+    public void FillRandomLists()
+    {
+        for(int x = 0; x < screenWidthWorld; x++)
+        {
+            // starting y at 2 so we don't interfere w/
+            // paddle and ball positions across bottom of screen
+            for(int y = 2; y < screenHeightWorld; y++)
+            {
+                randomBlockXPos.Add(x+0.5f);
+                randomBlockYPos.Add(y+0.5f);
+                numPossibleBlocks += 1;
+                availableBlocksIndexList.Add(numPossibleBlocks-1);
+            }
+        }
+    }
+
+    public Vector2 GetRandomBlockVector()
+    {
+        int randBlockIndex = GetRandomBlockIndex();
+        AddIndexToChosenBlockIndexList(randBlockIndex);
+        RemoveIndexFromAvailableBlockList(randBlockIndex);    
+
+        return new Vector2(randomBlockXPos[randBlockIndex], 
+                           randomBlockYPos[randBlockIndex]);
+    }
+
+    public void AddIndexToChosenBlockIndexList(int newBlockIndex)
+    {
+        chosenBlocksIndexList.Add(newBlockIndex);
+    }
+
+    public void RemoveIndexFromAvailableBlockList(int index)
+    {
+        availableBlocksIndexList.RemoveAt(index);
+    }
+
+    public int GetRandomBlockIndex()
+    {
+        int randIndex = Random.Range(0, availableBlocksIndexList.Count);
+        return randIndex;        
+    }
+
+    public void EmptyRandomLists()
+    {   
+        chosenBlocksIndexList.Clear();
+        availableBlocksIndexList.Clear();
+    }
+
+    public void DestroyTrainingBlocks()
+    {
+        EmptyRandomLists();
+        numPossibleBlocks = 0;
+
+        if(trainingBlocksGroup)
+        {
+            foreach(Transform child in trainingBlocksGroup.transform)
+            {
+                if (child.gameObject.GetComponent<Block>())
+                {
+                    child.gameObject.SetActive(false);
+                    Destroy(child.gameObject);
+                }
+            }
+        }
+    }
+
     /// <summary>
     /// Game environment reset for training.  
     /// </summary>
@@ -311,8 +489,8 @@ public class PlayerSupervisor : MonoBehaviour
         }
         else
         {
-            RespawnTrainingBlocks();
-            SetBlockSupervisor(trainingBlocksInstance.transform);
+            DestroyTrainingBlocks();
+            CreateTrainingBlocks(); 
         }
         
         CountBlocks();
@@ -363,8 +541,6 @@ public class PlayerSupervisor : MonoBehaviour
         playerAgent.PaddleHit();
     }
 
-
-
     private IEnumerator DetectBallLockup()
     {
         while (true)
@@ -393,23 +569,23 @@ public class PlayerSupervisor : MonoBehaviour
         LoseGame();
     }
 
-    private void RespawnTrainingBlocks()
-    {
-        // Destroy training blocks, then the block holder
-        if (trainingBlocksInstance)
-        {
-            foreach(Transform child in trainingBlocksInstance.transform)
-            {
-                if (child.gameObject.GetComponent<Block>())
-                    child.gameObject.SetActive(false);
-                    Destroy(child.gameObject);
-            }
+//     private void RespawnTrainingBlocks()
+//     {
+//         // Destroy training blocks, then the block holder
+//         if (trainingBlocksInstance)
+//         {
+//             foreach(Transform child in trainingBlocksInstance.transform)
+//             {
+//                 if (child.gameObject.GetComponent<Block>())
+//                     child.gameObject.SetActive(false);
+//                     Destroy(child.gameObject);
+//             }
 
-            Destroy(trainingBlocksInstance);
-        }
+//             Destroy(trainingBlocksInstance);
+//         }
 
-        trainingBlocksInstance = Instantiate(trainingBlocks, transform);
-    }
+//         trainingBlocksInstance = Instantiate(trainingBlocks, transform);
+//     }
 
     private void SetBlockSupervisor(Transform transform)
     {
