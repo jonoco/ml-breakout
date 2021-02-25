@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 // --- the following are for writing performance files only
-using System.IO;  
-using System.Text; 
-using Unity.MLAgents.Policies; 
+using System.IO;
+using System.Text;
+using Unity.MLAgents.Policies;
 using UnityEditor;
 using System;
 
