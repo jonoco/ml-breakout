@@ -76,6 +76,11 @@ PrefabInstance:
       objectReference: {fileID: 2774562446755734890}
     - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
         type: 3}
+      propertyPath: instanceWidth
+      value: 26
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
+        type: 3}
       propertyPath: trainingBlocks
       value: 
       objectReference: {fileID: 567816811006681950, guid: 8b954e0001ef9df428ecad3d8f2f1b78,

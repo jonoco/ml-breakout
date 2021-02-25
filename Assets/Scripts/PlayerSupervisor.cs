@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.MLAgents.Policies;
 using UnityEngine;
-using static GameData;
 
 public enum PlayerState
 {
@@ -40,7 +39,7 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] bool isMultiTraining = false;
 
     // Frannie's Level Items
-    private RandomBlockCreator randomBlockCreator;
+    [SerializeField] private RandomBlockCreator randomBlockCreator;
 
     // --- Multi block creator
     
@@ -211,7 +210,7 @@ public class PlayerSupervisor : MonoBehaviour
         ball.gameObject.SetActive(false);
     }
 
-    internal object GetName()
+    public string GetName()
     {
         return playerData.playerName;
     }
