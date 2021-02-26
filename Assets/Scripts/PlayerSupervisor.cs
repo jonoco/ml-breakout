@@ -564,24 +564,6 @@ public class PlayerSupervisor : MonoBehaviour
         LoseGame();
     }
 
-//     private void RespawnTrainingBlocks()
-//     {
-//         // Destroy training blocks, then the block holder
-//         if (trainingBlocksInstance)
-//         {
-//             foreach(Transform child in trainingBlocksInstance.transform)
-//             {
-//                 if (child.gameObject.GetComponent<Block>())
-//                     child.gameObject.SetActive(false);
-//                     Destroy(child.gameObject);
-//             }
-
-//             Destroy(trainingBlocksInstance);
-//         }
-
-//         trainingBlocksInstance = Instantiate(trainingBlocks, transform);
-//     }
-
     private void SetBlockSupervisor(Transform transform)
     {
         foreach(Transform child in transform)
