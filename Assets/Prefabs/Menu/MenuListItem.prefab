@@ -238,6 +238,7 @@ GameObject:
   - component: {fileID: 7694298327108159714}
   - component: {fileID: 7694298327108159715}
   - component: {fileID: 8079394878458144677}
+  - component: {fileID: 1930836807776183238}
   m_Layer: 5
   m_Name: MenuListItem
   m_TagString: Untagged
@@ -351,3 +352,17 @@ MonoBehaviour:
   descriptionColor: {r: 1, g: 1, b: 1, a: 0.50980395}
   tweenInTime: 0.3
   tweenOutTime: 0.4
+--- !u!114 &1930836807776183238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7694298327108159742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 100a8a4e27d38444ab9415fa0177b280, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverSound: {fileID: 0}
+  selectSound: {fileID: 0}

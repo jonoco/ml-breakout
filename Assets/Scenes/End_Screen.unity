@@ -342,6 +342,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 752752800}
     m_Modifications:
+    - target: {fileID: 1930836807776183238, guid: 8804f0a56b9a55e45b43c9aadac90b32,
+        type: 3}
+      propertyPath: hoverSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 358adcc7b70ae4396baa2a36443bad7b, type: 3}
+    - target: {fileID: 1930836807776183238, guid: 8804f0a56b9a55e45b43c9aadac90b32,
+        type: 3}
+      propertyPath: selectSound
+      value: 
+      objectReference: {fileID: 8300000, guid: f9ce0bd536f6f4244b7151c5ba3c341e, type: 3}
     - target: {fileID: 7694298326359094325, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: m_SizeDelta.x
@@ -1269,26 +1279,6 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 752752799}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &863538965 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7694298327108159742, guid: 8804f0a56b9a55e45b43c9aadac90b32,
-    type: 3}
-  m_PrefabInstance: {fileID: 1943227659}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &863538970
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 863538965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 100a8a4e27d38444ab9415fa0177b280, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound: {fileID: 8300000, guid: 358adcc7b70ae4396baa2a36443bad7b, type: 3}
-  selectSound: {fileID: 8300000, guid: f9ce0bd536f6f4244b7151c5ba3c341e, type: 3}
 --- !u!1 &919819277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1848,26 +1838,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1359188185}
   m_CullTransparentMesh: 0
---- !u!1 &1388320954 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7694298327108159742, guid: 8804f0a56b9a55e45b43c9aadac90b32,
-    type: 3}
-  m_PrefabInstance: {fileID: 49530697}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1388320956
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1388320954}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 100a8a4e27d38444ab9415fa0177b280, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hoverSound: {fileID: 8300000, guid: 358adcc7b70ae4396baa2a36443bad7b, type: 3}
-  selectSound: {fileID: 8300000, guid: f9ce0bd536f6f4244b7151c5ba3c341e, type: 3}
 --- !u!1 &1448894804
 GameObject:
   m_ObjectHideFlags: 0
@@ -2437,7 +2407,7 @@ PrefabInstance:
     - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
       propertyPath: m_Colors.m_NormalColor.a
-      value: 0.8627451
+      value: 0.92156863
       objectReference: {fileID: 0}
     - target: {fileID: 1971520465715875324, guid: 808dbe2c748a999439fbf66a5821d413,
         type: 3}
@@ -2654,6 +2624,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 752752800}
     m_Modifications:
+    - target: {fileID: 1930836807776183238, guid: 8804f0a56b9a55e45b43c9aadac90b32,
+        type: 3}
+      propertyPath: hoverSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 358adcc7b70ae4396baa2a36443bad7b, type: 3}
+    - target: {fileID: 1930836807776183238, guid: 8804f0a56b9a55e45b43c9aadac90b32,
+        type: 3}
+      propertyPath: selectSound
+      value: 
+      objectReference: {fileID: 8300000, guid: f9ce0bd536f6f4244b7151c5ba3c341e, type: 3}
     - target: {fileID: 7694298326359094325, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: m_SizeDelta.x
