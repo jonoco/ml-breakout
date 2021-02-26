@@ -13,12 +13,10 @@ public enum PlayerState
 
 public class PlayerSupervisor : MonoBehaviour
 {
-    [SerializeField] public Ball ball;
+    [SerializeField] Ball ball;
     [SerializeField] Paddle paddle;
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
-    [SerializeField] GameObject trainingBlocks;
-
     [SerializeField] TextMeshProUGUI pointsDisplay;
 
     // Scriptable Object references
@@ -26,7 +24,6 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] private PlayerData playerData;
 
     // Player Data Performance Tracking
-
     [SerializeField] PerformanceDataManager dataManager;
     [SerializeField] MultiBlockCreator multiBlockCreator;
 
