@@ -256,6 +256,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
         type: 3}
+      propertyPath: pointsDisplay
+      value: 
+      objectReference: {fileID: 2115816454}
+    - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
+        type: 3}
       propertyPath: useRandomBlocks
       value: 1
       objectReference: {fileID: 0}
@@ -1118,6 +1123,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 934e41ab357ae3941a3875a6bd6758bc, type: 3}
+--- !u!114 &2115816454 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6681979621771601283, guid: 75b919e8097f9d543a57efa8195f4f10,
+    type: 3}
+  m_PrefabInstance: {fileID: 1671051825}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2140862288
 PrefabInstance:
   m_ObjectHideFlags: 0
