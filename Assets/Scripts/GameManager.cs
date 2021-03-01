@@ -12,14 +12,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] AudioClip loseSound;
     [SerializeField] AudioClip winSound;
     [SerializeField] GameData gameData;
-    [SerializeField] private GameEndCondition gameEndCondition = GameEndCondition.AllPlayersLoseBall;
-
-    public enum GameEndCondition
-    {
-        AllPlayersLoseBall,
-        OnePlayerLosesBall,
-        OnePlayerClearsAllBlocks
-    }
     public bool trainingMode = false;
 
     DateTime startTime = DateTime.Now;
@@ -96,7 +88,7 @@ public class GameManager : MonoBehaviour
         // have been met to end the game.
         if (playerSupervisors.Length > 1)
         {
-            switch (gameEndCondition)
+            switch (gameData.gameEndCondition)
             {
                 case GameEndCondition.OnePlayerClearsAllBlocks:
                     // This currently uses the same scoreboard as the

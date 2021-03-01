@@ -871,6 +871,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6681979621914803362}
     m_Modifications:
+    - target: {fileID: 3368640545969699609, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_text
+      value: 'Points: 0'
+      objectReference: {fileID: 0}
     - target: {fileID: 3368640546278964781, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
       propertyPath: m_HorizontalAlignment
@@ -964,7 +969,7 @@ PrefabInstance:
     - target: {fileID: 3368640547427716594, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -280
+      value: -298
       objectReference: {fileID: 0}
     - target: {fileID: 3368640547427716594, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
@@ -1121,8 +1126,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34b0e96ce0fa8cf42bb6a5f6c735c4c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointsDisplay: {fileID: 0}
-  pointsDisplays: []
   timeDisplay: {fileID: 0}
 --- !u!1 &6681979621914803365
 GameObject:
