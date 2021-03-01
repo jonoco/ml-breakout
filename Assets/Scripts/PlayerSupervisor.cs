@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.MLAgents.Policies;
 using UnityEngine;
 
 public enum PlayerState
@@ -15,7 +17,13 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] Paddle paddle;
     [SerializeField] GameManager gameManager;
     [SerializeField] PlayerAgent playerAgent;
-    [SerializeField] PlayerData playerData;
+    [SerializeField] TextMeshProUGUI pointsDisplay;
+
+    // Scriptable Object references
+    [SerializeField] private GameData gameData;
+    [SerializeField] private PlayerData playerData;
+
+    // Player Data Performance Tracking
     [SerializeField] PerformanceDataManager dataManager;
     [SerializeField] MultiBlockCreator multiBlockCreator;
 
@@ -28,7 +36,7 @@ public class PlayerSupervisor : MonoBehaviour
     [SerializeField] bool isMultiTraining = false;
 
     // Frannie's Level Items
-    private RandomBlockCreator randomBlockCreator;
+    [SerializeField] private RandomBlockCreator randomBlockCreator;
 
     // --- Multi block creator
     
@@ -43,8 +51,6 @@ public class PlayerSupervisor : MonoBehaviour
     public List<float> randomBlockYPos = new List<float>();
 
     [Header("Game Object Settings/States/Info")]
-
-    private int points = 0;
 
     private Vector3 ballOffset;         // Starting position of ball
     private Vector3 paddleOffset;       // Starting position of paddle
@@ -120,13 +126,19 @@ public class PlayerSupervisor : MonoBehaviour
         {
             if (useRandomBlocks && randomBlockCreator)
                 randomBlockCreator.setupBlocks();
+                SetBlockSupervisor(randomBlockCreator.transform);
 
             CountBlocks();
         }
 
         // Calculate diagonal width
-        instanceDiagonalSize = Mathf.Sqrt(Mathf.Pow(instanceHeight, 2) + Mathf.Pow(instanceWidth, 2)); 
+        instanceDiagonalSize = Mathf.Sqrt(Mathf.Pow(instanceHeight, 2) + Mathf.Pow(instanceWidth, 2));
+
+        // Set the playerData's type, name, and points.
+        InitializePlayerData();
+        gameData.PlayerList.Add(playerData);
     }
+
 
     /// <summary>
     /// Counts all Block objects inside the supervisor's tree.
@@ -185,9 +197,19 @@ public class PlayerSupervisor : MonoBehaviour
             StartCoroutine(Timeout());
     }
 
+    internal PlayerType GetPlayerType()
+    {
+        return playerData.Type;
+    }
+
     public void PauseGame()
     {
         ball.gameObject.SetActive(false);
+    }
+
+    public string GetName()
+    {
+        return playerData.playerName;
     }
 
     void LaunchBall()
@@ -202,7 +224,6 @@ public class PlayerSupervisor : MonoBehaviour
 
         LoseGame();
     }
-
 
     public bool IsMultiAgent()
     {
@@ -233,7 +254,6 @@ public class PlayerSupervisor : MonoBehaviour
         
         playerState = PlayerState.Waiting;
 
-        playerData.gameResult = "Game Over!";
         ball.gameObject.SetActive(false);
         
         if (playerAgent)
@@ -251,7 +271,6 @@ public class PlayerSupervisor : MonoBehaviour
         if(!isMultiTraining && dataManager.trackingPerformanceTF)
             UpdatePlayerPerformanceData(true);
 
-        playerData.gameResult = "You Win!";
         ball.gameObject.SetActive(false);
 
          if (playerAgent)
@@ -269,9 +288,8 @@ public class PlayerSupervisor : MonoBehaviour
         if (playerAgent)
             playerAgent.BlockHit();
 
-        points += pointValue;
-        gameManager.UpdatePoints(points);
-        playerData.points = points;
+        playerData.Points += pointValue;
+        UpdatePointsUI();
 
         --activeBlocks;
         if (activeBlocks <= 0)
@@ -282,7 +300,7 @@ public class PlayerSupervisor : MonoBehaviour
 
     public int GetPoints()
     {
-        return points;
+        return playerData.Points;
     }
 
     /*
@@ -449,13 +467,13 @@ public class PlayerSupervisor : MonoBehaviour
     {
         boundaryHits = 0;
         paddleHits = 0;
-        points = 0;
-        gameManager.UpdatePoints(points);
+        playerData.Points = 0;
+        UpdatePointsUI();
 
         ball.gameObject.SetActive(true);
         ball.ResetBall();
 
-        ball.transform.localPosition = ballOffset;        
+        ball.transform.localPosition = ballOffset;
         paddle.transform.localPosition = paddleOffset;
         paddle.smoothMovementChange = 0f;
         
@@ -471,6 +489,13 @@ public class PlayerSupervisor : MonoBehaviour
         }
         
         CountBlocks();
+    }
+
+    public void ResetBall()
+    {
+        ball.gameObject.SetActive(true);
+        ball.ResetBall();
+        ball.transform.localPosition = ballOffset;
     }
 
     public void BoundaryHit(BoundaryName boundaryName)
@@ -551,5 +576,49 @@ public class PlayerSupervisor : MonoBehaviour
                 SetBlockSupervisor(child);
         } 
     }
-}
 
+    public void SetPlayerType()
+    {
+        if (!playerAgent)
+        {
+            playerData.Type = PlayerType.Human;
+            return;
+        }
+
+        BehaviorParameters behavior = playerAgent.GetComponent<BehaviorParameters>();
+        switch (behavior.BehaviorType)
+        {
+            case BehaviorType.HeuristicOnly:
+                playerData.Type = PlayerType.Human;
+                break;
+            case BehaviorType.InferenceOnly:
+                playerData.Type = PlayerType.AI;
+                break;
+            case BehaviorType.Default:
+                if (behavior.Model != null)
+                {
+                    playerData.Type = PlayerType.AI;
+                }
+                else
+                {
+                    playerData.Type = PlayerType.AI;
+                }
+                break;
+        }
+    }
+
+    public void InitializePlayerData()
+    {
+        if (playerData.playerName.Equals(""))
+        {
+            playerData.playerName = "Missing Name";
+        }
+        playerData.Points = 0;
+        SetPlayerType();
+    }
+    public void UpdatePointsUI()
+    {
+        if (pointsDisplay)
+            pointsDisplay.text = $"Points: {GetPoints()}";
+    }
+}

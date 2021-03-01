@@ -10,6 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1c8e85d21fd12e24c9499e03d437e257, type: 3}
-  m_Name: Player Data
+  m_Name: Game Data
   m_EditorClassIdentifier: 
-  points: 0
+  PlayerList:
+  - Name: test
+    Points: 0
+    playerType: 0
+  - Name: trest
+    Points: 0
+    playerType: 0
+  gameResult: You Win!

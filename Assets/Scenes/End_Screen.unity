@@ -715,7 +715,7 @@ Transform:
   - {fileID: 140272490}
   - {fileID: 1814500201}
   m_Father: {fileID: 752752800}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &155246404
 MonoBehaviour:
@@ -729,7 +729,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 360a16c0db81c574485a454ab9a5a806, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 11400000, guid: c753f81020ac40b4e96c0a53d1e0d8e8, type: 2}
+  gameData: {fileID: 11400000, guid: c753f81020ac40b4e96c0a53d1e0d8e8, type: 2}
+  humanPlayerData:
+    Name: 
+    Points: 0
+    playerType: 0
 --- !u!1 &473495996
 GameObject:
   m_ObjectHideFlags: 0
@@ -2732,7 +2736,7 @@ PrefabInstance:
     - target: {fileID: 7694298327108159743, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7694298327108159743, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
