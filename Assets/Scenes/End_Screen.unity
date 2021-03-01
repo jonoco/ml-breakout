@@ -2677,7 +2677,7 @@ PrefabInstance:
     - target: {fileID: 7694298326732463264, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: m_Text
-      value: Restart
+      value: Back To Menu
       objectReference: {fileID: 0}
     - target: {fileID: 7694298326732463267, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}

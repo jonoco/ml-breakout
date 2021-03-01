@@ -121,6 +121,30 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &499769450 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 289237163517297374}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cf4333c60c9c2f43a24075360ab86ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1827302411 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8908668329378533745, guid: e863cb15819a52b46a4983fad4a685b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 289237163517297374}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdff6945a9bef3540a63dc59de9a0d02, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &289237163517297374
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -143,6 +167,21 @@ PrefabInstance:
       propertyPath: boundaryName
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 3269812750348595291, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: trackingPerformance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3269812750348595291, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: trackingNumberOfGames
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 3269812750348595291, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: trackingPerformanceTF
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4315738401231054851, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
       propertyPath: boundaryName
@@ -154,6 +193,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5022602860645237092, guid: cbd3ba0dd032a9f44b98babf34b7558e,
         type: 3}
+    - target: {fileID: 4778242522678230514, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: m_BehaviorType
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4778242522678230515, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
       propertyPath: timeLimit
@@ -176,9 +220,43 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
-      propertyPath: timeLimit
-      value: 20
+      propertyPath: 
+      value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: block
+      value: 
+      objectReference: {fileID: 3913816967027211534, guid: 33a65d94e8608a044aaac080926314be,
+        type: 3}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: blockGO
+      value: 
+      objectReference: {fileID: 3913816967027211534, guid: 33a65d94e8608a044aaac080926314be,
+        type: 3}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: dataManager
+      value: 
+      objectReference: {fileID: 1827302411}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: blockGameObject
+      value: 
+      objectReference: {fileID: 3913816967027211534, guid: 33a65d94e8608a044aaac080926314be,
+        type: 3}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: multiBlockCreator
+      value: 
+      objectReference: {fileID: 499769450}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: blockGameObjectType
+      value: 
+      objectReference: {fileID: 3913816967027211534, guid: 33a65d94e8608a044aaac080926314be,
+        type: 3}
     - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
       propertyPath: ceilingReboundAngle
@@ -186,8 +264,100 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
+      propertyPath: trainingBlocksGroup
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
       propertyPath: boundaryReboundLimit
       value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: trainingBlocksEmptyGO
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: blocksPlacedRandomlyTF
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: trainingBlocksGroupType
+      value: 
+      objectReference: {fileID: 2864685850017879389, guid: 17d290a73b9844342a08682ba8d5ce3e,
+        type: 3}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: numBlocksChosenRandomlyTF
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: numBlocksChoiceIfNotRandom
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: numStaticBlocks
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: maxBlockXPosition
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: maxBlockYPosition
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: minBlockXPosition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: minBlockYPosition
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: blocksPlacedRandomlyTF
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: numBlocksChosenRandomlyTF
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: numBlocksChoiceIfNotRandom
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 7726804809783930187, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: m_Name
+      value: TrainingBlocksParent
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908668329378533745, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: playerData
+      value: 
+      objectReference: {fileID: 11400000, guid: c753f81020ac40b4e96c0a53d1e0d8e8,
+        type: 2}
+    - target: {fileID: 8908668329378533745, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: trackingNumberOfGames
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908668329378533745, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: trackingPerformanceTF
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9146408817681791003, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
