@@ -321,7 +321,7 @@ PrefabInstance:
     - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
       propertyPath: minBlockYPosition
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6718903331166484845, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
@@ -338,10 +338,20 @@ PrefabInstance:
       propertyPath: numBlocksChoiceIfNotRandom
       value: 21
       objectReference: {fileID: 0}
+    - target: {fileID: 6736178454312799162, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.41
+      objectReference: {fileID: 0}
     - target: {fileID: 7726804809783930187, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
       propertyPath: m_Name
       value: TrainingBlocksParent
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728701, guid: e863cb15819a52b46a4983fad4a685b2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.9599999
       objectReference: {fileID: 0}
     - target: {fileID: 8908668329378533745, guid: e863cb15819a52b46a4983fad4a685b2,
         type: 3}
