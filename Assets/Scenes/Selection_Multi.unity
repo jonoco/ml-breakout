@@ -404,6 +404,84 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &779207680
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 779207681}
+  - component: {fileID: 779207683}
+  - component: {fileID: 779207682}
+  m_Layer: 5
+  m_Name: Win Explanation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &779207681
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779207680}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1164695707}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 215.39, y: 513}
+  m_SizeDelta: {x: 377.21564, y: 73.85989}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &779207682
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779207680}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.9411765}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 27
+    m_FontStyle: 0
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 57
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: In all game modes, the player who earns the most points wins.
+--- !u!222 &779207683
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 779207680}
+  m_CullTransparentMesh: 0
 --- !u!1 &963043392
 GameObject:
   m_ObjectHideFlags: 0
@@ -662,7 +740,7 @@ PrefabInstance:
     - target: {fileID: 8079394878458144677, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: description
-      value: Play until all players lose
+      value: Play until all players lose their ball
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8804f0a56b9a55e45b43c9aadac90b32, type: 3}
@@ -1291,8 +1369,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4101031763946395958, guid: a07e86fb2c57aa54b93b02b06f613825,
         type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 566.0237
+      objectReference: {fileID: 0}
+    - target: {fileID: 4101031763946395958, guid: a07e86fb2c57aa54b93b02b06f613825,
+        type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 253
+      value: 346
       objectReference: {fileID: 0}
     - target: {fileID: 4101031763946395958, guid: a07e86fb2c57aa54b93b02b06f613825,
         type: 3}
@@ -1302,12 +1385,12 @@ PrefabInstance:
     - target: {fileID: 5257403344876269249, guid: a07e86fb2c57aa54b93b02b06f613825,
         type: 3}
       propertyPath: description
-      value: Play until the first player loses
+      value: Play until one player loses their ball
       objectReference: {fileID: 0}
     - target: {fileID: 5257403345566728852, guid: a07e86fb2c57aa54b93b02b06f613825,
         type: 3}
       propertyPath: description
-      value: Play until the first player wins
+      value: Play until one player clears all blocks
       objectReference: {fileID: 0}
     - target: {fileID: 5921786174477219108, guid: a07e86fb2c57aa54b93b02b06f613825,
         type: 3}

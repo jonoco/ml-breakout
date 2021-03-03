@@ -395,7 +395,7 @@ PrefabInstance:
     - target: {fileID: 7694298326732463264, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: m_Text
-      value: Reset Scrores
+      value: Reset Scores
       objectReference: {fileID: 0}
     - target: {fileID: 7694298326732463267, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
@@ -440,7 +440,7 @@ PrefabInstance:
     - target: {fileID: 7694298327108159742, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: m_Name
-      value: MenuListItem (1)
+      value: Reset Scores Button
       objectReference: {fileID: 0}
     - target: {fileID: 7694298327108159743, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
@@ -2717,7 +2717,7 @@ PrefabInstance:
     - target: {fileID: 7694298327108159742, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: m_Name
-      value: MenuListItem
+      value: Back To Menu Button
       objectReference: {fileID: 0}
     - target: {fileID: 7694298327108159743, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
