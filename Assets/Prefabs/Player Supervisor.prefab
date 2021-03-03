@@ -45,6 +45,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   blockObjType: {fileID: 3913816967027211534, guid: 33a65d94e8608a044aaac080926314be,
     type: 3}
+  screenWidthWorld: 16
   minBlockWidthWorld: 1
   maxBlockWidthWorld: 4
   blockStartRow: 5
@@ -99,9 +100,18 @@ MonoBehaviour:
   paddle: {fileID: 0}
   gameManager: {fileID: 0}
   playerAgent: {fileID: 0}
-  playerData: {fileID: 11400000, guid: c753f81020ac40b4e96c0a53d1e0d8e8, type: 2}
+  gameData: {fileID: 11400000, guid: c753f81020ac40b4e96c0a53d1e0d8e8, type: 2}
+  playerData:
+    Name: 
+    Points: 0
+    playerType: 0
+  PlayerName: 
   trainingBlocks: {fileID: 567816811006681950, guid: 8b954e0001ef9df428ecad3d8f2f1b78,
     type: 3}
+  pointsDisplay: {fileID: 0}
+  PlayerNumber: 1
+  dataManager: {fileID: 0}
+  isMultiTraining: 0
   randomBlockCreator: {fileID: 531840240}
   useRandomBlocks: 0
   minPaddlePosX: 1
@@ -114,3 +124,7 @@ MonoBehaviour:
   boundaryReboundLimit: 10
   detectionFreq: 1
   ceilingReboundAngle: 1.5
+  blockGameObject: {fileID: 0}
+  trainingBlocksGroup: {fileID: 0}
+  multiBlockCreator: {fileID: 8072182191512691420, guid: d3a8c38544c900d4e930f9ba30f589dd,
+    type: 3}
