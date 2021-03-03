@@ -662,7 +662,7 @@ PrefabInstance:
     - target: {fileID: 8079394878458144677, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: description
-      value: Play until all players lose their ball
+      value: Play until all players lose
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8804f0a56b9a55e45b43c9aadac90b32, type: 3}
