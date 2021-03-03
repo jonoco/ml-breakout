@@ -16,6 +16,7 @@ public class SceneLoader : MonoBehaviour
         public static readonly string EndScreen = "End_Screen";
         public static readonly string Training_0 = "Training_0";
         public static readonly string Level_Two_Player = "Level_Two_Player";
+        public static readonly string End_Screen_Two_Player = "End_Screen_Two_Player";
 
     }
 

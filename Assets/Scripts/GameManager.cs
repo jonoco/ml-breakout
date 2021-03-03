@@ -126,7 +126,14 @@ public class GameManager : MonoBehaviour
         {
             ps.PauseGame();
         }
-        sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
+        if (gameData.PlayerList.Count > 1)
+        {
+            sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.End_Screen_Two_Player);
+        }
+        else
+        {
+            sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
+        }
     }
 
     private void SetWinnerToHighestPointEarner()

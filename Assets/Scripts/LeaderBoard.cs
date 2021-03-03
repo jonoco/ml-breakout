@@ -34,6 +34,7 @@ public class LeaderBoard : MonoBehaviour
     {
         if (gameData.PlayerList.Count > 1)
         {
+            gameData.PlayerList.Sort((x, y) => y.Points.CompareTo(x.Points));
             SetupMultiPlayerEndScene();
         }
         else
