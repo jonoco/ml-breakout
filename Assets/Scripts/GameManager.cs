@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
-using static GameData;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] SceneLoader sceneLoader;
-    [SerializeField] UIManager uiManager;
     [SerializeField] PlayerSupervisor playerSupervisor;
     [SerializeField] PlayerSupervisor[] playerSupervisors;
     [SerializeField] AudioClip loseSound;
     [SerializeField] AudioClip winSound;
     [SerializeField] GameData gameData;
+    [SerializeField] TextMeshProUGUI timeDisplay;
     public bool trainingMode = false;
-
     DateTime startTime = DateTime.Now;
     public TimeSpan elapsedTime;
     
@@ -30,14 +29,16 @@ public class GameManager : MonoBehaviour
         gameData.PlayerList = new List<PlayerData>();
 
         sceneLoader = FindObjectOfType<SceneLoader>();
-        uiManager = FindObjectOfType<UIManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
         elapsedTime = DateTime.Now - startTime;
-        uiManager.UpdateElapsedTime(elapsedTime.ToString(@"mm\:ss\:ff"));
+        if (timeDisplay)
+        {
+            timeDisplay.text = elapsedTime.ToString(@"mm\:ss\:ff");
+        }
     }
     
     public void StartGame()

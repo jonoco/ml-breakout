@@ -147,6 +147,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2982270214271497417, guid: 533ab924c77096d43bc300d8fe35e9a3,
         type: 3}
+      propertyPath: timeDisplay
+      value: 
+      objectReference: {fileID: 6681979621944319466}
+    - target: {fileID: 2982270214271497417, guid: 533ab924c77096d43bc300d8fe35e9a3,
+        type: 3}
       propertyPath: trainingMode
       value: 0
       objectReference: {fileID: 0}
@@ -1210,19 +1215,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &6681979621914803363
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6681979621914803365}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 34b0e96ce0fa8cf42bb6a5f6c735c4c4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeDisplay: {fileID: 0}
 --- !u!1 &6681979621914803365
 GameObject:
   m_ObjectHideFlags: 0
@@ -1232,7 +1224,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6681979621914803362}
-  - component: {fileID: 6681979621914803363}
   m_Layer: 5
   m_Name: UI Manager
   m_TagString: Untagged
