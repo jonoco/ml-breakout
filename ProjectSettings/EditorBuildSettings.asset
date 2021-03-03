@@ -38,4 +38,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/End_Screen_Two_Player.unity
     guid: d5cfac17589fb7049b202e39c53a45a5
+  - enabled: 1
+    path: Assets/Scenes/Level_Two_AI.unity
+    guid: ab4ac5979c5e7a141b92b3d077105b1d
   m_configObjects: {}
