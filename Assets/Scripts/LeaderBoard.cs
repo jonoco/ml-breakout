@@ -32,13 +32,20 @@ public class LeaderBoard : MonoBehaviour
 
     void Start()
     {
-        // Load the scores and sort them in descending order.
-        scores = LoadScores();
-        scores.Sort((x, y) => y.points.CompareTo(x.points));
+        if (gameData.PlayerList.Count > 1)
+        {
+            gameData.PlayerList.Sort((x, y) => y.Points.CompareTo(x.Points));
+            SetupMultiPlayerEndScene();
+        }
+        else
+        {
+            // Load past scores and sort them in descending order.
+            scores = LoadScores();
+            scores.Sort((x, y) => y.points.CompareTo(x.points));
+            CheckForNewHighScore();
 
-        CheckForNewHighScore();
-
-        SetupLeaderboardUI();
+            SetupLeaderboardUI();
+        }
     }
 
     private List<Score> LoadScores()
@@ -181,5 +188,37 @@ public class LeaderBoard : MonoBehaviour
         scores = GenerateDefaultScores();
         SaveScores();
         SetupLeaderboardUI();
+    }
+
+    private void SetupMultiPlayerEndScene()
+    {
+        transform.Find("Game Result").GetComponent<TextMeshProUGUI>().text = gameData.gameResult;
+        Transform scoresContainer = transform.Find("Scores");
+
+        // Get templates for score display and score input rows then hide them.
+        Transform scoreDisplayTemplate = scoresContainer.Find("Score Display");
+        scoreDisplayTemplate.gameObject.SetActive(false);
+
+        // Calculate the distance each score row should be separated by.
+        float verticalOffset = scoreDisplayTemplate.GetComponent<RectTransform>().rect.height;
+
+        // Render a row for each score in the given list.
+        scoreTransforms = new List<Transform>();
+        foreach (PlayerData pd in gameData.PlayerList)
+        {
+            Transform scoreTransform;
+            // Create a Score Display row.
+            scoreTransform = Instantiate(scoreDisplayTemplate, scoresContainer);
+            scoreTransform.Find("Name").GetComponent<TextMeshProUGUI>().text = pd.playerName;
+            scoreTransform.Find("Points").GetComponent<TextMeshProUGUI>().text = pd.Points.ToString();
+
+            // Adjust the row's vertical position:
+            scoreTransform.position = new Vector2(scoreTransform.position.x,
+                                                scoreTransform.position.y - verticalOffset * scoreTransforms.Count);
+            scoreTransform.gameObject.SetActive(true);
+
+            // Add the score to the list of transforms for easier manipulation later.
+            scoreTransforms.Add(scoreTransform);
+        }
     }
 }

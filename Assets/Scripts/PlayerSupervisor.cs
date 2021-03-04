@@ -401,9 +401,9 @@ public class PlayerSupervisor : MonoBehaviour
     {
         for(int x = 0; x < screenWidthWorld; x++)
         {
-            // starting y at 2 so we don't interfere w/
+            // starting y at 3 so we don't interfere w/
             // paddle and ball positions across bottom of screen
-            for(int y = 2; y < screenHeightWorld; y++)
+            for(int y = 3; y < screenHeightWorld; y++)
             {
                 randomBlockXPos.Add(x+0.5f);
                 randomBlockYPos.Add(y+0.5f);

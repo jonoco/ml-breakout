@@ -319,17 +319,18 @@ PrefabInstance:
     - target: {fileID: 941496196091560440, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: m_Name
-      value: Human Player Environment
+      value: AI Player Environment 1
       objectReference: {fileID: 0}
     - target: {fileID: 2774562446755734891, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5022602860645237092, guid: 9c4ff0f71e2049f4088ead53056cb96e,
+        type: 3}
     - target: {fileID: 2774562446755734891, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: m_BehaviorType
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3836923425486120397, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
@@ -340,16 +341,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.y
       value: 6.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 3836923425991617147, guid: 93cad592d8efc504a9ceab7402b2b93d,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3836923425991617147, guid: 93cad592d8efc504a9ceab7402b2b93d,
-        type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
@@ -374,7 +365,7 @@ PrefabInstance:
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: playerData.playerName
-      value: You
+      value: Neural Net 1
       objectReference: {fileID: 0}
     - target: {fileID: 9146408817681791003, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
@@ -440,10 +431,50 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6681979621914803362}
     m_Modifications:
+    - target: {fileID: 3368640545969699608, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 191.29907
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640545969699608, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.0000038146973
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640545969699609, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_margin.x
+      value: 0.021018079
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640545969699609, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_margin.z
+      value: 0.23388676
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640546278964780, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 191.29913
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640546278964780, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3368640546278964781, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
       propertyPath: m_text
-      value: Neural Net
+      value: Neural Net 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640546278964781, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_margin.x
+      value: 0.0072215283
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640546278964781, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_margin.z
+      value: 0.20888661
       objectReference: {fileID: 0}
     - target: {fileID: 3368640547427716593, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
@@ -488,7 +519,7 @@ PrefabInstance:
     - target: {fileID: 3368640547427716594, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 179
+      value: 187.28879
       objectReference: {fileID: 0}
     - target: {fileID: 3368640547427716594, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
@@ -538,7 +569,7 @@ PrefabInstance:
     - target: {fileID: 3368640547427716594, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -166
+      value: -159
       objectReference: {fileID: 0}
     - target: {fileID: 3368640547427716594, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
@@ -800,7 +831,7 @@ PrefabInstance:
     - target: {fileID: 941496196091560440, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: m_Name
-      value: AI Player Environment
+      value: AI Player Environment 2
       objectReference: {fileID: 0}
     - target: {fileID: 2774562446755734891, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
@@ -830,7 +861,7 @@ PrefabInstance:
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: playerData.playerName
-      value: Neural Net
+      value: Neural Net 2
       objectReference: {fileID: 0}
     - target: {fileID: 9146408817681791003, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
@@ -896,10 +927,55 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 6681979621914803362}
     m_Modifications:
+    - target: {fileID: 3368640545969699608, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 191.29898
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640545969699608, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.000002861
+      objectReference: {fileID: 0}
     - target: {fileID: 3368640545969699609, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
       propertyPath: m_text
       value: 'Points: 0'
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640545969699609, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_margin.x
+      value: 0.14563693
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640545969699609, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_margin.z
+      value: 0.116440095
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640546278964780, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 191.29913
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640546278964780, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640546278964781, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_text
+      value: Neural Net 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640546278964781, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_margin.x
+      value: 0.061549824
+      objectReference: {fileID: 0}
+    - target: {fileID: 3368640546278964781, guid: 2c1f15388d73d544b9360baaed8eb984,
+        type: 3}
+      propertyPath: m_margin.z
+      value: -0.02217536
       objectReference: {fileID: 0}
     - target: {fileID: 3368640546278964781, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
@@ -949,7 +1025,7 @@ PrefabInstance:
     - target: {fileID: 3368640547427716594, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 179
+      value: 191.74435
       objectReference: {fileID: 0}
     - target: {fileID: 3368640547427716594, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
@@ -999,7 +1075,7 @@ PrefabInstance:
     - target: {fileID: 3368640547427716594, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 147
+      value: 153
       objectReference: {fileID: 0}
     - target: {fileID: 3368640547427716594, guid: 2c1f15388d73d544b9360baaed8eb984,
         type: 3}

@@ -395,7 +395,7 @@ PrefabInstance:
     - target: {fileID: 7694298326732463264, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: m_Text
-      value: Reset Scrores
+      value: Reset Scores
       objectReference: {fileID: 0}
     - target: {fileID: 7694298326732463267, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
@@ -440,7 +440,7 @@ PrefabInstance:
     - target: {fileID: 7694298327108159742, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: m_Name
-      value: MenuListItem (1)
+      value: Reset Scores Button
       objectReference: {fileID: 0}
     - target: {fileID: 7694298327108159743, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
@@ -525,7 +525,7 @@ PrefabInstance:
     - target: {fileID: 7694298327108159743, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 156
+      value: 135
       objectReference: {fileID: 0}
     - target: {fileID: 7694298327108159743, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
@@ -715,7 +715,7 @@ Transform:
   - {fileID: 140272490}
   - {fileID: 1814500201}
   m_Father: {fileID: 752752800}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &155246404
 MonoBehaviour:
@@ -730,10 +730,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameData: {fileID: 11400000, guid: c753f81020ac40b4e96c0a53d1e0d8e8, type: 2}
-  humanPlayerData:
-    Name: 
-    Points: 0
-    playerType: 0
 --- !u!1 &473495996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1800,7 +1796,7 @@ MonoBehaviour:
   m_fontSizeMax: 78
   m_fontStyle: 0
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -2721,7 +2717,7 @@ PrefabInstance:
     - target: {fileID: 7694298327108159742, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: m_Name
-      value: MenuListItem
+      value: Back To Menu Button
       objectReference: {fileID: 0}
     - target: {fileID: 7694298327108159743, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
@@ -2806,7 +2802,7 @@ PrefabInstance:
     - target: {fileID: 7694298327108159743, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 156
+      value: 135
       objectReference: {fileID: 0}
     - target: {fileID: 7694298327108159743, guid: 8804f0a56b9a55e45b43c9aadac90b32,
         type: 3}
