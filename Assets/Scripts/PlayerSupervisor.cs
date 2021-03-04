@@ -123,7 +123,7 @@ public class PlayerSupervisor : MonoBehaviour
 
         // Check if scene is ready for training
         if (gameManager.trainingMode)
-            ResetState();
+            ResetEnvironmentState();
         else
         {
             if (useRandomBlocks && randomBlockCreator)
@@ -466,19 +466,14 @@ public class PlayerSupervisor : MonoBehaviour
     /// <summary>
     /// Game environment reset for training.  
     /// </summary>
-    public void ResetState()
+    public void ResetEnvironmentState()
     {
         boundaryHits = 0;
         paddleHits = 0;
         playerData.Points = 0;
         UpdatePointsUI();
 
-        ball.gameObject.SetActive(true);
-        ball.ResetBall();
-
-        ball.transform.localPosition = ballOffset;
-        paddle.transform.localPosition = paddleOffset;
-        paddle.smoothMovementChange = 0f;
+        ResetPlayState();
         
         if (useRandomBlocks && randomBlockCreator)
         {
@@ -496,15 +491,18 @@ public class PlayerSupervisor : MonoBehaviour
         // Immediately begin the timeout
         if (gameManager.trainingMode && playerAgent.timeLimit > 0)
             StartCoroutine(Timeout());
-
-        playerState = PlayerState.Waiting;
     }
 
     public void ResetBall()
     {
-        ball.gameObject.SetActive(true);
         ball.ResetBall();
         ball.transform.localPosition = ballOffset;
+    }
+
+    public void ResetPaddle()
+    {
+        paddle.transform.localPosition = paddleOffset;
+        paddle.smoothMovementChange = 0f;
     }
 
     public void BoundaryHit(BoundaryName boundaryName)
@@ -646,5 +644,16 @@ public class PlayerSupervisor : MonoBehaviour
     {
         if (pointsDisplay)
             pointsDisplay.text = $"Points: {GetPoints()}";
+    }
+
+    /// <summary>
+    /// Reset play state without affecting environment state.
+    /// </summary>
+    public void ResetPlayState()
+    {
+        ResetBall();
+        ResetPaddle();
+        
+        playerState = PlayerState.Waiting;
     }
 }
