@@ -115,6 +115,7 @@ public class Ball : MonoBehaviour
 
     public void ResetBall()
     {
+        gameObject.SetActive(true);
         hasStarted = false;
         if (rigidbody)
             rigidbody.velocity = Vector2.zero;

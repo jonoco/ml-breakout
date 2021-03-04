@@ -56,67 +56,84 @@ public class GameManager : MonoBehaviour
         supervisor.StartGame();
     }
 
-    public void WinGame(PlayerSupervisor supervisor)
+    public void PlayerLostBall(PlayerSupervisor supervisor)
     {
         if (trainingMode)
         {
-            RestartGame(supervisor);
-        }
-        if (!trainingMode)
-        {
-            AudioManager.Instance.PlaySoundBetweenScenes(winSound);
-            // Set the player who broke all the blocks as the winner.
-            SetWinner(supervisor);
-            foreach (PlayerSupervisor ps in playerSupervisors)
-            {
-                ps.PauseGame();
-            }
-            sceneLoader.LoadSceneDelayed(SceneLoader.SceneNames.EndScreen);
-        } 
-    }
-
-    public void LoseGame(PlayerSupervisor supervisor)
-    {
-        if (trainingMode)
-        {
+            supervisor.LoseGame();
             RestartGame(supervisor);
             return;
         }
 
-        AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
-        // If there are multiple players, check whether the conditions
-        // have been met to end the game.
-        if (playerSupervisors.Length > 1)
-        {
-            switch (gameData.gameEndCondition)
-            {
-                case GameEndCondition.OnePlayerClearsAllBlocks:
-                    // This currently uses the same scoreboard as the
-                    // other play types. It should probably have a separate
-                    // one that evalutes users on how quickly they break all
-                    // the blocks instead of how many blocks they break.
-                    supervisor.ResetBall();
-                    break;
-                case GameEndCondition.AllPlayersLoseBall:
-                    // If all players have lost their ball, transition to the End Screen.
-                    if (GameObject.FindObjectsOfType<Ball>().Length == 0)
-                    {
-                        SetWinnerToHighestPointEarner();
-                        TransitionToEndScreen();
-                    }
-                    break;
-                case GameEndCondition.OnePlayerLosesBall:
-                    // Should the winner in this case be the one who broke the most blocks?
-                    // Or the one who kept the ball in play longer?
-                    SetWinnerToHighestPointEarner();
-                    TransitionToEndScreen();
-                    break;
-            }
-        }
-        else
+        // Single player games avoid rules
+        if (playerSupervisors.Length < 2)
         {
             gameData.gameResult = $"Game Over!";
+            AudioManager.Instance.PlaySoundBetweenScenes(loseSound);
             TransitionToEndScreen();
+            return;
+        }
+
+        // Multiplayer game rules
+        switch (gameData.gameEndCondition)
+        {
+            case GameEndCondition.OnePlayerClearsAllBlocks:
+                // This currently uses the same scoreboard as the
+                // other play types. It should probably have a separate
+                // one that evalutes users on how quickly they break all
+                // the blocks instead of how many blocks they break.
+                supervisor.ResetPlayState();
+                break;
+            case GameEndCondition.AllPlayersLoseBall:
+                // If all players have lost their ball, transition to the End Screen.
+                int activeBalls = 0;
+                foreach (Ball ball in GameObject.FindObjectsOfType<Ball>())
+                    if (ball.gameObject.activeSelf)
+                        ++activeBalls;
+                
+                if (activeBalls == 0)
+                {
+                    SetWinnerToHighestPointEarner();
+                    TransitionToEndScreen();
+                }
+                break;
+            case GameEndCondition.OnePlayerLosesBall:
+                // Should the winner in this case be the one who broke the most blocks?
+                // Or the one who kept the ball in play longer?
+                SetWinnerToHighestPointEarner();
+                TransitionToEndScreen();
+                break;
+        }
+    }
+
+    public void PlayerClearedBlocks(PlayerSupervisor supervisor)
+    {
+        if (trainingMode)
+        {
+            supervisor.WinGame();
+            RestartGame(supervisor);
+            return;
+        }
+
+        // Single player games avoid rules
+        if (playerSupervisors.Length < 2)
+        {
+            gameData.gameResult = $"Game Over!";
+            AudioManager.Instance.PlaySoundBetweenScenes(winSound);
+            TransitionToEndScreen();
+            return;
+        }
+
+        // Multiplayer game rules
+        switch (gameData.gameEndCondition)
+        {
+            case GameEndCondition.OnePlayerClearsAllBlocks:
+            case GameEndCondition.AllPlayersLoseBall:
+            case GameEndCondition.OnePlayerLosesBall:
+            default:
+                SetWinner(supervisor);
+                TransitionToEndScreen();
+                break;
         }
     }
 
@@ -174,7 +191,7 @@ public class GameManager : MonoBehaviour
     {
         // Reset any game state then let the player start again
         startTime = DateTime.Now;
-        supervisor.ResetState();
+        supervisor.ResetEnvironmentState();
     }
 
 }
