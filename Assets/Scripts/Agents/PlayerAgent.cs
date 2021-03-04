@@ -19,7 +19,15 @@ public class PlayerAgent : Agent
     public float loseBallPenalty = -10f;
     public float paddleReward = .1f;
     public float timeoutPenalty = 0f;
+    
+    [Tooltip("Reward per second for play duration")]
+    public float timeRewardFactor = 0f;
 
+    [Tooltip("Reward for winning round by any means")]
+    public float winGameReward = 0f;
+
+    [Tooltip("Reward for losing round, in addition to any other rewards")]
+    public float loseGameReward = 0f;
 
     private void Start() 
     {
@@ -85,11 +93,15 @@ public class PlayerAgent : Agent
 
     public virtual void LoseGame()
     {
+        AddReward(loseGameReward);
+
         EndEpisode();
     }
 
     public virtual void WinGame()
     {
+        AddReward(winGameReward);
+
         EndEpisode();
     }
 
@@ -111,5 +123,10 @@ public class PlayerAgent : Agent
     public virtual void Timeout()
     {
         AddReward(timeoutPenalty);
+    }
+
+    public virtual void TotalPlayTime(float playTime) 
+    {
+        AddReward(playTime * timeRewardFactor);
     }
 }

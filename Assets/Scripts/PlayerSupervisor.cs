@@ -6,9 +6,9 @@ using UnityEngine;
 
 public enum PlayerState
 {
-    Waiting,
-    Ready,
-    Playing,
+    Waiting,       // environment is ready, waiting for player to begin
+    Ready,         // player signaled ready to play
+    Playing,       // player is actively playing
 }
 
 public class PlayerSupervisor : MonoBehaviour
@@ -59,7 +59,9 @@ public class PlayerSupervisor : MonoBehaviour
     private int paddleHits = 0;
     private int activeBlocks;
 
+    private GameObject trainingBlocksInstance;
     private PlayerState playerState = PlayerState.Waiting;
+    private float playStartTime;
 
     [Header("Game Environment Settings")]
 
@@ -121,7 +123,7 @@ public class PlayerSupervisor : MonoBehaviour
 
         // Check if scene is ready for training
         if (gameManager.trainingMode)
-            ResetState();
+            ResetEnvironmentState();
         else
         {
             if (useRandomBlocks && randomBlockCreator)
@@ -178,23 +180,20 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void StartGame()
     {
-
-        if(!isMultiTraining && dataManager.trackingPerformanceTF)
-            dataManager.SetStartingNumBlocks(activeBlocks);
-        
         // Only start if the player is ready
         if (playerState != PlayerState.Ready)
             return;
 
+        if(!isMultiTraining && dataManager.trackingPerformanceTF)
+            dataManager.SetStartingNumBlocks(activeBlocks);
+
         playerState = PlayerState.Playing;
+        playStartTime = Time.time;
 
         LaunchBall();
 
-        if (detectionFreq > 0)
-            StartCoroutine(DetectBallLockup());
-
-        if (gameManager.trainingMode && playerAgent.timeLimit > 0)
-            StartCoroutine(Timeout());
+        if (gameManager.trainingMode && detectionFreq > 0)
+            StartCoroutine(DetectBallAnomaly());
     }
 
     internal PlayerType GetPlayerType()
@@ -219,10 +218,12 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseColliderHit()
     {
+        ball.gameObject.SetActive(false);
+
         if (playerAgent)
             playerAgent.LoseBall();
 
-        LoseGame();
+        gameManager.PlayerLostBall(this);
     }
 
     public bool IsMultiAgent()
@@ -249,17 +250,18 @@ public class PlayerSupervisor : MonoBehaviour
 
     public void LoseGame()
     {
+        playerState = PlayerState.Waiting;
+
         if(!isMultiTraining && dataManager.trackingPerformanceTF)
             UpdatePlayerPerformanceData(false);
         
-        playerState = PlayerState.Waiting;
-
         ball.gameObject.SetActive(false);
         
         if (playerAgent)
+        {
+            playerAgent.TotalPlayTime(Time.time - playStartTime);
             playerAgent.LoseGame();
-
-        gameManager.LoseGame(this);
+        }
 
         StopAllCoroutines();
     }
@@ -273,10 +275,11 @@ public class PlayerSupervisor : MonoBehaviour
 
         ball.gameObject.SetActive(false);
 
-         if (playerAgent)
+        if (playerAgent)
+        {
+            playerAgent.TotalPlayTime(Time.time - playStartTime);
             playerAgent.WinGame();
-
-        gameManager.WinGame(this);
+        }
 
         StopAllCoroutines();
     }
@@ -294,7 +297,7 @@ public class PlayerSupervisor : MonoBehaviour
         --activeBlocks;
         if (activeBlocks <= 0)
         {
-            WinGame();
+            gameManager.PlayerClearedBlocks(this);
         }
     }
 
@@ -463,19 +466,14 @@ public class PlayerSupervisor : MonoBehaviour
     /// <summary>
     /// Game environment reset for training.  
     /// </summary>
-    public void ResetState()
+    public void ResetEnvironmentState()
     {
         boundaryHits = 0;
         paddleHits = 0;
         playerData.Points = 0;
         UpdatePointsUI();
 
-        ball.gameObject.SetActive(true);
-        ball.ResetBall();
-
-        ball.transform.localPosition = ballOffset;
-        paddle.transform.localPosition = paddleOffset;
-        paddle.smoothMovementChange = 0f;
+        ResetPlayState();
         
         if (useRandomBlocks && randomBlockCreator)
         {
@@ -489,13 +487,22 @@ public class PlayerSupervisor : MonoBehaviour
         }
         
         CountBlocks();
+
+        // Immediately begin the timeout
+        if (gameManager.trainingMode && playerAgent.timeLimit > 0)
+            StartCoroutine(Timeout());
     }
 
     public void ResetBall()
     {
-        ball.gameObject.SetActive(true);
         ball.ResetBall();
         ball.transform.localPosition = ballOffset;
+    }
+
+    public void ResetPaddle()
+    {
+        paddle.transform.localPosition = paddleOffset;
+        paddle.smoothMovementChange = 0f;
     }
 
     public void BoundaryHit(BoundaryName boundaryName)
@@ -521,6 +528,15 @@ public class PlayerSupervisor : MonoBehaviour
 
             // Rebound ceilingReboundAngle degrees off the ceiling
             float originalMag = ballRB.velocity.magnitude;
+
+            if (originalMag < 0.5f)
+            {
+                Debug.Log("Ball halt check");
+
+                ResetBall();
+                return;
+            }
+
             Vector2 newVelocity = ballRB.velocity;
             newVelocity.x = ballRB.velocity.y * Mathf.Tan(ceilingReboundAngle);
             newVelocity *= originalMag / newVelocity.magnitude;
@@ -536,7 +552,7 @@ public class PlayerSupervisor : MonoBehaviour
         playerAgent.PaddleHit();
     }
 
-    private IEnumerator DetectBallLockup()
+    private IEnumerator DetectBallAnomaly()
     {
         while (true)
         {
@@ -545,9 +561,17 @@ public class PlayerSupervisor : MonoBehaviour
             {
                 Debug.Log("Ball lockup check");
 
-                ball.ResetBall();
-                ball.transform.position = ballOffset;
-                ball.LaunchBall();
+                ResetBall();
+            }
+
+            if (ball.transform.localPosition.x > 50f || 
+                ball.transform.localPosition.x < -50f ||
+                ball.transform.localPosition.y > 50f ||
+                ball.transform.localPosition.y < -50f)
+            {
+                Debug.Log("Ball bounds check");
+
+                ResetBall();
             }
                 
             yield return new WaitForSeconds(detectionFreq);
@@ -620,5 +644,16 @@ public class PlayerSupervisor : MonoBehaviour
     {
         if (pointsDisplay)
             pointsDisplay.text = $"Points: {GetPoints()}";
+    }
+
+    /// <summary>
+    /// Reset play state without affecting environment state.
+    /// </summary>
+    public void ResetPlayState()
+    {
+        ResetBall();
+        ResetPaddle();
+        
+        playerState = PlayerState.Waiting;
     }
 }
