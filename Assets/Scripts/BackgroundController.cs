@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class BackgroundController : MonoBehaviour
@@ -24,12 +22,6 @@ public class BackgroundController : MonoBehaviour
         Color scrimColorMin = scrimColor;
         scrimColorMin.a = scrimMinAlpha;
 
-		LeanTween.color(scrim, scrimColorMin, tweenTime).setLoopPingPong().setEase(LeanTweenType.easeInOutSine);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        LeanTween.color(scrim, scrimColorMin, tweenTime).setLoopPingPong().setEase(LeanTweenType.easeInOutSine);
     }
 }

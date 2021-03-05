@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class MultiBlockCreator : MonoBehaviour
@@ -30,38 +29,4 @@ public class MultiBlockCreator : MonoBehaviour
 
     [Range(1, 21)]
     public int numStaticBlocks = 21;
-
-    // these min/max X/Y coords will be converted to float in PlayerSupervisor.
-    // screen is 16 (x) by 12 (y) , or 4x3.
-
-    [Range(2, 11)]
-    [SerializeField] public int minBlockYPosition = 2;
-
-    [Range(2, 11)]
-    [SerializeField] public int maxBlockYPosition = 11;
-
-    [Range(0, 15)]
-    [SerializeField] public int minBlockXPosition = 0;
-
-    [Range(0, 15)]
-    [SerializeField] public int maxBlockXPosition = 15;
-
-    [Header("THESE SETTINGS ARE NOT FUNCTIONAL YET")]
-
-    [SerializeField] public bool randomBlockLengthTF; 
-    
-    [Range(1, 15)]
-    [SerializeField] public int maxBlockLength = 1; 
-
-    [Range(1, 11)]
-    [SerializeField] public int minBlockLength; 
-
-    [SerializeField] bool randomBlockHeightTF; 
-    
-    [Range(1, 15)]
-    [SerializeField] public int maxBlockHeight = 1; 
-
-    [Range(1, 11)]
-    [SerializeField] public int minBlockHeight; 
-
 }
