@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class MultiBlockCreator : MonoBehaviour
@@ -45,23 +44,4 @@ public class MultiBlockCreator : MonoBehaviour
 
     [Range(0, 15)]
     [SerializeField] public int maxBlockXPosition = 15;
-
-    [Header("THESE SETTINGS ARE NOT FUNCTIONAL YET")]
-
-    [SerializeField] public bool randomBlockLengthTF; 
-    
-    [Range(1, 15)]
-    [SerializeField] public int maxBlockLength = 1; 
-
-    [Range(1, 11)]
-    [SerializeField] public int minBlockLength; 
-
-    [SerializeField] bool randomBlockHeightTF; 
-    
-    [Range(1, 15)]
-    [SerializeField] public int maxBlockHeight = 1; 
-
-    [Range(1, 11)]
-    [SerializeField] public int minBlockHeight; 
-
 }
