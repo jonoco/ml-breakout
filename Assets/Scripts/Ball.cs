@@ -51,9 +51,12 @@ public class Ball : MonoBehaviour
         }
         else 
         {
-            GameObject particle = Instantiate(particleVFX, transform.position, transform.rotation);
-            ParticleSystem ps = particle.GetComponent<ParticleSystem>();
-            Destroy(particle, ps.main.duration + ps.main.startLifetime.constant);
+            if (particleVFX)
+            {
+                GameObject particle = Instantiate(particleVFX, transform.position, transform.rotation);
+                ParticleSystem ps = particle.GetComponent<ParticleSystem>();
+                Destroy(particle, ps.main.duration + ps.main.startLifetime.constant);
+            }
             
             IncreaseBallSpeed();
         }

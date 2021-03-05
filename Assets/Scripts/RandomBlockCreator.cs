@@ -152,7 +152,7 @@ public class RandomBlockCreator : MonoBehaviour
                 var newBlock = createBlock(blockMidpoint, blockRow);
                 
                 // update block scale based on block width, note scale is a PERCENTAGE
-                scaleChange = new Vector2(blockWidth/prefabBlockWidthWorld, blockHeightScale);
+                scaleChange = new Vector3(blockWidth/prefabBlockWidthWorld, blockHeightScale, 1f);
                 newBlock.transform.localScale = scaleChange;
 
                 // Update counter variables
