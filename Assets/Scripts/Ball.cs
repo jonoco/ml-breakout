@@ -40,6 +40,12 @@ public class Ball : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         gameManager = FindObjectOfType<GameManager>();
+
+        if (!paddle)
+        {
+            Debug.Log("Ball: finding paddle reference");
+            paddle = FindObjectOfType<Paddle>();
+        }
     }
 
     // Update is called once per frame
