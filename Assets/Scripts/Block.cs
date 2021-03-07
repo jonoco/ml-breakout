@@ -28,7 +28,7 @@ public class Block : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        if (!gameManager.trainingMode)
+        if (gameManager.enableFX)
             TriggerParticles();
 
         playerSupervisor.BlockDestroyed(pointValue);

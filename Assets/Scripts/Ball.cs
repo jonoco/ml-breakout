@@ -57,7 +57,7 @@ public class Ball : MonoBehaviour
         }
         else 
         {
-            if (particleVFX)
+            if (particleVFX && gameManager.enableFX)
             {
                 GameObject particle = Instantiate(particleVFX, transform.position, transform.rotation);
                 ParticleSystem ps = particle.GetComponent<ParticleSystem>();
@@ -136,11 +136,8 @@ public class Ball : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (gameManager.trainingMode)
-            return;
-            
-        if (collision.gameObject.tag != "Lose Collider")
+    {  
+        if (collision.gameObject.tag != "Lose Collider" && gameManager.enableFX)
         {
             if (bounceSounds.Length > 0 && AudioManager.Instance)
             {

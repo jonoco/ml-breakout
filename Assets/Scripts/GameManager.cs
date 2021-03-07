@@ -13,6 +13,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameData gameData;
     [SerializeField] TextMeshProUGUI timeDisplay;
     public bool trainingMode = false;
+
+    [Tooltip("Enable sound and particle systems")]
+    public bool enableFX = true;
     DateTime startTime = DateTime.Now;
     public TimeSpan elapsedTime;
     
