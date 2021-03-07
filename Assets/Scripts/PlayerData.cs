@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-[CreateAssetMenu(fileName = "Player Data", menuName = "Player Data")]
-public class PlayerData : ScriptableObject
+﻿[System.Serializable]
+public class PlayerData
 {
-    public int points;
-    public string gameResult; 
+    public string playerName;
+    public int Points;
+    public PlayerType Type;
 }

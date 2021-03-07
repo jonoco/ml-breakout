@@ -9,51 +9,54 @@ public class PlayerAgent : Agent
     public PlayerSupervisor playerSupervisor;
     public Ball ball;
     public Paddle paddle;
-    public float minPaddlePosX = 1f;
-    public float maxPaddlePosX = 15f;
-    public float screenWidth = 16f;
-    public float screenHeight = 12f;
-   
-    [Range(10f, 200f)]
-    public float paddleMoveSpeed = 100f;
 
-    [Range(.1f, 10f)]
-    public float moveStep = 2f;
-    public bool playerReady =  false;
+    [Header("Training rules")]
+
+    [Tooltip("Limit to wait before ending training (0 eliminates timeout)")]
+    [Range(0f, 300f)]
+    public float timeLimit = 0f;
     public float blockReward = .5f;
-    public float losePenalty = -10f;
+    public float loseBallPenalty = -10f;
     public float paddleReward = .1f;
-    private float smoothMovementChange = 0f;
+    public float timeoutPenalty = 0f;
+    
+    [Tooltip("Reward per second for play duration")]
+    public float timeRewardFactor = 0f;
 
-    private void Awake()
-    {
-        PlayerController playerController = FindObjectOfType<PlayerController>();
-        if (playerController)
-            Destroy(playerController.gameObject);    
-    }
+    [Tooltip("Reward for winning round by any means")]
+    public float winGameReward = 0f;
+
+    [Tooltip("Reward for losing round, in addition to any other rewards")]
+    public float loseGameReward = 0f;
 
     private void Start() 
     {
-        playerSupervisor = FindObjectOfType<PlayerSupervisor>();
-        ball = FindObjectOfType<Ball>();
-        paddle = FindObjectOfType<Paddle>();
+        if (!playerSupervisor)
+            playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+        
+        if(!ball)
+            ball = FindObjectOfType<Ball>();
+        
+        if(!paddle)
+            paddle = FindObjectOfType<Paddle>();
     }
 
     public override void OnEpisodeBegin()
     {
         // Reset any Agent state
-
-        playerReady = false;
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
+        if (!paddle || !ball)
+            return;
+
         // Paddle x-axis position [0-1]
-        sensor.AddObservation(paddle.transform.position.x / screenWidth);
+        sensor.AddObservation(paddle.transform.localPosition.x / playerSupervisor.instanceWidth);
 
         // Ball x and y-axis positions [0-1]
-        sensor.AddObservation(ball.transform.position.x / screenWidth);
-        sensor.AddObservation(ball.transform.position.y / screenHeight);
+        sensor.AddObservation(ball.transform.localPosition.x / playerSupervisor.instanceWidth);
+        sensor.AddObservation(ball.transform.localPosition.y / playerSupervisor.instanceHeight);
     }
 
     public override void OnActionReceived(float[] vectorAction)
@@ -64,15 +67,18 @@ public class PlayerAgent : Agent
         // Determine whether to launch the ball and start the game
         bool launchBall = vectorAction[1] > 0;             
 
-        MovePaddle(paddleXPos);
+        paddle.MovePaddle(paddleXPos);
         if (launchBall)
             StartGame();
     }
 
     public override void Heuristic(float[] actionsOut)
     {
+        float mousePos = (Camera.main.ScreenToWorldPoint(Input.mousePosition).x - transform.position.x) / playerSupervisor.instanceWidth;
+        mousePos = Mathf.Clamp(mousePos, 0, 1);
+
         // Normalize paddle input to [-1, 1]
-        float paddlePos = (Input.mousePosition.x / Screen.width) - (paddle.transform.position.x / screenWidth);
+        float paddlePos = mousePos - (paddle.transform.localPosition.x / playerSupervisor.instanceWidth);
          
         bool launchBall = Input.GetMouseButton(0);
         
@@ -80,29 +86,23 @@ public class PlayerAgent : Agent
         actionsOut[1] = launchBall ? 1 : -1;
     }
 
-    /// <summary>
-    /// Move the player's paddle
-    /// </summary>
-    /// <param name="pos">Relative position in the range [-1, 1]</param>
-    public virtual void MovePaddle(float pos)
-    {
-        // Calculate the eased paddle movement
-        smoothMovementChange = Mathf.MoveTowards(smoothMovementChange, pos, moveStep * Time.fixedDeltaTime);
-        
-        // Calculate the new paddle position
-        Vector3 paddlePos = paddle.transform.position;
-        paddlePos.x = paddlePos.x + smoothMovementChange * Time.fixedDeltaTime * paddleMoveSpeed;
-        paddlePos.x = Mathf.Clamp(paddlePos.x, minPaddlePosX, maxPaddlePosX);
-        paddle.transform.position = paddlePos;
-    }
-
     public virtual void StartGame()
     {   
-        if (!playerReady)
-        {
-            playerReady = true;
-            playerSupervisor.PlayerReady();
-        }
+        playerSupervisor.PlayerReady();
+    }
+
+    public virtual void LoseGame()
+    {
+        AddReward(loseGameReward);
+
+        EndEpisode();
+    }
+
+    public virtual void WinGame()
+    {
+        AddReward(winGameReward);
+
+        EndEpisode();
     }
 
     public virtual void BlockHit()
@@ -115,14 +115,18 @@ public class PlayerAgent : Agent
         AddReward(paddleReward);
     }
 
-    public virtual void LoseGame()
+    public virtual void LoseBall()
     {
-        AddReward(losePenalty);
-        EndEpisode();
+        AddReward(loseBallPenalty);
     }
 
-    public virtual void WinGame()
+    public virtual void Timeout()
     {
-        EndEpisode();
+        AddReward(timeoutPenalty);
+    }
+
+    public virtual void TotalPlayTime(float playTime) 
+    {
+        AddReward(playTime * timeRewardFactor);
     }
 }

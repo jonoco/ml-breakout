@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class LoseCollider : MonoBehaviour
 {
@@ -8,7 +6,8 @@ public class LoseCollider : MonoBehaviour
 
     private void Start()
     {
-        playerSupervisor = FindObjectOfType<PlayerSupervisor>();    
+        if (!playerSupervisor)
+            playerSupervisor = FindObjectOfType<PlayerSupervisor>();    
     }
 
     private void OnTriggerEnter2D(Collider2D other) 

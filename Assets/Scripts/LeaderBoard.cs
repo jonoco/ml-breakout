@@ -3,10 +3,11 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.UI;
+using static GameData;
 
 public class LeaderBoard : MonoBehaviour
 {
-    [SerializeField] PlayerData playerData;
+    [SerializeField] GameData gameData;
     const string PREFS_KEY = "LeaderBoard";
     const int SCORES_DISPLAY_LIMIT = 3;
     private List<Score> scores;
@@ -31,13 +32,20 @@ public class LeaderBoard : MonoBehaviour
 
     void Start()
     {
-        // Load the scores and sort them in descending order.
-        scores = LoadScores();
-        scores.Sort((x, y) => y.points.CompareTo(x.points));
+        if (gameData.PlayerList.Count > 1)
+        {
+            gameData.PlayerList.Sort((x, y) => y.Points.CompareTo(x.Points));
+            SetupMultiPlayerEndScene();
+        }
+        else
+        {
+            // Load past scores and sort them in descending order.
+            scores = LoadScores();
+            scores.Sort((x, y) => y.points.CompareTo(x.points));
+            CheckForNewHighScore();
 
-        CheckForNewHighScore();
-
-        SetupLeaderboardUI();
+            SetupLeaderboardUI();
+        }
     }
 
     private List<Score> LoadScores()
@@ -105,11 +113,16 @@ public class LeaderBoard : MonoBehaviour
     {
         // Check if the player's score places within the SCORES_DISPLAY_LIMIT
         // of existing high scores.
-        int playerPoints = playerData.points;
-        int index = scores.FindIndex((score) => score.points < playerPoints);
+        PlayerData humanPlayerData = gameData.PlayerList.Find(ps => ps.Type == PlayerType.Human);
+        if (humanPlayerData == null)
+        {
+            return;
+        }
+
+        int index = scores.FindIndex((score) => score.points < humanPlayerData.Points);
         if (index != -1)
         {
-            scores.Insert(index, new Score { initials = "", points = playerPoints, newScore = true });
+            scores.Insert(index, new Score { initials = "", points = humanPlayerData.Points, newScore = true });
 
             // If a high score was added to the list, reduce the lowest scores until the
             // list's size to matches the SCORES_DISPLAY_LIMIT.
@@ -124,7 +137,7 @@ public class LeaderBoard : MonoBehaviour
     // with Saving and Loading": https://youtu.be/iAbaqGYdnyI.
     private void SetupLeaderboardUI()
     {
-        transform.Find("Game Result").GetComponent<Text>().text = playerData.gameResult;
+        transform.Find("Game Result").GetComponent<TextMeshProUGUI>().text = gameData.gameResult;
         Transform scoresContainer = transform.Find("Scores");
 
         // Get templates for score display and score input rows then hide them.
@@ -175,5 +188,37 @@ public class LeaderBoard : MonoBehaviour
         scores = GenerateDefaultScores();
         SaveScores();
         SetupLeaderboardUI();
+    }
+
+    private void SetupMultiPlayerEndScene()
+    {
+        transform.Find("Game Result").GetComponent<TextMeshProUGUI>().text = gameData.gameResult;
+        Transform scoresContainer = transform.Find("Scores");
+
+        // Get templates for score display and score input rows then hide them.
+        Transform scoreDisplayTemplate = scoresContainer.Find("Score Display");
+        scoreDisplayTemplate.gameObject.SetActive(false);
+
+        // Calculate the distance each score row should be separated by.
+        float verticalOffset = scoreDisplayTemplate.GetComponent<RectTransform>().rect.height;
+
+        // Render a row for each score in the given list.
+        scoreTransforms = new List<Transform>();
+        foreach (PlayerData pd in gameData.PlayerList)
+        {
+            Transform scoreTransform;
+            // Create a Score Display row.
+            scoreTransform = Instantiate(scoreDisplayTemplate, scoresContainer);
+            scoreTransform.Find("Name").GetComponent<TextMeshProUGUI>().text = pd.playerName;
+            scoreTransform.Find("Points").GetComponent<TextMeshProUGUI>().text = pd.Points.ToString();
+
+            // Adjust the row's vertical position:
+            scoreTransform.position = new Vector2(scoreTransform.position.x,
+                                                scoreTransform.position.y - verticalOffset * scoreTransforms.Count);
+            scoreTransform.gameObject.SetActive(true);
+
+            // Add the score to the list of transforms for easier manipulation later.
+            scoreTransforms.Add(scoreTransform);
+        }
     }
 }

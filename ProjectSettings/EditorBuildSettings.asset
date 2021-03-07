@@ -5,15 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Level 1.unity
-    guid: 2cda990e2423bbf4892e6590ba056729
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/Start_Menu.unity
-    guid: fd56f5f7e70f99147b028d4ef2f212eb
+    path: Assets/Scenes/Intro.unity
+    guid: 295bda45e696947429913bc63fe0c922
   - enabled: 1
     path: Assets/Scenes/Level_FR.unity
     guid: 8d0d61497968f734ab2aac0cf8f180be
@@ -24,6 +18,24 @@ EditorBuildSettings:
     path: Assets/Scenes/Training_0.unity
     guid: 9214be4b244f0df4ab2bfa93d7a2e399
   - enabled: 1
-    path: Assets/Scenes/Training_Demo.unity
-    guid: 004c337436e4dde4a9b75ac422a123fd
+    path: Assets/Scenes/Start_Menu.unity
+    guid: 1895d8e2bb420e24a94630bbfa9b8020
+  - enabled: 1
+    path: Assets/Scenes/Selection_Multi.unity
+    guid: 75a4c97c690776f4699e313e10e5f6b1
+  - enabled: 1
+    path: Assets/Scenes/Selection_Single.unity
+    guid: 6a06a96eefbb14049bf3ab951b49220c
+  - enabled: 1
+    path: Assets/Scenes/Level_Two_Player.unity
+    guid: f9e740e9bc7263c4086a12d3c753ed3f
+  - enabled: 1
+    path: Assets/Scenes/AI_Demonstration.unity
+    guid: f0448deed85006342a43f26199f22d4c
+  - enabled: 1
+    path: Assets/Scenes/End_Screen_Two_Player.unity
+    guid: d5cfac17589fb7049b202e39c53a45a5
+  - enabled: 1
+    path: Assets/Scenes/Level_Two_AI.unity
+    guid: ab4ac5979c5e7a141b92b3d077105b1d
   m_configObjects: {}
