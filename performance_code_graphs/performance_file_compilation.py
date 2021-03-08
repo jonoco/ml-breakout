@@ -4,10 +4,14 @@ import csv
 # --- Sources: 
 # https://www.geeksforgeeks.org/working-csv-files-python/
 
+# UPDATE THIS when running the code below
+PROJECT_PATH = ""
+RAW_DATA_FILES_FOLDER = ""
+
 class PerformanceTracker:
 
-    path_proj = "C:/Users/frann/Documents/UnityProjects/CS467/PERFORMANCE_ANALYSIS"
-    path_perf = path_proj + "/" + "jc_mar1"
+    path_proj = PROJECT_PATH
+    path_perf = path_proj + "/" + RAW_DATA_FILES_FOLDER
     path_output = os.path.dirname(os.path.realpath(__file__))
 
     all_files = []
