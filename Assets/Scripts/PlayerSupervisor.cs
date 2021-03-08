@@ -58,8 +58,6 @@ public class PlayerSupervisor : MonoBehaviour
     private int boundaryHits = 0;
     private int paddleHits = 0;
     private int activeBlocks;
-
-    private GameObject trainingBlocksInstance;
     private PlayerState playerState = PlayerState.Waiting;
     private float playStartTime;
 

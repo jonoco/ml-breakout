@@ -1,7 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using System.Collections;
-using DentedPixel;
 using UnityEngine.UI;
 
 public class MenuListItem : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {

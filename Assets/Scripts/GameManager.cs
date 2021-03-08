@@ -43,17 +43,6 @@ public class GameManager : MonoBehaviour
             timeDisplay.text = elapsedTime.ToString(@"mm\:ss\:ff");
         }
     }
-    
-    public void StartGame()
-    {   
-        if (!playerSupervisor)
-        {
-            Debug.LogError("No player supervisor found to manage game");
-            return;
-        }
-        
-        StartGame(playerSupervisor);
-    }
 
     public void StartGame(PlayerSupervisor supervisor)
     {
@@ -82,10 +71,6 @@ public class GameManager : MonoBehaviour
         switch (gameData.gameEndCondition)
         {
             case GameEndCondition.OnePlayerClearsAllBlocks:
-                // This currently uses the same scoreboard as the
-                // other play types. It should probably have a separate
-                // one that evalutes users on how quickly they break all
-                // the blocks instead of how many blocks they break.
                 supervisor.ResetPlayState();
                 break;
             case GameEndCondition.AllPlayersLoseBall:
@@ -204,5 +189,4 @@ public class GameManager : MonoBehaviour
         startTime = DateTime.Now;
         supervisor.ResetEnvironmentState();
     }
-
 }
