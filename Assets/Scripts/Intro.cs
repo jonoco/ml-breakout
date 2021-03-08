@@ -12,8 +12,11 @@ public class Intro : MonoBehaviour
     void Start()
     {
         sceneLoader = FindObjectOfType<SceneLoader>();
-
-        GetComponent<VideoPlayer>().loopPointReached += FinishedVideo;
+        VideoPlayer videoPlayer = GetComponent<VideoPlayer>();
+        videoPlayer.url = System.IO.Path.Combine (Application.streamingAssetsPath,"title.mp4");
+        videoPlayer.Play();
+        
+        videoPlayer.loopPointReached += FinishedVideo;
     }
 
     void FinishedVideo(VideoPlayer vp)
