@@ -382,6 +382,16 @@ PrefabInstance:
       propertyPath: playerData.playerName
       value: You
       objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: increaseBallSpeedTF
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: startWithRandomVelocityTF
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8795198208930728701, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -852,6 +862,16 @@ PrefabInstance:
         type: 3}
       propertyPath: playerData.playerName
       value: Neural Net
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: increaseBallSpeedTF
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: startWithRandomVelocityTF
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8795198208930728701, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
