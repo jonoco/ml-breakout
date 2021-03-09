@@ -651,6 +651,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI Player Environment 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2088326103613546649, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: playerSupervisor
+      value: 
+      objectReference: {fileID: 2098339872}
+    - target: {fileID: 2278110368186826790, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: playerSupervisor
+      value: 
+      objectReference: {fileID: 2098339872}
     - target: {fileID: 2774562446755734890, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: m_Enabled
@@ -682,6 +692,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 6.25
       objectReference: {fileID: 0}
+    - target: {fileID: 4315738401231054851, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: playerSupervisor
+      value: 
+      objectReference: {fileID: 2098339872}
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: playerAgent
@@ -1210,6 +1225,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI Player Environment 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2088326103613546649, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: playerSupervisor
+      value: 
+      objectReference: {fileID: 141066918}
+    - target: {fileID: 2278110368186826790, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: playerSupervisor
+      value: 
+      objectReference: {fileID: 141066918}
     - target: {fileID: 2774562446755734890, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: m_Enabled
@@ -1231,6 +1256,11 @@ PrefabInstance:
       propertyPath: m_BrainParameters.VectorObservationSize
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4315738401231054851, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: playerSupervisor
+      value: 
+      objectReference: {fileID: 141066918}
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: playerAgent
