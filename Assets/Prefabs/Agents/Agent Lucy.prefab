@@ -80,7 +80,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5065469761566338509}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 603045253477c064b83230bc818c61b1, type: 3}
+  m_Script: {fileID: 11500000, guid: 1e6b3b92829f38d41840edef6831457b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentParameters:
@@ -90,9 +90,11 @@ MonoBehaviour:
   playerSupervisor: {fileID: 0}
   ball: {fileID: 0}
   paddle: {fileID: 0}
-  timeLimit: 100
+  timeLimit: 0
   blockReward: 0.5
   loseBallPenalty: -10
   paddleReward: 0.1
   timeoutPenalty: 0
   timeRewardFactor: 0
+  winGameReward: 0
+  loseGameReward: 0

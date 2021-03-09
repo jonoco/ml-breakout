@@ -4,6 +4,7 @@ public class Ball : MonoBehaviour
 {
     [SerializeField] Paddle paddle;
     [SerializeField] GameManager gameManager;
+    public GameObject particleVFX;
 
     public bool hasStarted = false;
 
@@ -39,6 +40,12 @@ public class Ball : MonoBehaviour
     {
         rigidbody = GetComponent<Rigidbody2D>();
         gameManager = FindObjectOfType<GameManager>();
+
+        if (!paddle)
+        {
+            Debug.Log("Ball: finding paddle reference");
+            paddle = FindObjectOfType<Paddle>();
+        }
     }
 
     // Update is called once per frame
@@ -50,6 +57,13 @@ public class Ball : MonoBehaviour
         }
         else 
         {
+            if (particleVFX && gameManager.enableFX)
+            {
+                GameObject particle = Instantiate(particleVFX, transform.position, transform.rotation);
+                ParticleSystem ps = particle.GetComponent<ParticleSystem>();
+                Destroy(particle, ps.main.duration + ps.main.startLifetime.constant);
+            }
+            
             IncreaseBallSpeed();
         }
 
@@ -122,11 +136,8 @@ public class Ball : MonoBehaviour
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (gameManager.trainingMode)
-            return;
-            
-        if (collision.gameObject.tag != "Lose Collider")
+    {  
+        if (collision.gameObject.tag != "Lose Collider" && gameManager.enableFX)
         {
             if (bounceSounds.Length > 0 && AudioManager.Instance)
             {

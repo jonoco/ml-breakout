@@ -6,6 +6,7 @@ public class Block : MonoBehaviour
     [SerializeField] public PlayerSupervisor playerSupervisor;
     [SerializeField] public GameManager gameManager;
     [SerializeField] GameObject particleVFX;
+    public Material[] materials;
 
     // The number of points destroying this block is worth.
     [SerializeField] int pointValue = 10;
@@ -17,11 +18,17 @@ public class Block : MonoBehaviour
 
         if (!playerSupervisor)
             playerSupervisor = FindObjectOfType<PlayerSupervisor>();
+
+        if (materials.Length > 0)
+        {
+            Material mat = Instantiate(materials[UnityEngine.Random.Range(0, materials.Length)]);
+            GetComponent<SpriteRenderer>().material = mat;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D other) 
     {
-        if (!gameManager.trainingMode)
+        if (gameManager.enableFX)
             TriggerParticles();
 
         playerSupervisor.BlockDestroyed(pointValue);

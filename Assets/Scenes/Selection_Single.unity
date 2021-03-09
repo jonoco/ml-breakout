@@ -1167,12 +1167,17 @@ PrefabInstance:
     - target: {fileID: 5921786175157310916, guid: a07e86fb2c57aa54b93b02b06f613825,
         type: 3}
       propertyPath: m_Text
-      value: Standard Mode
+      value: Play Solo
       objectReference: {fileID: 0}
     - target: {fileID: 5921786175402596721, guid: a07e86fb2c57aa54b93b02b06f613825,
         type: 3}
       propertyPath: m_Color.a
       value: 0.7058824
+      objectReference: {fileID: 0}
+    - target: {fileID: 5921786175846775185, guid: a07e86fb2c57aa54b93b02b06f613825,
+        type: 3}
+      propertyPath: m_Text
+      value: Watch AI
       objectReference: {fileID: 0}
     - target: {fileID: 5921786176007908814, guid: a07e86fb2c57aa54b93b02b06f613825,
         type: 3}
@@ -1187,7 +1192,7 @@ PrefabInstance:
     - target: {fileID: 5921786176007908818, guid: a07e86fb2c57aa54b93b02b06f613825,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5921786176007908818, guid: a07e86fb2c57aa54b93b02b06f613825,
         type: 3}
@@ -1197,12 +1202,12 @@ PrefabInstance:
     - target: {fileID: 5921786176007908818, guid: a07e86fb2c57aa54b93b02b06f613825,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: 
+      value: LoadScene
       objectReference: {fileID: 0}
     - target: {fileID: 5921786176007908818, guid: a07e86fb2c57aa54b93b02b06f613825,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: 
+      value: AI_Demonstration
       objectReference: {fileID: 0}
     - target: {fileID: 8610737640677731829, guid: a07e86fb2c57aa54b93b02b06f613825,
         type: 3}

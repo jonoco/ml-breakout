@@ -6,23 +6,20 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Boot.unity
+    guid: 83f36f4e7a9703f4590d76727f755ff5
+  - enabled: 1
     path: Assets/Scenes/Intro.unity
     guid: 295bda45e696947429913bc63fe0c922
-  - enabled: 0
-    path: 
-    guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
     path: Assets/Scenes/Level_FR.unity
     guid: 8d0d61497968f734ab2aac0cf8f180be
   - enabled: 1
     path: Assets/Scenes/End_Screen.unity
     guid: d686e4e288e443e4f94ac4fb02a8b128
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Training_0.unity
     guid: 9214be4b244f0df4ab2bfa93d7a2e399
-  - enabled: 0
-    path: 
-    guid: 004c337436e4dde4a9b75ac422a123fd
   - enabled: 1
     path: Assets/Scenes/Start_Menu.unity
     guid: 1895d8e2bb420e24a94630bbfa9b8020
@@ -35,6 +32,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level_Two_Player.unity
     guid: f9e740e9bc7263c4086a12d3c753ed3f
+  - enabled: 1
+    path: Assets/Scenes/AI_Demonstration.unity
+    guid: f0448deed85006342a43f26199f22d4c
   - enabled: 1
     path: Assets/Scenes/End_Screen_Two_Player.unity
     guid: d5cfac17589fb7049b202e39c53a45a5

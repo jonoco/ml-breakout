@@ -182,8 +182,9 @@ public class PlayerSupervisor : MonoBehaviour
         if (playerState != PlayerState.Ready)
             return;
 
-        if(!isMultiTraining && dataManager.trackingPerformanceTF)
-            dataManager.SetStartingNumBlocks(activeBlocks);
+        if (dataManager)
+            if(!isMultiTraining && dataManager.trackingPerformanceTF)
+                dataManager.SetStartingNumBlocks(activeBlocks);
 
         playerState = PlayerState.Playing;
         playStartTime = Time.time;
@@ -250,9 +251,10 @@ public class PlayerSupervisor : MonoBehaviour
     {
         playerState = PlayerState.Waiting;
 
-        if(!isMultiTraining && dataManager.trackingPerformanceTF)
-            UpdatePlayerPerformanceData(false);
-        
+        if (dataManager)
+            if (!isMultiTraining && dataManager.trackingPerformanceTF)
+                UpdatePlayerPerformanceData(false);
+            
         ball.gameObject.SetActive(false);
         
         if (playerAgent)
@@ -268,8 +270,9 @@ public class PlayerSupervisor : MonoBehaviour
     {
         playerState = PlayerState.Waiting;
         
-        if(!isMultiTraining && dataManager.trackingPerformanceTF)
-            UpdatePlayerPerformanceData(true);
+        if (dataManager)
+            if (!isMultiTraining && dataManager.trackingPerformanceTF)
+                UpdatePlayerPerformanceData(true);
 
         ball.gameObject.SetActive(false);
 
