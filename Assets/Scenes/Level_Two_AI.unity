@@ -366,6 +366,72 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bec23b17a2aa2164fb73381380f3f678, type: 3}
+--- !u!1 &564790859
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 564790862}
+  - component: {fileID: 564790861}
+  - component: {fileID: 564790860}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &564790860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564790859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &564790861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564790859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!4 &564790862
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 564790859}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &615059204 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2774562446755734676, guid: 93cad592d8efc504a9ceab7402b2b93d,
@@ -399,75 +465,6 @@ MonoBehaviour:
   timeRewardFactor: 0
   winGameReward: 0
   loseGameReward: 0
---- !u!1001 &735003307
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7411138337462435921, guid: 9e80813eb1a560442a3e320a78855be4,
-        type: 3}
-      propertyPath: m_Name
-      value: EventSystem
-      objectReference: {fileID: 0}
-    - target: {fileID: 7411138337462435924, guid: 9e80813eb1a560442a3e320a78855be4,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7411138337462435924, guid: 9e80813eb1a560442a3e320a78855be4,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7411138337462435924, guid: 9e80813eb1a560442a3e320a78855be4,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7411138337462435924, guid: 9e80813eb1a560442a3e320a78855be4,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7411138337462435924, guid: 9e80813eb1a560442a3e320a78855be4,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7411138337462435924, guid: 9e80813eb1a560442a3e320a78855be4,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7411138337462435924, guid: 9e80813eb1a560442a3e320a78855be4,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7411138337462435924, guid: 9e80813eb1a560442a3e320a78855be4,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7411138337462435924, guid: 9e80813eb1a560442a3e320a78855be4,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7411138337462435924, guid: 9e80813eb1a560442a3e320a78855be4,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7411138337462435924, guid: 9e80813eb1a560442a3e320a78855be4,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9e80813eb1a560442a3e320a78855be4, type: 3}
 --- !u!114 &767776751 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6736178454312799164, guid: 93cad592d8efc504a9ceab7402b2b93d,
@@ -654,6 +651,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI Player Environment 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2088326103613546649, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: playerSupervisor
+      value: 
+      objectReference: {fileID: 2098339872}
+    - target: {fileID: 2278110368186826790, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: playerSupervisor
+      value: 
+      objectReference: {fileID: 2098339872}
     - target: {fileID: 2774562446755734890, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: m_Enabled
@@ -685,6 +692,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 6.25
       objectReference: {fileID: 0}
+    - target: {fileID: 4315738401231054851, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: playerSupervisor
+      value: 
+      objectReference: {fileID: 2098339872}
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: playerAgent
@@ -698,7 +710,12 @@ PrefabInstance:
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: maxPaddlePosX
-      value: 25
+      value: 24.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: minPaddlePosX
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
@@ -714,6 +731,21 @@ PrefabInstance:
         type: 3}
       propertyPath: playerData.playerName
       value: Neural Net 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: increaseBallSpeedTF
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: startWithRandomVelocityTF
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: ballSpeedIncreasePctEachIncrement
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9146408817681791003, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
@@ -1193,6 +1225,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: AI Player Environment 2
       objectReference: {fileID: 0}
+    - target: {fileID: 2088326103613546649, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: playerSupervisor
+      value: 
+      objectReference: {fileID: 141066918}
+    - target: {fileID: 2278110368186826790, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: playerSupervisor
+      value: 
+      objectReference: {fileID: 141066918}
     - target: {fileID: 2774562446755734890, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: m_Enabled
@@ -1214,6 +1256,11 @@ PrefabInstance:
       propertyPath: m_BrainParameters.VectorObservationSize
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 4315738401231054851, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: playerSupervisor
+      value: 
+      objectReference: {fileID: 141066918}
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: playerAgent
@@ -1222,7 +1269,12 @@ PrefabInstance:
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: maxPaddlePosX
-      value: 25
+      value: 24.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: minPaddlePosX
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
@@ -1243,6 +1295,21 @@ PrefabInstance:
         type: 3}
       propertyPath: playerData.playerName
       value: Neural Net 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: increaseBallSpeedTF
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: startWithRandomVelocityTF
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: ballSpeedIncreasePctEachIncrement
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9146408817681791003, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}

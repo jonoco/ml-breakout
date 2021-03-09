@@ -3,7 +3,6 @@ using UnityEngine;
 using TMPro;
 using System;
 using UnityEngine.UI;
-using static GameData;
 
 public class LeaderBoard : MonoBehaviour
 {
@@ -12,7 +11,6 @@ public class LeaderBoard : MonoBehaviour
     const int SCORES_DISPLAY_LIMIT = 3;
     private List<Score> scores;
     private List<Transform> scoreTransforms;
-
 
     // Wrapper for Score list because Json cannot directly convert a list and
     // instead takes an object that contains a list.

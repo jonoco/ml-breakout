@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class RandomBlockCreator : MonoBehaviour
 {
@@ -161,5 +159,4 @@ public class RandomBlockCreator : MonoBehaviour
             }// while loop
         } // for loop
     } // end function
-
 }

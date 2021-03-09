@@ -1,0 +1,4 @@
+ModelName,NumGamesPlayed,ID_RunTime,Statistic,Score,BlockHits,PaddleHits,TimePlayed,WinPercentage
+Paddle - lc_24,2000,2/28/2021 2:12:44 AM,Minimum,0,0,0,0.62,0.1825
+Paddle - lc_24,2000,2/28/2021 2:12:44 AM,Average,129.43,12.94,5.82,16.48,0.1825
+Paddle - lc_24,2000,2/28/2021 2:12:44 AM,Maximum,210,21,117,177.02,0.1825
