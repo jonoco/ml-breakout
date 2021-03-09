@@ -318,6 +318,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
         type: 3}
+      propertyPath: maxPaddlePosX
+      value: 14.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
+        type: 3}
+      propertyPath: minPaddlePosX
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6902707035986185608, guid: d8b0fe998368cbf45a1e859ac21418b4,
+        type: 3}
       propertyPath: pointsDisplay
       value: 
       objectReference: {fileID: 784976008}
@@ -420,7 +430,7 @@ PrefabInstance:
     - target: {fileID: 9082988071149554432, guid: 8e104197f51b5a140bf66a8737f8dcf5,
         type: 3}
       propertyPath: ballSpeedIncreasePctEachIncrement
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9082988071149554433, guid: 8e104197f51b5a140bf66a8737f8dcf5,
         type: 3}

@@ -695,7 +695,12 @@ PrefabInstance:
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: maxPaddlePosX
-      value: 25
+      value: 24.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: minPaddlePosX
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
@@ -721,6 +726,11 @@ PrefabInstance:
         type: 3}
       propertyPath: startWithRandomVelocityTF
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: ballSpeedIncreasePctEachIncrement
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9146408817681791003, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
@@ -1229,7 +1239,12 @@ PrefabInstance:
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
       propertyPath: maxPaddlePosX
-      value: 25
+      value: 24.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: minPaddlePosX
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 6613752453291182729, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
@@ -1260,6 +1275,11 @@ PrefabInstance:
         type: 3}
       propertyPath: startWithRandomVelocityTF
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8795198208930728699, guid: 93cad592d8efc504a9ceab7402b2b93d,
+        type: 3}
+      propertyPath: ballSpeedIncreasePctEachIncrement
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 9146408817681791003, guid: 93cad592d8efc504a9ceab7402b2b93d,
         type: 3}
