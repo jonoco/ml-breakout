@@ -409,8 +409,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 9082988071149554432, guid: 8e104197f51b5a140bf66a8737f8dcf5,
         type: 3}
-      propertyPath: startWithRandomVelocityTF
+      propertyPath: increaseBallSpeedTF
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082988071149554432, guid: 8e104197f51b5a140bf66a8737f8dcf5,
+        type: 3}
+      propertyPath: startWithRandomVelocityTF
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9082988071149554432, guid: 8e104197f51b5a140bf66a8737f8dcf5,
+        type: 3}
+      propertyPath: ballSpeedIncreasePctEachIncrement
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 9082988071149554433, guid: 8e104197f51b5a140bf66a8737f8dcf5,
         type: 3}
